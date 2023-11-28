@@ -36,6 +36,19 @@ const config: Config = {
         "900": "#454b6a",
         "950": "#282a3e",
       },
+      "gull-gray": {
+        "50": "#f8fafa",
+        "100": "#f1f5f6",
+        "200": "#e6edee",
+        "300": "#d2dde0",
+        "400": "#b7c7ce",
+        "500": "#96acb7",
+        "600": "#8197a6",
+        "700": "#6e8493",
+        "800": "#5c6e7b",
+        "900": "#4d5b65",
+        "950": "#323d43",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
