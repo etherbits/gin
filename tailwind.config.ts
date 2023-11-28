@@ -49,6 +49,19 @@ const config: Config = {
         "900": "#4d5b65",
         "950": "#323d43",
       },
+      madang: {
+        "50": "#f0ffee",
+        "100": "#d9ffd8",
+        "200": "#bfffbc",
+        "300": "#7dfd78",
+        "400": "#3bf236",
+        "500": "#12db0c",
+        "600": "#08b603",
+        "700": "#0a8e07",
+        "800": "#0d700b",
+        "900": "#0c5b0c",
+        "950": "#003301",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
