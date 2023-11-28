@@ -62,6 +62,19 @@ const config: Config = {
         "900": "#0c5b0c",
         "950": "#003301",
       },
+      'pomegranate': {
+        '50': '#fff3f1',
+        '100': '#ffe3df',
+        '200': '#ffccc5',
+        '300': '#ffa89d',
+        '400': '#ff7664',
+        '500': '#ff3a20',
+        '600': '#ed2e15',
+        '700': '#c8230d',
+        '800': '#a5200f',
+        '900': '#882214',
+        '950': '#4b0c04',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
