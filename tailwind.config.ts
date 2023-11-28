@@ -23,6 +23,19 @@ const config: Config = {
           "950": "#23272e",
         },
       },
+      "ship-cove": {
+        "50": "#f3f5fa",
+        "100": "#e9eef6",
+        "200": "#d6e0ef",
+        "300": "#bdcbe4",
+        "400": "#a2b1d7",
+        "500": "#7d8cc4",
+        "600": "#727cb9",
+        "700": "#6068a2",
+        "800": "#505783",
+        "900": "#454b6a",
+        "950": "#282a3e",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
