@@ -75,6 +75,19 @@ const config: Config = {
         '900': '#882214',
         '950': '#4b0c04',
       },
+      'flamingo': {
+        '50': '#fef6ee',
+        '100': '#feead6',
+        '200': '#fbd2ad',
+        '300': '#f9b178',
+        '400': '#f58742',
+        '500': '#f2661d',
+        '600': '#e34c13',
+        '700': '#bc3812',
+        '800': '#962d16',
+        '900': '#792815',
+        '950': '#411109',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
