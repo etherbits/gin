@@ -1,7 +1,19 @@
-export default function Registration() {
+import { register } from "@/app/actions/auth";
+import { cookies } from "next/headers";
+import { auth } from "@/lib/lucia";
+
+export default async function Registration() {
+  const sessionId = cookies().get("auth_session");
+  const session = await auth.getSession(sessionId!.value);
+  console.log(session);
+
   return (
     <main>
-      <form className="flex flex-col gap-4 w-[600px] mx-auto m-16">
+      {session.user.username}
+      <form
+        className="flex flex-col gap-4 w-[600px] mx-auto m-16"
+        action={register}
+      >
         <label htmlFor="username">Username</label>
         <input type="text" name="username" id="username" />
         <label htmlFor="email">Email</label>

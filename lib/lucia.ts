@@ -12,5 +12,10 @@ const tableNames = {
 
 export const auth = lucia({
   adapter: planetscale(connection, tableNames),
+  getUserAttributes: (user) => ({ username: user.username, email: user.email }),
+  getSessionAttributes: (session) => ({
+    username: session.username,
+    email: session.email,
+  }),
   env: env.NODE_ENV === "production" ? "PROD" : "DEV",
 });
