@@ -15,6 +15,27 @@
       "when": 1701458229574,
       "tag": "0001_adorable_roxanne_simpson",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1701463167885,
+      "tag": "0002_premium_karma",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1701463445488,
+      "tag": "0003_fantastic_fat_cobra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1701463476579,
+      "tag": "0004_crazy_unus",
+      "breakpoints": true
     }
   ]
 }
