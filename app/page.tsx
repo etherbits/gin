@@ -1,10 +1,10 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main>
       Gin
-      <form>
-        <button>test</button>
-      </form>
+      <Link href="/register"> Register </Link>
     </main>
   );
 }
