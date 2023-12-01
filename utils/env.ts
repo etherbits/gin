@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export function createEnv<ServerEnv extends Record<string, z.ZodTypeAny>>(
+export function createServerEnv<ServerEnv extends Record<string, z.ZodTypeAny>>(
   server: ServerEnv,
 ) {
   const serverEnv = z.object(server);

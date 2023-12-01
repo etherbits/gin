@@ -1,7 +1,6 @@
-import { createEnv } from "@/utils/env";
+import { createServerEnv } from "@/utils/env";
 import { z } from "zod";
-console.log("call");
 
-export const env = createEnv({
+export const env = createServerEnv({
   DATABASE_URL: z.string(),
 });
