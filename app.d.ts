@@ -5,7 +5,7 @@ declare namespace Lucia {
   type DatabaseUserAttributes = {
     username: string;
     email: string;
-    email_verified: boolean;
+    emailVerified: boolean;
   };
   type DatabaseSessionAttributes = {};
 }

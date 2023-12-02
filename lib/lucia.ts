@@ -17,7 +17,11 @@ export const auth = lucia({
   sessionCookie: {
     expires: false,
   },
-  getUserAttributes: (user) => ({ username: user.username, email: user.email }),
+  getUserAttributes: (user) => ({
+    username: user.username,
+    email: user.email,
+    emailVerified: user.emailVerified,
+  }),
   env: env.NODE_ENV === "production" ? "PROD" : "DEV",
 });
 
