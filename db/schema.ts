@@ -35,3 +35,15 @@ export const session = mysqlTable("user_session", {
     mode: "number",
   }).notNull(),
 });
+
+export const emailVerification = mysqlTable("email_verification", {
+  id: varchar("id", {
+    length: 64,
+  }).primaryKey(),
+  userId: varchar("user_id", {
+    length: 15,
+  }).notNull(),
+  expires: bigint("expires", {
+    mode: "number",
+  }).notNull(),
+});
