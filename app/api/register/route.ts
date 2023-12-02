@@ -10,12 +10,6 @@ export const POST = async (request: NextRequest) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
-  console.log({ username, email, password, confirmPassword });
-
-  // will use zod later
-  if (password !== confirmPassword) {
-    return "Passwords do not match.";
-  }
 
   const user = await auth.createUser({
     key: {
