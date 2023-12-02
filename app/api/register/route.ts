@@ -1,8 +1,11 @@
-"use server";
+// app/api/signup/route.ts
 import { auth } from "@/lib/lucia";
-import { cookies } from "next/headers";
+import * as context from "next/headers";
 
-export async function register(formData: FormData) {
+import type { NextRequest } from "next/server";
+
+export const POST = async (request: NextRequest) => {
+  const formData = await request.formData();
   const username = formData.get("username") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -17,7 +20,7 @@ export async function register(formData: FormData) {
   const user = await auth.createUser({
     key: {
       providerId: "username",
-      providerUserId: username,
+      providerUserId: username.toLowerCase(),
       password: password,
     },
     attributes: {
@@ -31,9 +34,14 @@ export async function register(formData: FormData) {
     attributes: { username, email },
   });
 
-  const sessionCookie = auth.createSessionCookie(session);
+  const authRequest = auth.handleRequest(request.method, context);
 
-  cookies().set(sessionCookie);
+  authRequest.setSession(session);
 
-  return "success";
-}
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/",
+    },
+  });
+};

@@ -1,4 +1,3 @@
-import { register } from "@/app/actions/auth";
 import { cookies } from "next/headers";
 import { auth } from "@/lib/lucia";
 
@@ -11,8 +10,9 @@ export default async function Registration() {
     <main>
       {session.user.username}
       <form
-        className="flex flex-col gap-4 w-[600px] mx-auto m-16"
-        action={register}
+        className="flex flex-col gap-4 max-w-[600px] mx-auto m-16"
+        action="/api/register"
+        method="POST"
       >
         <label htmlFor="username">Username</label>
         <input type="text" name="username" id="username" />
