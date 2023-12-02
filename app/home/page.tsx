@@ -10,6 +10,9 @@ export default async function Home() {
     <main>
       <h1>Gin Home Page</h1>
       <div>username: {session.user.username}</div>
+      <form action="/api/log-out" method="POST" >
+        <button>log out</button>
+      </form>
     </main>
   );
 }
