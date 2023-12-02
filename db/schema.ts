@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import { mysqlTable, bigint, varchar } from "drizzle-orm/mysql-core";
 
 export const user = mysqlTable("user", {
@@ -36,3 +37,5 @@ export const session = mysqlTable("user_session", {
     mode: "number",
   }).notNull(),
 });
+
+export type User = InferSelectModel<typeof user>;
