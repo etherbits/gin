@@ -1,4 +1,4 @@
-import { mysqlTable, bigint, varchar } from "drizzle-orm/mysql-core";
+import { mysqlTable, bigint, varchar, boolean } from "drizzle-orm/mysql-core";
 
 export const user = mysqlTable("user", {
   id: varchar("id", {
@@ -6,6 +6,7 @@ export const user = mysqlTable("user", {
   }).primaryKey(),
   username: varchar("username", { length: 64 }).notNull(),
   email: varchar("email", { length: 254 }).notNull(),
+  emailVerified: boolean("email_verified").default(false),
 });
 
 export const key = mysqlTable("user_key", {
