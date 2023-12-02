@@ -14,6 +14,9 @@ const tableNames = {
 export const auth = lucia({
   adapter: planetscale(connection, tableNames),
   middleware: nextjs_future(),
+  sessionCookie: {
+    expires: false,
+  },
   getUserAttributes: (user) => ({ username: user.username, email: user.email }),
   env: env.NODE_ENV === "production" ? "PROD" : "DEV",
 });
