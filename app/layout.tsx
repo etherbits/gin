@@ -16,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-charcoal-950`}>{children}</body>
+      <body
+        className={`${inter.className} bg-charcoal-950 text-charcoal-200 px-8 py-12`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

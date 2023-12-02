@@ -31,7 +31,7 @@ export const POST = async (request: NextRequest) => {
 
   const session = await auth.createSession({
     userId: user.userId,
-    attributes: { username, email },
+    attributes: {},
   });
 
   const authRequest = auth.handleRequest(request.method, context);

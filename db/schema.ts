@@ -28,8 +28,6 @@ export const session = mysqlTable("user_session", {
   userId: varchar("user_id", {
     length: 15,
   }).notNull(),
-  username: varchar("username", { length: 64 }).notNull(),
-  email: varchar("email", { length: 254 }).notNull(),
   activeExpires: bigint("active_expires", {
     mode: "number",
   }).notNull(),

@@ -15,10 +15,7 @@ export const auth = lucia({
   adapter: planetscale(connection, tableNames),
   middleware: nextjs_future(),
   getUserAttributes: (user) => ({ username: user.username, email: user.email }),
-  getSessionAttributes: (session) => ({
-    username: session.username,
-    email: session.email,
-  }),
-
   env: env.NODE_ENV === "production" ? "PROD" : "DEV",
 });
+
+export type Auth = typeof auth;
