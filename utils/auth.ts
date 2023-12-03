@@ -4,6 +4,7 @@ import * as context from "next/headers";
 import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
 import { emailVerification } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2;
 
@@ -36,4 +37,27 @@ export const generateEmailVerificationToken = async (userId: string) => {
   });
 
   return newToken;
+};
+
+export const validateEmailVerificationToken = async (token: string) => {
+  const storedToken = await db.transaction(async (trx) => {
+    const storedToken = await trx.query.emailVerification.findFirst({
+      where: ({ id }, { eq }) => eq(id, token),
+    });
+
+    if (!storedToken) throw new Error("Invalid token");
+
+    await trx
+      .delete(emailVerification)
+      .where(eq(emailVerification.userId, storedToken.userId));
+
+    return storedToken;
+  });
+
+  const tokenExpiry = Number(storedToken.expires);
+  if (!isWithinExpiration(tokenExpiry)) {
+    throw new Error("Token expired");
+  }
+
+  return storedToken.userId;
 };
