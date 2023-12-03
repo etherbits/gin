@@ -1,8 +1,11 @@
-// app/api/signup/route.ts
 import { auth } from "@/lib/lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
+import {
+  generateEmailVerificationToken,
+  sendEmailVerification,
+} from "@/utils/auth";
 
 export const POST = async (request: NextRequest) => {
   const formData = await request.formData();
@@ -13,14 +16,14 @@ export const POST = async (request: NextRequest) => {
 
   const user = await auth.createUser({
     key: {
-      providerId: "username",
-      providerUserId: username.toLowerCase(),
+      providerId: "email",
+      providerUserId: email.toLowerCase(),
       password: password,
     },
     attributes: {
       username,
-      email,
-      emailVerified: false,
+      email: email.toLowerCase(),
+      email_verified: false,
     },
   });
 
@@ -28,6 +31,9 @@ export const POST = async (request: NextRequest) => {
     userId: user.userId,
     attributes: {},
   });
+
+  const token = await generateEmailVerificationToken(user.userId);
+  await sendEmailVerification(user.email, token);
 
   const authRequest = auth.handleRequest(request.method, context);
 

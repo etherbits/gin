@@ -20,7 +20,7 @@ export const auth = lucia({
   getUserAttributes: (user) => ({
     username: user.username,
     email: user.email,
-    emailVerified: user.emailVerified,
+    emailVerified: user.email_verified,
   }),
   env: env.NODE_ENV === "production" ? "PROD" : "DEV",
 });

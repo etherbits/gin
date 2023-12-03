@@ -5,6 +5,8 @@ import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
 import { emailVerification } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { env } from "@/app/env";
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2;
 
@@ -61,3 +63,31 @@ export const validateEmailVerificationToken = async (token: string) => {
 
   return storedToken.userId;
 };
+
+export async function sendEmailVerification(userEmail: string, token: string) {
+  const url =
+    env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://gin.nikaa.online";
+
+  const verificationUrl = `${url}/api/verify-email?token=${token}`;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${env.RESEND_KEY}`,
+    },
+    body: JSON.stringify({
+      from: "Gin <gin@nikaa.online>",
+      to: [userEmail],
+      subject: "Email Verification",
+      html: `<div><h1>Email Verification for Gin<h1><a href=${verificationUrl}>verify email</a></div>`,
+    }),
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    return NextResponse.json(data);
+  }
+}

@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import { mysqlTable, bigint, varchar, boolean } from "drizzle-orm/mysql-core";
 
 export const user = mysqlTable("user", {
@@ -6,7 +7,7 @@ export const user = mysqlTable("user", {
   }).primaryKey(),
   username: varchar("username", { length: 64 }).notNull(),
   email: varchar("email", { length: 254 }).notNull(),
-  emailVerified: boolean("email_verified").default(false),
+  emailVerified: boolean("email_verified").default(false).notNull(),
 });
 
 export const key = mysqlTable("user_key", {
@@ -47,3 +48,5 @@ export const emailVerification = mysqlTable("email_verification", {
     mode: "number",
   }).notNull(),
 });
+
+export type User = InferSelectModel<typeof user>;

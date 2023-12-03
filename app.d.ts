@@ -1,11 +1,12 @@
 /// <reference types="lucia" />
+type User = import("@/db/schema").User;
 
 declare namespace Lucia {
-  type Auth = import("./lib/lucia").Auth;
+  type Auth = import("@/lib/lucia").Auth;
   type DatabaseUserAttributes = {
-    username: string;
-    email: string;
-    emailVerified: boolean;
+    username: User["username"];
+    email: User["email"];
+    email_verified: User["emailVerified"];
   };
   type DatabaseSessionAttributes = {};
 }
