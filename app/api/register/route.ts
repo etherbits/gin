@@ -1,13 +1,12 @@
 import { auth } from "@/lib/lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
-import { env } from "@/app/env";
 import {
   generateEmailVerificationToken,
   sendEmailVerification,
 } from "@/utils/auth";
 
-export const POST = async (request: NextRequest) => {
+export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const username = formData.get("username") as string;
   const email = formData.get("email") as string;
@@ -42,7 +41,7 @@ export const POST = async (request: NextRequest) => {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: env.DEFAULT_PATH,
+      Location: "/email-verification",
     },
   });
-};
+}

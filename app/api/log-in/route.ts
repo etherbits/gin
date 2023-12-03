@@ -3,7 +3,7 @@ import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
 
-export const POST = async (request: NextRequest) => {
+export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
@@ -24,5 +24,4 @@ export const POST = async (request: NextRequest) => {
       Location: env.DEFAULT_PATH,
     },
   });
-};
-
+}

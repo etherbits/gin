@@ -3,7 +3,7 @@ import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
 
-export const POST = async (request: NextRequest) => {
+export async function POST(request: NextRequest) {
   const authRequest = auth.handleRequest(request.method, context);
   const session = await authRequest.validate();
 
@@ -24,4 +24,4 @@ export const POST = async (request: NextRequest) => {
       Location: env.AUTH_GUARD_PATH,
     },
   });
-};
+}
