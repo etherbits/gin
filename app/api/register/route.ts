@@ -5,13 +5,14 @@ import {
   generateEmailVerificationToken,
   sendEmailVerification,
 } from "@/utils/auth";
+import { registrationSchema } from "@/schemas/auth";
+import { getParsedFormData } from "@/utils/parser";
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const username = formData.get("username") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const confirmPassword = formData.get("confirmPassword") as string;
+  const { username, email, password } = await getParsedFormData(
+    request,
+    registrationSchema,
+  );
 
   const user = await auth.createUser({
     key: {
