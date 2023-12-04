@@ -3,7 +3,7 @@ import { cache } from "react";
 import * as context from "next/headers";
 import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
-import { emailVerification } from "@/db/schema";
+import { emailVerification } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { env } from "@/app/env";

@@ -1,5 +1,5 @@
 /// <reference types="lucia" />
-type User = import("@/db/schema").User;
+type User = import("@/db/schema/users").User;
 
 declare namespace Lucia {
   type Auth = import("@/lib/lucia").Auth;

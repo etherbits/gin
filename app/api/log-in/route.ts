@@ -2,7 +2,7 @@ import { auth } from "@/lib/lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
-import { loginSchema } from "@/schemas/auth";
+import { loginSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
 
 export async function POST(request: NextRequest) {

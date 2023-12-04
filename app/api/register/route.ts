@@ -5,7 +5,7 @@ import {
   generateEmailVerificationToken,
   sendEmailVerification,
 } from "@/utils/auth";
-import { registrationSchema } from "@/schemas/auth";
+import { registrationSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
 
 export async function POST(request: NextRequest) {
