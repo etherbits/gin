@@ -76,7 +76,7 @@ export async function sendEmailVerification(userEmail: string, token: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${env.RESEND_KEY}`,
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
       from: "Gin <gin@nikaa.online>",

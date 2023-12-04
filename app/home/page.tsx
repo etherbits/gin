@@ -1,6 +1,7 @@
 import { getPageSession } from "@/utils/auth";
 import { redirect } from "next/navigation";
 import { env } from "@/app/env";
+import TextBox from "../components/TextBox";
 
 export default async function Home() {
   const session = await getPageSession();
@@ -14,6 +15,8 @@ export default async function Home() {
       <form action="/api/log-out" method="POST">
         <button>log out</button>
       </form>
+
+      <TextBox />
     </main>
   );
 }

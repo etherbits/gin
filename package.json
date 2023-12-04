@@ -13,10 +13,12 @@
   "dependencies": {
     "@lucia-auth/adapter-mysql": "^2.1.0",
     "@planetscale/database": "^1.11.0",
+    "ai": "^2.2.27",
     "drizzle-orm": "^0.29.1",
     "lucia": "^2.7.4",
     "lucide-react": "^0.294.0",
     "next": "14.0.3",
+    "openai": "^4.20.1",
     "react": "^18",
     "react-dom": "^18",
     "zod": "^3.22.4"
