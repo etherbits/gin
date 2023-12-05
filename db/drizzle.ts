@@ -1,8 +1,8 @@
 import { env } from "@/app/env";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { connect } from "@planetscale/database";
-import * as userSchemas from "./schema/users";
-import * as deckSchemas from "./schema/decks";
+import * as userSchemas from "./schema/user";
+import * as deckSchemas from "./schema/deck";
 
 const schema = {
   ...userSchemas,

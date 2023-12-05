@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { deck } from "@/db/schema/decks";
+import { deck } from "@/db/schema/deck";
 import { getParsedFormData } from "@/utils/parser";
 import { deckSchema } from "@/validation-schemas/deck";
 import { sql } from "drizzle-orm";

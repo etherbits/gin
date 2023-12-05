@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { deck } from "@/db/schema/decks";
+import { deck } from "@/db/schema/deck";
 import { eq, sql } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
