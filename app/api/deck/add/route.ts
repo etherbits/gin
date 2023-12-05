@@ -15,5 +15,5 @@ export async function POST(request: NextRequest) {
       : null,
   });
 
-  return new Response('ok')
+  return new Response('ok', { status: 200 })
 }
