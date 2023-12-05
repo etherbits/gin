@@ -16,7 +16,7 @@ export const deck = mysqlTable("deck", {
     .primaryKey()
     .notNull()
     .default(sql`(UUID_TO_BIN(UUID()))`),
-  deckGroupId: binary("deck_group_id", { length: 16 }).notNull(),
+  deckGroupId: binary("deck_group_id", { length: 16 }),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   isPublic: boolean("is_public").notNull().default(false),

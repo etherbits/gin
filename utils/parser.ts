@@ -6,7 +6,18 @@ export async function getParsedFormData<T>(
   schema: ZodSchema<T>,
 ) {
   const formData = await request.formData();
-  const objData = Object.fromEntries(formData.entries());
+  const objData: Record<string, FormDataEntryValue | boolean> =
+    Object.fromEntries(formData.entries());
+
+  Object.entries(objData).forEach(([key, value]) => {
+    if (typeof value !== "string") return;
+
+    const nValue = value.toLowerCase();
+    if (nValue === "true" || nValue === "false") {
+      objData[key] = Boolean(value);
+    }
+  });
+
   const parsedData = await schema.safeParseAsync(objData);
 
   if (!parsedData.success) {
