@@ -7,3 +7,8 @@ export const deckSchema = z.object({
   isPublic: z.boolean(),
   isVisible: z.boolean(),
 });
+
+export const deckGroupSchema = z.object({
+  title: z.string().min(4).max(255),
+  isVisible: z.boolean(),
+});
