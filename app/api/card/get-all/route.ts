@@ -3,8 +3,6 @@ import { card } from "@/db/schema/deck";
 import { sql } from "drizzle-orm";
 import { getTableColumns } from "drizzle-orm";
 
-export const dynamic = "force-dynamic";
-
 export async function GET() {
   const cards = await db
     .select({

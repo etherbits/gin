@@ -15,6 +15,11 @@ export const getPageSession = cache(() => {
   return authRequest.validate();
 });
 
+export const getRouteSession = cache(() => {
+  const authRequest = auth.handleRequest("POST", context);
+  return authRequest.validate();
+});
+
 export const generateEmailVerificationToken = async (userId: string) => {
   let newToken;
 
@@ -66,7 +71,7 @@ export const validateEmailVerificationToken = async (token: string) => {
 
 export async function sendEmailVerification(userEmail: string, token: string) {
   const url =
-    env.NODE_ENV === "development"
+    env.NEXT_PUBLIC_VERCEL_ENV === "development"
       ? "http://localhost:3000"
       : "https://gin.nikaa.online";
 

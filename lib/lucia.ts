@@ -22,7 +22,7 @@ export const auth = lucia({
     email: user.email,
     emailVerified: user.email_verified,
   }),
-  env: env.NODE_ENV === "production" ? "PROD" : "DEV",
+  env: env.NEXT_PUBLIC_VERCEL_ENV === "production" ? "PROD" : "DEV",
 });
 
 export type Auth = typeof auth;
