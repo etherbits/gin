@@ -9,7 +9,8 @@
     "lint": "next lint",
     "check": "tsc --noEmit",
     "db:generate": "drizzle-kit generate:mysql",
-    "db:push": "drizzle-kit push:mysql"
+    "db:push": "drizzle-kit push:mysql",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@lucia-auth/adapter-mysql": "^2.1.0",
@@ -19,6 +20,7 @@
     "drizzle-zod": "^0.5.1",
     "lucia": "^2.7.4",
     "lucide-react": "^0.294.0",
+    "mysql2": "^3.6.5",
     "next": "14.0.3",
     "openai": "^4.20.1",
     "react": "^18",
