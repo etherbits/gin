@@ -6,6 +6,6 @@ export async function GET(request: NextRequest) {
   console.log(users);
 
   return new Response(
-    request.method + " " + request.nextUrl.pathname + " " + users[0].username,
+    request.method + request.nextUrl.pathname + users[0].username,
   );
 }
