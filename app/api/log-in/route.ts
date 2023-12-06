@@ -2,7 +2,7 @@ import { auth } from "@/lib/lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
-import { loginSchema } from "@/validation-schemas/auth";
+import { LoginData, loginSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
 import {
   getResult,
@@ -17,18 +17,7 @@ export async function POST(request: NextRequest) {
     return respondWithZodError(parsedData.error);
   }
 
-  const { email, password } = parsedData.data;
-
-  const { error } = await getResult(async () => {
-    const key = await auth.useKey("email", email.toLowerCase(), password);
-    const session = await auth.createSession({
-      userId: key.userId,
-      attributes: {},
-    });
-
-    const authRequest = auth.handleRequest(request.method, context);
-    authRequest.setSession(session);
-  });
+  const [, error] = await authenticateUser(parsedData.data);
 
   if (error) {
     return respondWithGenericError(error, 400);
@@ -39,5 +28,20 @@ export async function POST(request: NextRequest) {
     headers: {
       Location: env.DEFAULT_PATH,
     },
+  });
+}
+
+async function authenticateUser(loginData: LoginData) {
+  const { email, password } = loginData;
+
+  return await getResult(async () => {
+    const key = await auth.useKey("email", email.toLowerCase(), password);
+    const session = await auth.createSession({
+      userId: key.userId,
+      attributes: {},
+    });
+
+    const authRequest = auth.handleRequest("POST", context);
+    authRequest.setSession(session);
   });
 }

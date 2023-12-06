@@ -1,25 +1,17 @@
 import { ZodError } from "zod";
 
-export type Result<T> =
-  | {
-      data: T;
-      error: null;
-    }
-  | {
-      data: null;
-      error: Error;
-    };
+export type Result<T> = [T, null] | [null, Error];
 
 export async function getResult<T>(fn: () => Promise<T>): Promise<Result<T>> {
   try {
     const data = await fn();
-    return { data, error: null };
+    return [data, null];
   } catch (e) {
     if (e instanceof Error) {
-      return { data: null, error: e };
+      return [null, e];
     }
 
-    return { data: null, error: new Error("Something went wrong") };
+    return [null, new Error("Something went wrong")];
   }
 }
 

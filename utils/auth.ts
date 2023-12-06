@@ -86,8 +86,9 @@ export async function sendEmailVerification(userEmail: string, token: string) {
     }),
   });
 
-  if (res.ok) {
-    const data = await res.json();
-    return NextResponse.json(data);
+  if (!res.ok) {
+    throw new Error("Failed to send email");
   }
+
+  return await res.json();
 }
