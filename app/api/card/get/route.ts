@@ -1,3 +1,4 @@
+import { env } from "@/app/env";
 import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
 import { getResult, respondWithError } from "@/utils/errorHandling";
@@ -10,6 +11,11 @@ export async function GET(request: NextRequest) {
   const id = params.get("id");
 
   const [cards, error] = await getResult(async () => {
+    console.log("id", id);
+
+    console.log(env.NEXT_PUBLIC_VERCEL_ENV);
+    console.log(env.DATABASE_URL.slice(0, 10));
+
     return await db
       .select({
         ...getTableColumns(card),
