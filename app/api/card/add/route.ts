@@ -1,6 +1,10 @@
 import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
-import { respondWithValidationError } from "@/utils/errorHandling";
+import {
+  getResult,
+  respondWithError,
+  respondWithValidationError,
+} from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
 import { cardSchema } from "@/validation-schemas/deck";
 import { sql } from "drizzle-orm";
@@ -13,10 +17,21 @@ export async function POST(request: NextRequest) {
     return respondWithValidationError(parseError);
   }
 
-  await db.insert(card).values({
-    ...cardData,
-    deckId: sql`UUID_TO_BIN(${cardData.deckId})`,
+  const [, error] = await getResult(async () => {
+    await db.insert(card).values({
+      ...cardData,
+      userId: sql`UUID_TO_BIN(${cardData.userId})`,
+      deckId: sql`UUID_TO_BIN(${cardData.deckId})`,
+    });
   });
+
+  if (error) {
+    return respondWithError({
+      message: "Failed to create card",
+      error,
+      status: 500,
+    });
+  }
 
   return new Response("ok", { status: 200 });
 }
