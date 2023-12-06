@@ -16,6 +16,7 @@ export const deck = mysqlTable("deck", {
     .primaryKey()
     .notNull()
     .default(sql`(UUID_TO_BIN(UUID()))`),
+  userId: binary("user_id", { length: 16 }).notNull(),
   deckGroupId: binary("deck_group_id", { length: 16 }),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
@@ -31,6 +32,7 @@ export const deckGroup = mysqlTable("deck_group", {
     .primaryKey()
     .notNull()
     .default(sql`(UUID_TO_BIN(UUID()))`),
+  userId: binary("user_id", { length: 16 }).notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   isVisible: boolean("is_visible").notNull().default(true),
 });
@@ -40,6 +42,7 @@ export const card = mysqlTable("card", {
     .primaryKey()
     .notNull()
     .default(sql`(UUID_TO_BIN(UUID()))`),
+  userId: binary("user_id", { length: 16 }).notNull(),
   deckId: binary("deck_id", { length: 16 }).notNull(),
   front: text("front").notNull(),
   back: text("back").notNull(),
