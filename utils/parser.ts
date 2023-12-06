@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { ZodSchema } from "zod";
+import { getResult } from "./errorHandling";
 
 export async function getParsedFormData<T>(
   request: NextRequest,
@@ -8,9 +9,9 @@ export async function getParsedFormData<T>(
   const formData = await request.formData();
   const objData = getFormDataObject(formData);
 
-  const parsedData = await schema.safeParseAsync(objData);
-
-  return parsedData;
+  return getResult(async () => {
+    return await schema.parseAsync(objData);
+  });
 }
 
 function getTypeParsedObject(object: Record<string, FormDataEntryValue>) {

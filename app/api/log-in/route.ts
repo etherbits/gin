@@ -7,17 +7,17 @@ import { getParsedFormData } from "@/utils/parser";
 import {
   getResult,
   respondWithError,
-  respondWithZodError,
+  respondWithValidationError,
 } from "@/utils/errorHandling";
 
 export async function POST(request: NextRequest) {
-  const parsedData = await getParsedFormData(request, loginSchema);
+  const [loginData, parseError] = await getParsedFormData(request, loginSchema);
 
-  if (!parsedData.success) {
-    return respondWithZodError(parsedData.error);
+  if (parseError) {
+    return respondWithValidationError(parseError);
   }
 
-  const [, error] = await authenticateUser(parsedData.data);
+  const [, error] = await authenticateUser(loginData);
 
   if (error) {
     return respondWithError({

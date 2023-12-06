@@ -13,18 +13,21 @@ import { getParsedFormData } from "@/utils/parser";
 import {
   getResult,
   respondWithError,
-  respondWithZodError,
+  respondWithValidationError,
 } from "@/utils/errorHandling";
 import { Session, User } from "lucia";
 
 export async function POST(request: NextRequest) {
-  const parsedData = await getParsedFormData(request, registrationSchema);
+  const [registerData, parseError] = await getParsedFormData(
+    request,
+    registrationSchema,
+  );
 
-  if (!parsedData.success) {
-    return respondWithZodError(parsedData.error);
+  if (parseError) {
+    return respondWithValidationError(parseError);
   }
 
-  const [authData, authError] = await handleUserCreation(parsedData.data);
+  const [authData, authError] = await handleUserCreation(registerData);
 
   if (authError) {
     return respondWithError({

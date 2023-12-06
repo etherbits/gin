@@ -1,5 +1,3 @@
-import { ZodError } from "zod";
-
 export type Result<T> = [T, null] | [null, Error];
 
 export type ErrorDescriptor = {
@@ -22,12 +20,12 @@ export async function getResult<T>(fn: () => Promise<T>): Promise<Result<T>> {
 }
 
 export function respondWithError({ error, status, message }: ErrorDescriptor) {
-  return new Response(`${message} \n${error.message}`, {
+  return new Response(`${message} \n${JSON.stringify(error)}`, {
     status,
   });
 }
 
-export function respondWithZodError(error: ZodError) {
+export function respondWithValidationError(error: Error) {
   return new Response(JSON.stringify(error), {
     status: 400,
     headers: {
