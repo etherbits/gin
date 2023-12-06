@@ -3,10 +3,16 @@ import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
 import { loginSchema } from "@/validation-schemas/auth";
-import { getParsedFormData } from "@/utils/parser";
+import { getParsedFormData, respondWithZodError } from "@/utils/parser";
 
 export async function POST(request: NextRequest) {
-  const { email, password } = await getParsedFormData(request, loginSchema);
+  const parsedData = await getParsedFormData(request, loginSchema);
+
+  if (!parsedData.success) {
+    return respondWithZodError(parsedData.error);
+  }
+
+  const { email, password } = parsedData.data;
 
   const key = await auth.useKey("email", email.toLowerCase(), password);
 
