@@ -12,7 +12,7 @@ import {
 import { getParsedFormData } from "@/utils/parser";
 import {
   getResult,
-  respondWithGenericError,
+  respondWithError,
   respondWithZodError,
 } from "@/utils/errorHandling";
 import { Session, User } from "lucia";
@@ -27,7 +27,11 @@ export async function POST(request: NextRequest) {
   const [authData, authError] = await handleUserCreation(parsedData.data);
 
   if (authError) {
-    return respondWithGenericError(authError, 400);
+    return respondWithError({
+      message: "Something went wrong with creating your account",
+      error: authError,
+      status: 400,
+    });
   }
 
   const [, verificationSendError] = await handleEmailVerification(
@@ -35,13 +39,21 @@ export async function POST(request: NextRequest) {
   );
 
   if (verificationSendError) {
-    return respondWithGenericError(verificationSendError, 400);
+    return respondWithError({
+      message: "Something went wrong with sending your verification email",
+      error: verificationSendError,
+      status: 500,
+    });
   }
 
   const [, sessionSetError] = await handleSessionSet(authData.session);
 
   if (sessionSetError) {
-    return respondWithGenericError(sessionSetError, 400);
+    return respondWithError({
+      message: "Something went wrong with setting your session",
+      error: sessionSetError,
+      status: 500,
+    });
   }
 
   return new Response(null, {

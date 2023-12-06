@@ -2,6 +2,12 @@ import { ZodError } from "zod";
 
 export type Result<T> = [T, null] | [null, Error];
 
+export type ErrorDescriptor = {
+  error: Error;
+  status: number;
+  message?: string;
+};
+
 export async function getResult<T>(fn: () => Promise<T>): Promise<Result<T>> {
   try {
     const data = await fn();
@@ -15,8 +21,8 @@ export async function getResult<T>(fn: () => Promise<T>): Promise<Result<T>> {
   }
 }
 
-export function respondWithGenericError(e: Error, status: number) {
-  return new Response(e.message, {
+export function respondWithError({ error, status, message }: ErrorDescriptor) {
+  return new Response(`${message} \n${error.message}`, {
     status,
   });
 }

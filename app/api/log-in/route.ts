@@ -6,7 +6,7 @@ import { LoginData, loginSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
 import {
   getResult,
-  respondWithGenericError,
+  respondWithError,
   respondWithZodError,
 } from "@/utils/errorHandling";
 
@@ -20,7 +20,11 @@ export async function POST(request: NextRequest) {
   const [, error] = await authenticateUser(parsedData.data);
 
   if (error) {
-    return respondWithGenericError(error, 400);
+    return respondWithError({
+      message: "Something went wrong with authenticating your account",
+      error,
+      status: 400,
+    });
   }
 
   return new Response(null, {
