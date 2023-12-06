@@ -16,6 +16,14 @@ export default async function Home() {
         <button>log out</button>
       </form>
 
+      <form action="/api/deck/add" method="POST">
+        <input type="text" name="title" value="virgil" />
+        <input type="text" name="description" value="desc" />
+        <input type="text" name="isPublic" value="true" />
+        <input type="text" name="isVisible" value="true" />
+        <button>add deck</button>
+      </form>
+
       <TextBox />
     </main>
   );

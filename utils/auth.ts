@@ -15,9 +15,9 @@ export const getPageSession = cache(() => {
   return authRequest.validate();
 });
 
-export const getRouteSession = (request: NextRequest) => {
+export const getRouteSession = async (request: NextRequest) => {
   const authRequest = auth.handleRequest(request.method, context);
-  return authRequest.validate();
+  return await authRequest.validate();
 };
 
 export const generateEmailVerificationToken = async (userId: string) => {
