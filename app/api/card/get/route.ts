@@ -10,12 +10,22 @@ export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const id = params.get("id");
 
+  try {
+    console.log(
+      await db
+        .select({
+          ...getTableColumns(card),
+          id: sql`BIN_TO_UUID(${card.id})`,
+          deckId: sql`BIN_TO_UUID(${card.deckId})`,
+        })
+        .from(card)
+        .where(eq(card.id, sql`(UUID_TO_BIN(${id}))`)),
+    );
+  } catch (e) {
+    console.error(e);
+  }
+
   const [cards, error] = await getResult(async () => {
-    console.log("id", id);
-
-    console.log(env.NEXT_PUBLIC_VERCEL_ENV);
-    console.log(env.DATABASE_URL.slice(0, 10));
-
     return await db
       .select({
         ...getTableColumns(card),
