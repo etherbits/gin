@@ -8,7 +8,6 @@ export async function getParsedFormData<T>(
 ) {
   const formData = await request.formData();
   const objData = getFormDataObject(formData);
-
   return getResult(async () => {
     return await schema.parseAsync(objData);
   });

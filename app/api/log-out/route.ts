@@ -1,11 +1,11 @@
 import { auth } from "@/lib/lucia";
-import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 import { env } from "@/app/env";
+import { getRouteSession } from "@/utils/auth";
+import { getResult, respondWithError } from "@/utils/errorHandling";
 
 export async function POST(request: NextRequest) {
-  const authRequest = auth.handleRequest(request.method, context);
-  const session = await authRequest.validate();
+  const session = await getRouteSession(request);
 
   if (!session) {
     return new Response("Session does not exist", {
@@ -16,7 +16,17 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  await auth.invalidateSession(session.sessionId);
+  const [, error] = await getResult(async () => {
+    await auth.invalidateSession(session.sessionId);
+  });
+
+  if (error) {
+    return respondWithError({
+      message: "Failed to invalidate session",
+      error,
+      status: 500,
+    });
+  }
 
   return new Response("Ok", {
     status: 303,
