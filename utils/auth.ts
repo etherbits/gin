@@ -5,7 +5,7 @@ import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
 import { emailVerification } from "@/db/schema/user";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { env } from "@/app/env";
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2;
@@ -15,10 +15,10 @@ export const getPageSession = cache(() => {
   return authRequest.validate();
 });
 
-export const getRouteSession = cache(() => {
-  const authRequest = auth.handleRequest("POST", context);
+export const getRouteSession = (request: NextRequest) => {
+  const authRequest = auth.handleRequest(request.method, context);
   return authRequest.validate();
-});
+};
 
 export const generateEmailVerificationToken = async (userId: string) => {
   let newToken;

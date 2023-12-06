@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const id = params.get("id");
 
+  
   const cards = await db
     .select({
       ...getTableColumns(card),

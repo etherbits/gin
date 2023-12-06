@@ -1,9 +1,17 @@
 import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
+import { getRouteSession } from "@/utils/auth";
 import { sql } from "drizzle-orm";
 import { getTableColumns } from "drizzle-orm";
+import { NextRequest } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const session = await getRouteSession(request);
+
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const cards = await db
     .select({
       ...getTableColumns(card),
