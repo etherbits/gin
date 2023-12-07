@@ -1,5 +1,7 @@
+import { auth } from "@/lib/lucia";
+
 export async function seedUser() {
-  console.log("👤 Seeding users...");
+  console.log("🧑 Seeding users...");
 
   const data = {
     username: "test account",
@@ -7,7 +9,7 @@ export async function seedUser() {
     password: "asdasdasd",
   };
 
-  return await auth.createUser({
+  const user = await auth.createUser({
     key: {
       providerId: "email",
       providerUserId: data.email,
@@ -19,3 +21,7 @@ export async function seedUser() {
       email_verified: true,
     },
   });
+
+  console.log("✅ Users seeded");
+  return user;
+}
