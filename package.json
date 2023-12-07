@@ -2,6 +2,7 @@
   "name": "gin",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,12 +11,14 @@
     "check": "tsc --noEmit",
     "db:generate": "drizzle-kit generate:mysql",
     "db:push": "drizzle-kit push:mysql",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "node -r dotenv/config --loader esbuild-register/loader -r esbuild-register ./db/seed"
   },
   "dependencies": {
     "@lucia-auth/adapter-mysql": "^2.1.0",
     "@planetscale/database": "^1.11.0",
     "ai": "^2.2.27",
+    "crypto-js": "^4.2.0",
     "drizzle-orm": "^0.29.1",
     "drizzle-zod": "^0.5.1",
     "lucia": "^2.7.4",
@@ -28,15 +31,22 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.13.3",
+    "@faker-js/faker": "^8.3.1",
+    "@types/crypto-js": "^4.2.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.20.6",
+    "esbuild-register": "^3.5.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.6.2",
     "typescript": "^5"
   }
 }

@@ -14,6 +14,9 @@ dependencies:
   ai:
     specifier: ^2.2.27
     version: 2.2.27(react@18.2.0)(solid-js@1.8.7)(svelte@4.2.8)(vue@3.3.9)
+  crypto-js:
+    specifier: ^4.2.0
+    version: 4.2.0
   drizzle-orm:
     specifier: ^0.29.1
     version: 0.29.1(@planetscale/database@1.11.0)(mysql2@3.6.5)
@@ -46,6 +49,15 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@anatine/zod-mock':
+    specifier: ^3.13.3
+    version: 3.13.3(@faker-js/faker@8.3.1)(zod@3.22.4)
+  '@faker-js/faker':
+    specifier: ^8.3.1
+    version: 8.3.1
+  '@types/crypto-js':
+    specifier: ^4.2.1
+    version: 4.2.1
   '@types/node':
     specifier: ^20
     version: 20.9.4
@@ -58,9 +70,18 @@ devDependencies:
   autoprefixer:
     specifier: ^10.0.1
     version: 10.4.16(postcss@8.4.31)
+  dotenv:
+    specifier: ^16.3.1
+    version: 16.3.1
+  dotenv-cli:
+    specifier: ^7.3.0
+    version: 7.3.0
   drizzle-kit:
     specifier: ^0.20.6
     version: 0.20.6
+  esbuild-register:
+    specifier: ^3.5.0
+    version: 3.5.0(esbuild@0.19.8)
   eslint:
     specifier: ^8
     version: 8.54.0
@@ -73,6 +94,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.3.0
     version: 3.3.5
+  tsx:
+    specifier: ^4.6.2
+    version: 4.6.2
   typescript:
     specifier: ^5
     version: 5.3.2
@@ -96,6 +120,17 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
     dev: false
+
+  /@anatine/zod-mock@3.13.3(@faker-js/faker@8.3.1)(zod@3.22.4):
+    resolution: {integrity: sha512-AN+0YEFE7s6BpuALQHhEoVmJmD+0gPnf4Fehc6oE5NHbM3X2ZD5fW5M6vvot29NWUB6nxvj0gu+BPQ9cVnxALw==}
+    peerDependencies:
+      '@faker-js/faker': ^7.0.0 || ^8.0.0
+      zod: ^3.21.4
+    dependencies:
+      '@faker-js/faker': 8.3.1
+      randexp: 0.5.3
+      zod: 3.22.4
+    dev: true
 
   /@babel/helper-string-parser@7.23.4:
     resolution: {integrity: sha512-803gmbQdqwdf4olxrX4AJyFBV/RTr3rSmOj0rKwesmzlfhYNDEs+/iOcznzpNWlJlIlTJC2QfPFcHB6DlzdVLQ==}
@@ -851,6 +886,11 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@faker-js/faker@8.3.1:
+    resolution: {integrity: sha512-FdgpFxY6V6rLZE9mmIBb9hM0xpfvQOSNOLnzolzKwsE1DH+gC7lEKV1p1IbR0lAYyvYd5a4u3qWJzowUkw1bIw==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: true
+
   /@fastify/busboy@2.1.0:
     resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
     engines: {node: '>=14'}
@@ -1044,6 +1084,10 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: false
+
+  /@types/crypto-js@4.2.1:
+    resolution: {integrity: sha512-FSPGd9+OcSok3RsM0UZ/9fcvMOXJ1ENE/ZbLfOPlBWj7BgXtEAM8VYfTtT760GiLbQIMoVozwVuisjvsVwqYWw==}
+    dev: true
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
@@ -1694,6 +1738,10 @@ packages:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
+
   /css-tree@2.3.1:
     resolution: {integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
@@ -1825,6 +1873,31 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: 2.0.3
+    dev: true
+
+  /dotenv-cli@7.3.0:
+    resolution: {integrity: sha512-314CA4TyK34YEJ6ntBf80eUY+t1XaFLyem1k9P0sX1gn30qThZ5qZr/ZwE318gEnzyYP9yj9HJk6SqwE0upkfw==}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 16.3.1
+      dotenv-expand: 10.0.0
+      minimist: 1.2.8
+    dev: true
+
+  /dotenv-expand@10.0.0:
+    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /drange@1.1.1:
+    resolution: {integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==}
+    engines: {node: '>=4'}
     dev: true
 
   /dreamopt@0.8.0:
@@ -3748,6 +3821,14 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
+  /randexp@0.5.3:
+    resolution: {integrity: sha512-U+5l2KrcMNOUPYvazA3h5ekF80FHTUG+87SEAmHZmolh1M+i/WyTCxVzmi+tidIa1tM4BSe8g2Y/D3loWDjj+w==}
+    engines: {node: '>=4'}
+    dependencies:
+      drange: 1.1.1
+      ret: 0.2.2
+    dev: true
+
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -3837,6 +3918,11 @@ packages:
       is-core-module: 2.13.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+    dev: true
+
+  /ret@0.2.2:
+    resolution: {integrity: sha512-M0b3YWQs7R3Z917WRQy1HHA7Ba7D8hvZg6UE5mLykJxQVE2ju0IXbGlaHPPlkY+WN7wFP+wUMXmBFA0aV6vYGQ==}
+    engines: {node: '>=4'}
     dev: true
 
   /reusify@1.0.4:
@@ -4307,6 +4393,17 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+
+  /tsx@4.6.2:
+    resolution: {integrity: sha512-QPpBdJo+ZDtqZgAnq86iY/PD2KYCUPSUGIunHdGwyII99GKH+f3z3FZ8XNFLSGQIA4I365ui8wnQpl8OKLqcsg==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dependencies:
+      esbuild: 0.18.20
+      get-tsconfig: 4.7.2
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

@@ -18,3 +18,7 @@ export const cardSchema = z.object({
   front: z.string().min(1).max(2500),
   back: z.string().min(1).max(2500),
 });
+
+export type Deck = z.infer<typeof deckSchema>;
+export type DeckGroup = z.infer<typeof deckGroupSchema>;
+export type Card = z.infer<typeof cardSchema>;
