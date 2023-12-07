@@ -3,6 +3,7 @@ import {
   Deck,
   DeckGroup,
   cardSchema,
+  deckGroupSchema,
   deckSchema,
 } from "@/validation-schemas/deck";
 import { generateMock } from "@anatine/zod-mock";
@@ -19,7 +20,13 @@ export async function seedDeckGroups(testUser: User, count: number) {
   const mockDeckGroups: DeckGroup[] = [];
 
   for (let i = 0; i < count; i++) {
-    mockDeckGroups.push({ title: faker.lorem.words(3), isVisible: true });
+    mockDeckGroups.push(
+      generateMock(deckGroupSchema, {
+        stringMap: {
+          title: () => faker.lorem.words(3),
+        },
+      }),
+    );
   }
 
   await Promise.allSettled(
@@ -50,7 +57,13 @@ export async function seedDecks(
   const mockDecks: Deck[] = [];
 
   for (let i = 0; i < count; i++) {
-    mockDecks.push(generateMock(deckSchema));
+    mockDecks.push(
+      generateMock(deckSchema, {
+        stringMap: {
+          description: () => faker.lorem.paragraphs({ min: 1, max: 10 }),
+        },
+      }),
+    );
   }
 
   await Promise.allSettled(
@@ -58,7 +71,7 @@ export async function seedDecks(
       await db.insert(deck).values({
         ...deckData,
         userId: testUser.userId,
-        deckGroupId: getRandomRelation(deckGroups),
+        deckGroupId: getRandomRelation(deckGroups, 0.2),
       });
     }),
   );
@@ -82,7 +95,14 @@ export async function seedCards(
   const mockCards: Card[] = [];
 
   for (let i = 0; i < count; i++) {
-    mockCards.push(generateMock(cardSchema));
+    mockCards.push(
+      generateMock(cardSchema, {
+        stringMap: {
+          front: () => faker.lorem.paragraphs({ min: 1, max: 2 }),
+          back: () => faker.lorem.paragraphs({ min: 1, max: 2 }),
+        },
+      }),
+    );
   }
 
   await Promise.allSettled(
@@ -104,8 +124,8 @@ export async function seedCards(
   return cards;
 }
 
-function getRandomRelation(items: IdOnlyItems) {
-  const shouldHaveRelation = Math.random() > 0.5;
+function getRandomRelation(items: IdOnlyItems, nullProbability: number) {
+  const shouldHaveRelation = Math.random() > nullProbability;
 
   if (!shouldHaveRelation) {
     return null;
