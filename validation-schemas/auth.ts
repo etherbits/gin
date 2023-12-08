@@ -15,5 +15,7 @@ export const registrationSchema = loginSchema
     path: ["confirmPassword"],
   });
 
+export const passwordResetSchema = z.object({ email: z.string().email() });
+
 export type LoginData = z.infer<typeof loginSchema>;
 export type RegistrationData = z.infer<typeof registrationSchema>;
