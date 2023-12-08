@@ -1,6 +1,7 @@
 import { db } from "@/db/drizzle";
 import { deck } from "@/db/schema/deck";
-import { getResult, respondWithError } from "@/utils/errorHandling";
+import { respondWithSuccess } from "@/utils/api";
+import { ApiError, getResult } from "@/utils/errorHandling";
 import { eq, sql } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
@@ -8,17 +9,19 @@ export async function POST(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const id = params.get("id");
 
-  const [, error] = await getResult(async () => {
-    await db.delete(deck).where(eq(deck.id, sql`(UUID_TO_BIN(${id}))`));
-  });
+  await deleteDeck(id);
 
-  if (error) {
-    return respondWithError({
-      message: "Error deleting deck",
-      error,
-      status: 500,
-    });
-  }
+  return respondWithSuccess();
+}
 
-  return new Response("ok", { status: 200 });
+async function deleteDeck(id: string | null) {
+  return await getResult(
+    async () => {
+      await db.delete(deck).where(eq(deck.id, sql`(UUID_TO_BIN(${id}))`));
+    },
+    new ApiError(
+      400,
+      "Something went wrong with deleting your deck, check the id",
+    ),
+  );
 }

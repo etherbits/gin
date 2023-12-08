@@ -1,46 +1,35 @@
 import { db } from "@/db/drizzle";
 import { deck } from "@/db/schema/deck";
+import { respondWithSuccess } from "@/utils/api";
 import { getRouteSession } from "@/utils/auth";
-import {
-  getResult,
-  respondWithError,
-  respondWithValidationError,
-} from "@/utils/errorHandling";
+import { ApiError, getResult } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
-import { deckSchema } from "@/validation-schemas/deck";
+import { Deck, deckSchema } from "@/validation-schemas/deck";
 import { sql } from "drizzle-orm";
+import { Session } from "lucia";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const session = await getRouteSession(request);
 
-  if (!session) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  const deckData = await getParsedFormData(request, deckSchema);
 
-  const [deckData, parseError] = await getParsedFormData(request, deckSchema);
+  await createDeck(deckData, session);
 
-  if (parseError) {
-    return respondWithValidationError(parseError);
-  }
+  return respondWithSuccess();
+}
 
-  const [, error] = await getResult(async () => {
-    await db.insert(deck).values({
-      ...deckData,
-      userId: session.user.userId,
-      deckGroupId: deckData.deckGroupId
-        ? sql`(UUID_TO_BIN(${deckData.deckGroupId}))`
-        : null,
-    });
-  });
-
-  if (error) {
-    return respondWithError({
-      message: "Error creating deck",
-      error,
-      status: 500,
-    });
-  }
-
-  return new Response("ok", { status: 200 });
+async function createDeck(deckData: Deck, session: Session) {
+  return await getResult(
+    async () => {
+      await db.insert(deck).values({
+        ...deckData,
+        userId: session.user.userId,
+        deckGroupId: deckData.deckGroupId
+          ? sql`(UUID_TO_BIN(${deckData.deckGroupId}))`
+          : null,
+      });
+    },
+    new ApiError(400, "Something went wrong with creating your deck"),
+  );
 }
