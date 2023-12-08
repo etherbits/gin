@@ -5,8 +5,9 @@ import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
 import { emailVerification } from "@/db/schema/user";
 import { eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { env } from "@/app/env";
+import { ApiError } from "./errorHandling";
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2;
 
@@ -17,7 +18,13 @@ export const getPageSession = cache(() => {
 
 export const getRouteSession = async (request: NextRequest) => {
   const authRequest = auth.handleRequest(request.method, context);
-  return await authRequest.validate();
+  const session = await authRequest.validate();
+
+  if (!session) {
+    throw new ApiError(401, "You must be logged in to access this route");
+  }
+
+  return session;
 };
 
 export const generateEmailVerificationToken = async (userId: string) => {
