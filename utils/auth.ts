@@ -136,7 +136,7 @@ export async function generatePasswordResetToken(userId: string) {
   return newToken;
 }
 
-export const validatePasswordVerificationToken = async (token: string) => {
+export const validatePasswordResetToken = async (token: string) => {
   const resetToken = await db.transaction(async (trx) => {
     const storedToken = await trx.query.passwordReset.findFirst({
       where: ({ id }, { eq }) => eq(id, token),
