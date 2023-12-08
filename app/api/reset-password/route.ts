@@ -1,41 +1,13 @@
 import { env } from "@/app/env";
-import { db } from "@/db/drizzle";
 import { auth } from "@/lib/lucia";
-import { respondWithSuccess } from "@/utils/api";
-import {
-  generatePasswordResetToken,
-  sendPasswordResetLink,
-  validatePasswordResetToken,
-} from "@/utils/auth";
+import { validatePasswordResetToken } from "@/utils/auth";
 import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
-import { passwordResetSchema, userEmail } from "@/validation-schemas/auth";
+import { passwordResetSchema } from "@/validation-schemas/auth";
 import { User } from "lucia";
 import { NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const { email } = await getParsedFormData(request, userEmail);
-
-  const user = await getResult(
-    async () => {
-      const user = await db.query.user.findFirst({
-        where: (user, { eq }) => eq(user.email, email),
-      });
-
-      if (!user) throw null;
-
-      return user;
-    },
-    new ApiError(400, "User with that email does not exist"),
-  );
-
-  const token = await generatePasswordResetToken(user.id);
-  await sendPasswordResetLink(email, token);
-
-  return respondWithSuccess();
-});
-
-export async function GET(request: NextRequest) {
   const { password } = await getParsedFormData(request, passwordResetSchema);
   const token = request.nextUrl.searchParams.get("token");
 
@@ -54,7 +26,7 @@ export async function GET(request: NextRequest) {
       "Set-Cookie": sessionCookie.serialize(),
     },
   });
-}
+});
 
 async function updateUserPassword(userId: string, password: string) {
   return await getResult(
