@@ -2,19 +2,18 @@ import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
 import { respondWithSuccess } from "@/utils/api";
 import { getRouteSession } from "@/utils/auth";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { eq, sql } from "drizzle-orm";
 import { getTableColumns } from "drizzle-orm";
 import { Session } from "lucia";
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export const GET = withErrorHandler(async (request: NextRequest) => {
   const session = await getRouteSession(request);
-
   const cards = await getAllCards(session);
 
   return respondWithSuccess(cards);
-}
+});
 
 async function getAllCards(session: Session) {
   return await getResult(

@@ -1,18 +1,17 @@
 import { db } from "@/db/drizzle";
 import { deckGroup } from "@/db/schema/deck";
 import { respondWithSuccess } from "@/utils/api";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { eq, sql } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
-  const params = request.nextUrl.searchParams;
-  const id = params.get("id");
+export const POST = withErrorHandler(async (request: NextRequest) => {
+  const id = request.nextUrl.searchParams.get("id");
 
   await deleteDeckGroup(id);
 
   return respondWithSuccess();
-}
+});
 
 async function deleteDeckGroup(id: string | null) {
   await getResult(

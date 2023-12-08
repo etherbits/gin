@@ -2,24 +2,23 @@ import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
 import { respondWithSuccess } from "@/utils/api";
 import { getRouteSession } from "@/utils/auth";
-import { ApiError, getResult, respondWithError } from "@/utils/errorHandling";
+import {
+  ApiError,
+  getResult,
+  respondWithError,
+  withErrorHandler,
+} from "@/utils/errorHandling";
 import { and, eq, getTableColumns, sql } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export const GET = withErrorHandler(async (request: NextRequest) => {
   const session = await getRouteSession(request);
-
-  if (!session) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  const params = request.nextUrl.searchParams;
-  const id = params.get("id");
+  const id = request.nextUrl.searchParams.get("id");
 
   const cards = await getCard(id, session);
 
   return respondWithSuccess(cards[0]);
-}
+});
 
 async function getCard(id: string | null, session: any) {
   return await getResult(

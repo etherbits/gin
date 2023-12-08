@@ -3,16 +3,16 @@ import * as context from "next/headers";
 import { type NextRequest } from "next/server";
 import { LoginData, loginSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { respondWithSuccess } from "@/utils/api";
 
-export async function POST(request: NextRequest) {
+export const POST = withErrorHandler(async (request: NextRequest) => {
   const loginData = await getParsedFormData(request, loginSchema);
 
   await authenticateUser(loginData);
 
   return respondWithSuccess();
-}
+});
 
 async function authenticateUser(loginData: LoginData) {
   await getResult(

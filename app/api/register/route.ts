@@ -4,7 +4,7 @@ import {
   generateEmailVerificationToken,
   sendEmailVerification,
 } from "@/utils/auth";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
 import {
   RegistrationData,
@@ -14,7 +14,7 @@ import { Session, User } from "lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
+export const POST = withErrorHandler(async (request: NextRequest) => {
   const registrationData = await getParsedFormData(request, registrationSchema);
 
   const authData = await handleUserCreation(registrationData);
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   await handleSessionSet(authData.session);
 
   return respondWithSuccess();
-}
+});
 
 async function handleUserCreation(registrationData: RegistrationData) {
   const { username, email, password } = registrationData;

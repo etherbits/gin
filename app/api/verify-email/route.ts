@@ -1,19 +1,17 @@
 import { env } from "@/app/env";
 import { auth } from "@/lib/lucia";
 import { validateEmailVerificationToken } from "@/utils/auth";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const parsedUrl = new URL(request.url);
-  const query = parsedUrl.searchParams;
-  const token = query.get("token");
+export const POST = withErrorHandler(async (request: NextRequest) => {
+  const token = request.nextUrl.searchParams.get("token");
 
   if (!token) {
     return new Response(null, { status: 400 });
   }
 
   const userId = await validateEmailVerificationToken(token);
-
   const sessionCookie = await createNewSession(userId);
 
   return new Response(null, {
@@ -23,7 +21,7 @@ export async function GET(request: Request) {
       "Set-Cookie": sessionCookie.serialize(),
     },
   });
-}
+});
 
 async function createNewSession(userId: string) {
   return await getResult(

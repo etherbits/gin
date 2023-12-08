@@ -4,13 +4,13 @@ import { getRouteSession } from "@/utils/auth";
 import { ApiError, getResult } from "@/utils/errorHandling";
 import { respondWithSuccess } from "@/utils/api";
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await getRouteSession(request);
 
   await invalidateSession(session.sessionId);
 
   return respondWithSuccess();
-}
+};
 
 async function invalidateSession(sessionId: string) {
   return await getResult(

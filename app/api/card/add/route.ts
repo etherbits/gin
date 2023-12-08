@@ -1,22 +1,21 @@
 import { db } from "@/db/drizzle";
 import { card } from "@/db/schema/deck";
 import { getRouteSession } from "@/utils/auth";
-import { ApiError, getResult } from "@/utils/errorHandling";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
 import { Card, cardSchema } from "@/validation-schemas/deck";
 import { sql } from "drizzle-orm";
 import { Session } from "lucia";
 import { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
+export const POST = withErrorHandler(async (request: NextRequest) => {
   const session = await getRouteSession(request);
-
   const cardData = await getParsedFormData(request, cardSchema);
 
   await createCard(cardData, session);
 
   return new Response("ok", { status: 200 });
-}
+});
 
 async function createCard(cardData: Card, session: Session) {
   await getResult(
