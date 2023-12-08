@@ -127,6 +127,13 @@
       "when": 1701954096909,
       "tag": "0017_big_roland_deschain",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1702056872735,
+      "tag": "0018_round_caretaker",
+      "breakpoints": true
     }
   ]
 }

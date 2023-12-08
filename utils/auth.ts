@@ -112,3 +112,8 @@ export async function sendEmailVerification(userEmail: string, token: string) {
 
   return await res.json();
 }
+
+export async function generatePasswordResetToken(userId: string) {
+  // const storedUserTokens = await db.query
+
+}
