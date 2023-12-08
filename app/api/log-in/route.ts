@@ -30,7 +30,7 @@ async function authenticateUser(loginData: LoginData) {
     },
     new ApiError(
       400,
-      "Something went wrong with authenticating your account (check your email and password)",
+      "Something went wrong with authenticating your account, check your email and password",
     ),
   );
 }
