@@ -1,37 +1,22 @@
 import { auth } from "@/lib/lucia";
 import type { NextRequest } from "next/server";
-import { env } from "@/app/env";
 import { getRouteSession } from "@/utils/auth";
-import { getResult, respondWithError } from "@/utils/errorHandling";
+import { ApiError, getResult } from "@/utils/errorHandling";
+import { respondWithSuccess } from "@/utils/api";
 
 export async function POST(request: NextRequest) {
   const session = await getRouteSession(request);
 
-  if (!session) {
-    return new Response("Session does not exist", {
-      status: 404,
-      headers: {
-        Location: env.DEFAULT_PATH,
-      },
-    });
-  }
+  await invalidateSession(session.sessionId);
 
-  const [, error] = await getResult(async () => {
-    await auth.invalidateSession(session.sessionId);
-  });
+  return respondWithSuccess();
+}
 
-  if (error) {
-    return respondWithError({
-      message: "Failed to invalidate session",
-      error,
-      status: 500,
-    });
-  }
-
-  return new Response("Ok", {
-    status: 303,
-    headers: {
-      Location: env.AUTH_GUARD_PATH,
+async function invalidateSession(sessionId: string) {
+  return await getResult(
+    async () => {
+      await auth.invalidateSession(sessionId);
     },
-  });
+    new ApiError(500, "Something went wrong with logging out"),
+  );
 }
