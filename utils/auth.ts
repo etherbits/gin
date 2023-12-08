@@ -81,12 +81,12 @@ export const validateEmailVerificationToken = async (token: string) => {
 };
 
 export async function sendEmailVerification(userEmail: string, token: string) {
-  const url =
+  const baseUrl =
     env.NEXT_PUBLIC_VERCEL_ENV === "development"
       ? "http://localhost:3000"
       : "https://gin.nikaa.online";
 
-  const verificationUrl = `${url}/api/verify-email?token=${token}`;
+  const verificationUrl = `${baseUrl}/api/verify-email?token=${token}`;
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -98,7 +98,7 @@ export async function sendEmailVerification(userEmail: string, token: string) {
       from: "Gin <gin@nikaa.online>",
       to: [userEmail],
       subject: "Email Verification",
-      html: `<div><h1>Email Verification for Gin<h1><a href=${verificationUrl}>verify email</a></div>`,
+      html: `<div><h1>Email verification for Gin<h1><a href=${verificationUrl}>verify email</a></div>`,
     }),
   });
 
@@ -161,3 +161,35 @@ export const validatePasswordVerificationToken = async (token: string) => {
 
   return resetToken.userId;
 };
+
+export async function sendPasswordResetLink(userEmail: string, token: string) {
+  const baseUrl =
+    env.NEXT_PUBLIC_VERCEL_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://gin.nikaa.online";
+
+  const resetUrl = `${baseUrl}/api/reset-password?token=${token}`;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: "Gin <gin@nikaa.online>",
+      to: [userEmail],
+      subject: "Password Reset",
+      html: `<div><h1>Password reset link for Gin<h1><a href=${resetUrl}>reset token</a></div>`,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new ApiError(
+      500,
+      "Failed to send the password reset link, please try again later",
+    );
+  }
+
+  return await res.json();
+}
