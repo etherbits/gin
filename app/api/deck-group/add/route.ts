@@ -1,45 +1,31 @@
 import { db } from "@/db/drizzle";
 import { deckGroup } from "@/db/schema/deck";
+import { respondWithSuccess } from "@/utils/api";
 import { getRouteSession } from "@/utils/auth";
-import {
-  getResult,
-  respondWithError,
-  respondWithValidationError,
-} from "@/utils/errorHandling";
+import { ApiError, getResult } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
-import { deckGroupSchema } from "@/validation-schemas/deck";
+import { DeckGroup, deckGroupSchema } from "@/validation-schemas/deck";
+import { Session } from "lucia";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const session = await getRouteSession(request);
 
-  if (!session) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  const deckGroupData = await getParsedFormData(request, deckGroupSchema);
 
-  const [deckGroupData, parseError] = await getParsedFormData(
-    request,
-    deckGroupSchema,
+  await createDeckGroup(deckGroupData, session);
+
+  return respondWithSuccess()
+}
+
+async function createDeckGroup(deckGroupData: DeckGroup, session: Session) {
+  await getResult(
+    async () => {
+      await db.insert(deckGroup).values({
+        ...deckGroupData,
+        userId: session.user.userId,
+      });
+    },
+    new ApiError(500, "Something went wrong with creating your deck group"),
   );
-
-  if (parseError) {
-    return respondWithValidationError(parseError);
-  }
-
-  const [, error] = await getResult(async () => {
-    await db.insert(deckGroup).values({
-      ...deckGroupData,
-      userId: session.user.userId,
-    });
-  });
-
-  if (error) {
-    return respondWithError({
-      message: "Error creating deck group",
-      error,
-      status: 500,
-    });
-  }
-
-  return new Response("ok", { status: 200 });
 }

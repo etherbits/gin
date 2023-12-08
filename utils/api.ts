@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-export function respondWithSuccess() {
-  return NextResponse.json({
-    message: "success",
-    statusCode: 200,
-  });
+export function respondWithSuccess(data?: object) {
+  if (!data) {
+    return NextResponse.next();
+  }
+  return NextResponse.json(data);
 }

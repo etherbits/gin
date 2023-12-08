@@ -1,5 +1,6 @@
 import { db } from "@/db/drizzle";
 import { deckGroup } from "@/db/schema/deck";
+import { respondWithSuccess } from "@/utils/api";
 import { ApiError, getResult } from "@/utils/errorHandling";
 import { eq, sql } from "drizzle-orm";
 import { NextRequest } from "next/server";
@@ -10,7 +11,7 @@ export async function POST(request: NextRequest) {
 
   await deleteDeckGroup(id);
 
-  return new Response("ok", { status: 200 });
+  return respondWithSuccess();
 }
 
 async function deleteDeckGroup(id: string | null) {
