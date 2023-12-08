@@ -1,7 +1,7 @@
 import { env } from "@/app/env";
 import { auth } from "@/lib/lucia";
 import { validateEmailVerificationToken } from "@/utils/auth";
-import { getResult, respondWithError } from "@/utils/errorHandling";
+import { ApiError, getResult } from "@/utils/errorHandling";
 
 export async function GET(request: Request) {
   const parsedUrl = new URL(request.url);
@@ -12,29 +12,9 @@ export async function GET(request: Request) {
     return new Response(null, { status: 400 });
   }
 
-  const [sessionCookie, error] = await getResult(async () => {
-    const userId = await validateEmailVerificationToken(token);
-    const user = await auth.getUser(userId);
-    await auth.invalidateAllUserSessions(user.userId);
-    await auth.updateUserAttributes(user.userId, {
-      email_verified: true,
-    });
+  const userId = await validateEmailVerificationToken(token);
 
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-
-    return auth.createSessionCookie(session);
-  });
-
-  if (error) {
-    return respondWithError({
-      message: "Could not verify email",
-      error,
-      status: 500,
-    });
-  }
+  const sessionCookie = await createNewSession(userId);
 
   return new Response(null, {
     status: 302,
@@ -43,4 +23,24 @@ export async function GET(request: Request) {
       "Set-Cookie": sessionCookie.serialize(),
     },
   });
+}
+
+async function createNewSession(userId: string) {
+  return await getResult(
+    async () => {
+      const user = await auth.getUser(userId);
+      await auth.invalidateAllUserSessions(user.userId);
+      await auth.updateUserAttributes(user.userId, {
+        email_verified: true,
+      });
+
+      const session = await auth.createSession({
+        userId: user.userId,
+        attributes: {},
+      });
+
+      return auth.createSessionCookie(session);
+    },
+    new ApiError(500, "Something went wrong with create a new session"),
+  );
 }

@@ -59,7 +59,12 @@ export const validateEmailVerificationToken = async (token: string) => {
       where: ({ id }, { eq }) => eq(id, token),
     });
 
-    if (!storedToken) throw new Error("Invalid token");
+    if (!storedToken) {
+      throw new ApiError(
+        400,
+        "Invalid verification token provided, try a different one",
+      );
+    }
 
     await trx
       .delete(emailVerification)
@@ -70,7 +75,7 @@ export const validateEmailVerificationToken = async (token: string) => {
 
   const tokenExpiry = Number(storedToken.expires);
   if (!isWithinExpiration(tokenExpiry)) {
-    throw new Error("Token expired");
+    throw new ApiError(400, "Token expired, try a newer one");
   }
 
   return storedToken.userId;
@@ -99,7 +104,10 @@ export async function sendEmailVerification(userEmail: string, token: string) {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to send email");
+    throw new ApiError(
+      500,
+      "Failed to send verification email, please try again later",
+    );
   }
 
   return await res.json();
