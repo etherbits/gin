@@ -3,13 +3,14 @@ import { cache } from "react";
 import * as context from "next/headers";
 import { db } from "@/db/drizzle";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
-import { emailVerification } from "@/db/schema/user";
+import { emailVerification, passwordReset } from "@/db/schema/user";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { env } from "@/app/env";
 import { ApiError } from "./errorHandling";
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2;
+const PASSWORD_VERIFICATION_EXPIRY = EMAIL_VERIFICATION_EXPIRY;
 
 export const getPageSession = cache(() => {
   const authRequest = auth.handleRequest("GET", context);
@@ -28,21 +29,19 @@ export const getRouteSession = async (request: NextRequest) => {
 };
 
 export const generateEmailVerificationToken = async (userId: string) => {
-  let newToken;
-
   const existingTokens = await db.query.emailVerification.findMany({
     where: (verification, { eq }) => eq(verification.userId, userId),
   });
 
   if (existingTokens.length > 0) {
-    newToken = existingTokens.find((token) =>
+    const reusableToken = existingTokens.find((token) =>
       isWithinExpiration(Number(token.expires) - EMAIL_VERIFICATION_EXPIRY / 2),
     );
+
+    if (reusableToken) return reusableToken.id;
   }
 
-  if (newToken) return newToken.id;
-
-  newToken = generateRandomString(64);
+  const newToken = generateRandomString(64);
 
   await db.insert(emailVerification).values({
     id: newToken,
@@ -114,6 +113,51 @@ export async function sendEmailVerification(userEmail: string, token: string) {
 }
 
 export async function generatePasswordResetToken(userId: string) {
-  // const storedUserTokens = await db.query
+  const existingTokens = await db.query.passwordReset.findMany();
 
+  if (existingTokens.length > 0) {
+    const reusableToken = existingTokens.find((token) =>
+      isWithinExpiration(
+        Number(token.expires) - PASSWORD_VERIFICATION_EXPIRY / 2,
+      ),
+    );
+
+    if (reusableToken) return reusableToken.id;
+  }
+
+  const newToken = generateRandomString(64);
+
+  await db.insert(passwordReset).values({
+    id: newToken,
+    userId,
+    expires: new Date().getTime() + PASSWORD_VERIFICATION_EXPIRY,
+  });
+
+  return newToken;
 }
+
+export const validatePasswordVerificationToken = async (token: string) => {
+  const resetToken = await db.transaction(async (trx) => {
+    const storedToken = await trx.query.passwordReset.findFirst({
+      where: ({ id }, { eq }) => eq(id, token),
+    });
+
+    if (!storedToken) {
+      throw new ApiError(
+        400,
+        "Invalid reset token provided, try a different one",
+      );
+    }
+
+    await trx.delete(passwordReset).where(eq(passwordReset.id, storedToken.id));
+
+    return storedToken;
+  });
+
+  const tokenExpiry = Number(resetToken.expires);
+  if (!isWithinExpiration(tokenExpiry)) {
+    throw new ApiError(400, "Token expired, try a newer one");
+  }
+
+  return resetToken.userId;
+};
