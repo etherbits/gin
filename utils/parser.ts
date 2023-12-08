@@ -1,16 +1,29 @@
 import { NextRequest } from "next/server";
 import { ZodSchema } from "zod";
-import { getResult } from "./errorHandling";
+import { ApiError, ValidationError, getResult } from "./errorHandling";
 
 export async function getParsedFormData<T>(
   request: NextRequest,
   schema: ZodSchema<T>,
 ) {
-  const formData = await request.formData();
+  const formData = await getResult(
+    () => request.formData(),
+    new ApiError(400, "Please provide form data"),
+  );
+
   const objData = getFormDataObject(formData);
-  return getResult(async () => {
-    return await schema.parseAsync(objData);
-  });
+
+  const data = await schema.safeParseAsync(objData);
+
+  if (!data.success) {
+    throw new ValidationError(
+      400,
+      "The provided data is not valid",
+      data.error,
+    );
+  }
+
+  return data.data;
 }
 
 function getTypeParsedObject(object: Record<string, FormDataEntryValue>) {

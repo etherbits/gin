@@ -1,51 +1,36 @@
 import { auth } from "@/lib/lucia";
 import * as context from "next/headers";
-import type { NextRequest } from "next/server";
-import { env } from "@/app/env";
+import { type NextRequest } from "next/server";
 import { LoginData, loginSchema } from "@/validation-schemas/auth";
 import { getParsedFormData } from "@/utils/parser";
-import {
-  getResult,
-  respondWithError,
-  respondWithValidationError,
-} from "@/utils/errorHandling";
+import { ApiError, getResult } from "@/utils/errorHandling";
+import { respondWithSuccess } from "@/utils/api";
 
 export async function POST(request: NextRequest) {
-  const [loginData, parseError] = await getParsedFormData(request, loginSchema);
+  const loginData = await getParsedFormData(request, loginSchema);
 
-  if (parseError) {
-    return respondWithValidationError(parseError);
-  }
+  await authenticateUser(loginData);
 
-  const [, error] = await authenticateUser(loginData);
-
-  if (error) {
-    return respondWithError({
-      message: "Something went wrong with authenticating your account",
-      error,
-      status: 400,
-    });
-  }
-
-  return new Response(null, {
-    status: 302,
-    headers: {
-      Location: env.DEFAULT_PATH,
-    },
-  });
+  return respondWithSuccess();
 }
 
 async function authenticateUser(loginData: LoginData) {
-  const { email, password } = loginData;
+  await getResult(
+    async () => {
+      const { email, password } = loginData;
 
-  return await getResult(async () => {
-    const key = await auth.useKey("email", email.toLowerCase(), password);
-    const session = await auth.createSession({
-      userId: key.userId,
-      attributes: {},
-    });
+      const key = await auth.useKey("email", email.toLowerCase(), password);
+      const session = await auth.createSession({
+        userId: key.userId,
+        attributes: {},
+      });
 
-    const authRequest = auth.handleRequest("POST", context);
-    authRequest.setSession(session);
-  });
+      const authRequest = auth.handleRequest("POST", context);
+      authRequest.setSession(session);
+    },
+    new ApiError(
+      400,
+      "Something went wrong with authenticating your account (check your email and password)",
+    ),
+  );
 }
