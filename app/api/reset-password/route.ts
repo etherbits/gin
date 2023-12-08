@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import { env } from "@/app/env";
 import { db } from "@/db/drizzle";
 import { auth } from "@/lib/lucia";
+=======
+import { db } from "@/db/drizzle";
+>>>>>>> d75d9506b267da538994e15e90a2cfa373563e66
 import { respondWithSuccess } from "@/utils/api";
 import {
   generatePasswordResetToken,
   sendPasswordResetLink,
+<<<<<<< HEAD
   validatePasswordResetToken,
 } from "@/utils/auth";
 import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
@@ -15,6 +20,16 @@ import { NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
   const { email } = await getParsedFormData(request, userEmail);
+=======
+} from "@/utils/auth";
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
+import { getParsedFormData } from "@/utils/parser";
+import { passwordResetSchema } from "@/validation-schemas/auth";
+import { NextRequest } from "next/server";
+
+export const POST = withErrorHandler(async (request: NextRequest) => {
+  const { email } = await getParsedFormData(request, passwordResetSchema);
+>>>>>>> d75d9506b267da538994e15e90a2cfa373563e66
 
   const user = await getResult(
     async () => {
@@ -34,6 +49,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
   return respondWithSuccess();
 });
+<<<<<<< HEAD
 
 export async function GET(request: NextRequest) {
   const { password } = await getParsedFormData(request, passwordResetSchema);
@@ -88,3 +104,5 @@ async function createNewSession(user: User) {
     new ApiError(500, "Something went wrong with create a new session"),
   );
 }
+=======
+>>>>>>> d75d9506b267da538994e15e90a2cfa373563e66
