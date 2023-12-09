@@ -24,21 +24,6 @@ export async function getResult<T>(
   }
 }
 
-export function respondWithError({ error, status, message }: ErrorDescriptor) {
-  return new Response(`${message} \n${JSON.stringify(error)}`, {
-    status,
-  });
-}
-
-export function respondWithValidationError(error: Error) {
-  return new Response(JSON.stringify(error), {
-    status: 400,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
-
 export function withErrorHandler(fn: Function) {
   return async function (request: NextRequest): Promise<NextResponse> {
     try {
@@ -91,4 +76,3 @@ export class ValidationError extends ApiError {
     });
   }
 }
-

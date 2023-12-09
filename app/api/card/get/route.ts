@@ -5,7 +5,6 @@ import { getRouteSession } from "@/utils/auth";
 import {
   ApiError,
   getResult,
-  respondWithError,
   withErrorHandler,
 } from "@/utils/errorHandling";
 import { and, eq, getTableColumns, sql } from "drizzle-orm";
