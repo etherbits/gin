@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export function createServerEnv<ServerEnv extends Record<string, z.ZodTypeAny>>(
-  server: ServerEnv,
+	server: ServerEnv,
 ) {
-  const serverEnv = z.object(server);
+	const serverEnv = z.object(server);
 
-  const serverEnvResult = serverEnv.safeParse(process.env);
-  if (!serverEnvResult.success) {
-    throw new Error(serverEnvResult.error.message);
-  }
+	const serverEnvResult = serverEnv.safeParse(process.env);
+	if (!serverEnvResult.success) {
+		throw new Error(serverEnvResult.error.message);
+	}
 
-  return serverEnvResult.data;
+	return serverEnvResult.data;
 }

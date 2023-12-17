@@ -10,25 +10,22 @@ import { Session } from "lucia";
 import { NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const session = await getRouteSession(request);
-  const deckData = await getParsedFormData(request, deckSchema);
+	const session = await getRouteSession(request);
+	const deckData = await getParsedFormData(request, deckSchema);
 
-  await createDeck(deckData, session);
+	await createDeck(deckData, session);
 
-  return respondWithSuccess();
+	return respondWithSuccess();
 });
 
 async function createDeck(deckData: Deck, session: Session) {
-  return await getResult(
-    async () => {
-      await db.insert(deck).values({
-        ...deckData,
-        userId: session.user.userId,
-        deckGroupId: deckData.deckGroupId
-          ? sql`(UUID_TO_BIN(${deckData.deckGroupId}))`
-          : null,
-      });
-    },
-    new ApiError(400, "Something went wrong with creating your deck"),
-  );
+	return await getResult(async () => {
+		await db.insert(deck).values({
+			...deckData,
+			userId: session.user.userId,
+			deckGroupId: deckData.deckGroupId
+				? sql`(UUID_TO_BIN(${deckData.deckGroupId}))`
+				: null,
+		});
+	}, new ApiError(400, "Something went wrong with creating your deck"));
 }

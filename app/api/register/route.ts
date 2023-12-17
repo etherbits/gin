@@ -1,84 +1,75 @@
 import { auth } from "@/lib/lucia";
 import { respondWithSuccess } from "@/utils/api";
 import {
-  generateEmailVerificationToken,
-  sendEmailVerification,
+	generateEmailVerificationToken,
+	sendEmailVerification,
 } from "@/utils/auth";
 import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling";
 import { getParsedFormData } from "@/utils/parser";
 import {
-  RegistrationData,
-  registrationSchema,
+	RegistrationData,
+	registrationSchema,
 } from "@/validation-schemas/auth";
 import { Session, User } from "lucia";
 import * as context from "next/headers";
 import type { NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const registrationData = await getParsedFormData(request, registrationSchema);
+	const registrationData = await getParsedFormData(request, registrationSchema);
 
-  const authData = await handleUserCreation(registrationData);
-  await handleEmailVerification(authData.user);
-  await handleSessionSet(authData.session);
+	const authData = await handleUserCreation(registrationData);
+	await handleEmailVerification(authData.user);
+	await handleSessionSet(authData.session);
 
-  return respondWithSuccess();
+	return respondWithSuccess();
 });
 
 async function handleUserCreation(registrationData: RegistrationData) {
-  const { username, email, password } = registrationData;
+	const { username, email, password } = registrationData;
 
-  return await getResult(
-    async () => {
-      const user = await auth.createUser({
-        key: {
-          providerId: "email",
-          providerUserId: email.toLowerCase(),
-          password: password,
-        },
-        attributes: {
-          username,
-          email: email.toLowerCase(),
-          email_verified: false,
-        },
-      });
+	return await getResult(async () => {
+		const user = await auth.createUser({
+			key: {
+				providerId: "email",
+				providerUserId: email.toLowerCase(),
+				password: password,
+			},
+			attributes: {
+				username,
+				email: email.toLowerCase(),
+				email_verified: false,
+			},
+		});
 
-      const session = await auth.createSession({
-        userId: user.userId,
-        attributes: {},
-      });
+		const session = await auth.createSession({
+			userId: user.userId,
+			attributes: {},
+		});
 
-      return { user, session };
-    },
-    new ApiError(
-      400,
-      "Something went wrong with creating your account, check your email and password",
-    ),
-  );
+		return { user, session };
+	}, new ApiError(
+		400,
+		"Something went wrong with creating your account, check your email and password",
+	));
 }
 
 async function handleEmailVerification(user: User) {
-  return await getResult(
-    async () => {
-      const token = await generateEmailVerificationToken(user.userId);
-      return await sendEmailVerification(user.email, token);
-    },
-    new ApiError(
-      500,
-      "Something went wrong with sending your verification email, try again later or with a different email",
-    ),
-  );
+	return await getResult(async () => {
+		const token = await generateEmailVerificationToken(user.userId);
+		return await sendEmailVerification(user.email, token);
+	}, new ApiError(
+		500,
+		"Something went wrong with sending your verification email, try again later or with a different email",
+	));
 }
 
 async function handleSessionSet(session: Session) {
-  return await getResult(
-    async () => {
-      const authRequest = auth.handleRequest("POST", context);
+	return await getResult(async () => {
+		const authRequest = auth.handleRequest("POST", context);
 
-      authRequest.setSession(session);
-    },
-    new ApiError(
-      500,
-      "Something went wrong with setting your session, try again later",
-    ),
-  );
+		authRequest.setSession(session);
+	}, new ApiError(
+		500,
+		"Something went wrong with setting your session, try again later",
+	));
 }

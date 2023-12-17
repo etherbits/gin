@@ -1,388 +1,372 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "495981c3-92df-4439-8455-8fdda6341a82",
-  "prevId": "b1877161-0b80-4265-8ac9-db483d882fe0",
-  "tables": {
-    "card": {
-      "name": "card",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "binary(16)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(UUID_TO_BIN(UUID()))"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "deck_id": {
-          "name": "deck_id",
-          "type": "binary(16)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "front": {
-          "name": "front",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "back": {
-          "name": "back",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "state": {
-          "name": "state",
-          "type": "enum('NEW','LEARNING','YOUNG','MATURE','FROZEN')",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'NEW'"
-        },
-        "last_reviewed_at": {
-          "name": "last_reviewed_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "next_review_at": {
-          "name": "next_review_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "NOW()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "card_id": {
-          "name": "card_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "deck": {
-      "name": "deck",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "binary(16)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(UUID_TO_BIN(UUID()))"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "deck_group_id": {
-          "name": "deck_group_id",
-          "type": "binary(16)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "is_public": {
-          "name": "is_public",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "is_visible": {
-          "name": "is_visible",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "NOW()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "deck_id": {
-          "name": "deck_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "deck_group": {
-      "name": "deck_group",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "binary(16)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(UUID_TO_BIN(UUID()))"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "is_visible": {
-          "name": "is_visible",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "deck_group_id": {
-          "name": "deck_group_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {
-        "deck_group_title_unique": {
-          "name": "deck_group_title_unique",
-          "columns": [
-            "title"
-          ]
-        }
-      }
-    },
-    "email_verification": {
-      "name": "email_verification",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expires": {
-          "name": "expires",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "email_verification_id": {
-          "name": "email_verification_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "user_key": {
-      "name": "user_key",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "hashed_password": {
-          "name": "hashed_password",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "user_key_id": {
-          "name": "user_key_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "user_session": {
-      "name": "user_session",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "active_expires": {
-          "name": "active_expires",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "idle_expires": {
-          "name": "idle_expires",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "user_session_id": {
-          "name": "user_session_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "user": {
-      "name": "user",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "username": {
-          "name": "username",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(254)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email_verified": {
-          "name": "email_verified",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "user_id": {
-          "name": "user_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    }
-  },
-  "schemas": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {}
-  }
+	"version": "5",
+	"dialect": "mysql",
+	"id": "495981c3-92df-4439-8455-8fdda6341a82",
+	"prevId": "b1877161-0b80-4265-8ac9-db483d882fe0",
+	"tables": {
+		"card": {
+			"name": "card",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "binary(16)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "(UUID_TO_BIN(UUID()))"
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"deck_id": {
+					"name": "deck_id",
+					"type": "binary(16)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"front": {
+					"name": "front",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"back": {
+					"name": "back",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"state": {
+					"name": "state",
+					"type": "enum('NEW','LEARNING','YOUNG','MATURE','FROZEN')",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'NEW'"
+				},
+				"last_reviewed_at": {
+					"name": "last_reviewed_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"next_review_at": {
+					"name": "next_review_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "NOW()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"card_id": {
+					"name": "card_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"deck": {
+			"name": "deck",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "binary(16)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "(UUID_TO_BIN(UUID()))"
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"deck_group_id": {
+					"name": "deck_group_id",
+					"type": "binary(16)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"title": {
+					"name": "title",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"is_public": {
+					"name": "is_public",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"is_visible": {
+					"name": "is_visible",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "NOW()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"deck_id": {
+					"name": "deck_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"deck_group": {
+			"name": "deck_group",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "binary(16)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "(UUID_TO_BIN(UUID()))"
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"title": {
+					"name": "title",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"is_visible": {
+					"name": "is_visible",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"deck_group_id": {
+					"name": "deck_group_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {
+				"deck_group_title_unique": {
+					"name": "deck_group_title_unique",
+					"columns": ["title"]
+				}
+			}
+		},
+		"email_verification": {
+			"name": "email_verification",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"expires": {
+					"name": "expires",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"email_verification_id": {
+					"name": "email_verification_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"user_key": {
+			"name": "user_key",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"hashed_password": {
+					"name": "hashed_password",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"user_key_id": {
+					"name": "user_key_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"user_session": {
+			"name": "user_session",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(128)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"active_expires": {
+					"name": "active_expires",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"idle_expires": {
+					"name": "idle_expires",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"user_session_id": {
+					"name": "user_session_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"user": {
+			"name": "user",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"username": {
+					"name": "username",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(254)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"email_verified": {
+					"name": "email_verified",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {
+				"user_id": {
+					"name": "user_id",
+					"columns": ["id"]
+				}
+			},
+			"uniqueConstraints": {}
+		}
+	},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
 }

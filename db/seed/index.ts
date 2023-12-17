@@ -6,40 +6,40 @@ import { seedCards, seedDeckGroups, seedDecks } from "./deck";
 import { seedUser } from "./user";
 
 async function seed() {
-  await reset();
+	await reset();
 
-  console.log("🌱 Seeding database...");
-  const testUser = await seedUser();
+	console.log("🌱 Seeding database...");
+	const testUser = await seedUser();
 
-  const deckGroups = await seedDeckGroups(testUser, 5);
-  const decks = await seedDecks(testUser, deckGroups, 15);
-  await seedCards(testUser, decks, 100);
+	const deckGroups = await seedDeckGroups(testUser, 5);
+	const decks = await seedDecks(testUser, deckGroups, 15);
+	await seedCards(testUser, decks, 100);
 
-  console.log("✅ Database fully seeded");
+	console.log("✅ Database fully seeded");
 }
 
 seed().catch((e) => {
-  console.error(e);
+	console.error(e);
 });
 
 async function reset() {
-  console.log("🗑️ Emptying the entire database...");
-  const tableSchema = db._.schema;
-  if (!tableSchema) {
-    throw new Error("No table schema found");
-  }
+	console.log("🗑️ Emptying the entire database...");
+	const tableSchema = db._.schema;
+	if (!tableSchema) {
+		throw new Error("No table schema found");
+	}
 
-  const queries = Object.values(tableSchema).map((table) => {
-    return sql.raw(`TRUNCATE TABLE ${table.dbName};`);
-  });
+	const queries = Object.values(tableSchema).map((table) => {
+		return sql.raw(`TRUNCATE TABLE ${table.dbName};`);
+	});
 
-  await db.transaction(async (tx) => {
-    await Promise.allSettled(
-      queries.map(async (query) => {
-        if (query) await tx.execute(query);
-      }),
-    );
-  });
+	await db.transaction(async (tx) => {
+		await Promise.allSettled(
+			queries.map(async (query) => {
+				if (query) await tx.execute(query);
+			}),
+		);
+	});
 
-  console.log("✅ Database emptied");
+	console.log("✅ Database emptied");
 }
