@@ -52,10 +52,12 @@ export class ApiError extends Error {
 	}
 
 	respond() {
-		return NextResponse.json({
-			message: this.message,
-			statusCode: this.statusCode,
-		});
+		return NextResponse.json(
+			{
+				message: this.message,
+			},
+			{ status: this.statusCode },
+		);
 	}
 }
 
@@ -69,10 +71,12 @@ export class ValidationError extends ApiError {
 	}
 
 	respond() {
-		return NextResponse.json({
-			message: this.message,
-			statusCode: this.statusCode,
-			errors: this.errors,
-		});
+		return NextResponse.json(
+			{
+				message: this.message,
+				errors: this.errors,
+			},
+			{ status: this.statusCode },
+		);
 	}
 }
