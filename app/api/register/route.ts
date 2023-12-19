@@ -14,7 +14,6 @@ import * as context from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  console.log("hit");
   const registrationData = await getParsedJsonData(request, registrationSchema);
 
   const authData = await handleUserCreation(registrationData);
