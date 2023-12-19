@@ -1,4 +1,5 @@
 import { auth } from "@/lib/lucia";
+import { respondWithSuccess } from "@/utils/api";
 import {
   generateEmailVerificationToken,
   sendEmailVerification,
@@ -13,6 +14,7 @@ import { Session, User } from "lucia";
 import * as context from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
+
 export const POST = withErrorHandler(async (request: NextRequest) => {
   const registrationData = await getParsedJsonData(request, registrationSchema);
 
@@ -20,8 +22,9 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   await handleEmailVerification(authData.user);
   await handleSessionSet(authData.session);
 
-  return NextResponse.json({ message: "ok" }, { status: 200 });
+  return respondWithSuccess()
 });
+
 
 async function handleUserCreation(registrationData: RegistrationData) {
   const { username, email, password } = registrationData;

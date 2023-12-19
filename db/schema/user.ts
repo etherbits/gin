@@ -5,8 +5,8 @@ export const user = mysqlTable("user", {
   id: varchar("id", {
     length: 15, // change this when using custom user ids
   }).primaryKey(),
-  username: varchar("username", { length: 64 }).notNull(),
-  email: varchar("email", { length: 254 }).notNull(),
+  username: varchar("username", { length: 64 }).notNull().unique(),
+  email: varchar("email", { length: 254 }).notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
 });
 
