@@ -8,13 +8,15 @@ const testUser = {
   confirmPassword: "asdasdasd",
 };
 
-test("Should authenticate", async ({ request }) => {
+test("Should register", async ({ request }) => {
   const registerRes = await request.post("/api/register", {
     data: testUser,
   });
 
   expect(registerRes.ok(), "Failed to register").toBeTruthy();
+});
 
+test("Should login", async ({ request }) => {
   const loginRes = await request.post("/api/log-in", {
     data: {
       email: testUser.email,
@@ -22,5 +24,5 @@ test("Should authenticate", async ({ request }) => {
     },
   });
 
-  expect(loginRes.ok(), "Failed to log in").toBeTruthy();
+  expect(loginRes.ok(), "Failed to login").toBeTruthy();
 });
