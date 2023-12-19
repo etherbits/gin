@@ -1,42 +1,42 @@
 {
-	"version": "5",
-	"dialect": "mysql",
-	"id": "4eb0b683-a49b-47df-a313-476b9f4ee824",
-	"prevId": "dc257588-0b87-4eef-9e98-69bc5f569b3f",
-	"tables": {
-		"users": {
-			"name": "users",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "int",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": true
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {},
-			"compositePrimaryKeys": {
-				"users_id": {
-					"name": "users_id",
-					"columns": ["id"]
-				}
-			},
-			"uniqueConstraints": {}
-		}
-	},
-	"schemas": {},
-	"_meta": {
-		"schemas": {},
-		"tables": {},
-		"columns": {}
-	}
+  "version": "5",
+  "dialect": "mysql",
+  "id": "4eb0b683-a49b-47df-a313-476b9f4ee824",
+  "prevId": "dc257588-0b87-4eef-9e98-69bc5f569b3f",
+  "tables": {
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "users_id": {
+          "name": "users_id",
+          "columns": ["id"]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
 }

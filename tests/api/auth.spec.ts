@@ -7,14 +7,13 @@ test("Should register", async ({ request }) => {
       email: "asd@asd.com",
       password: "asdasdasd",
       confirmPassword: "asdasdasd",
-    }
-  })
+    },
+  });
 
-  const resData = await response.json()
-  console.log(resData)
+  const resData = await response.json();
+  console.log(resData);
 
-  expect(response.ok()).toBeTruthy()
+  expect(response.ok()).toBeTruthy();
 
-
-  expect(resData.message).toBe("ok")
+  expect(resData.message).toBe("ok");
 });
