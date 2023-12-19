@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("Should register", async ({ request }) => {
   const response = await request.post("/api/register", {
     data: {
-      username: "tesiss",
+      username: "test",
       email: "asd@asd.com",
       password: "asdasdasd",
       confirmPassword: "asdasdasd",
