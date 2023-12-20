@@ -8,21 +8,31 @@ const testUser = {
   confirmPassword: "asdasdasd",
 };
 
-test("Should register", async ({ request }) => {
-  const registerRes = await request.post("/api/register", {
+const authPath = "playwright/.auth/user.json";
+
+test("Should register", async ({ context }) => {
+  const res = await context.request.post("/api/register", {
     data: testUser,
   });
 
-  expect(registerRes.ok(), "Failed to register").toBeTruthy();
+  expect(res.ok()).toBeTruthy();
 });
 
-test("Should login", async ({ request }) => {
-  const loginRes = await request.post("/api/log-in", {
+test("Should login", async ({ context }) => {
+  const res = await context.request.post("/api/log-in", {
     data: {
       email: testUser.email,
       password: testUser.password,
     },
   });
 
-  expect(loginRes.ok(), "Failed to login").toBeTruthy();
+  expect(res.ok()).toBeTruthy();
+  await context.storageState({ path: authPath });
+});
+
+test("Should logout", async ({ browser }) => {
+  const context = await browser.newContext({ storageState: authPath });
+  const res = await context.request.post("/api/log-out");
+
+  expect(res.ok()).toBeTruthy();
 });

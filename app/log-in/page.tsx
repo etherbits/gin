@@ -1,3 +1,5 @@
+"use client"
+
 export default async function LogIn() {
   return (
     <main>
@@ -5,6 +7,21 @@ export default async function LogIn() {
         className="flex flex-col gap-4 max-w-[600px] mx-auto m-16"
         action="/api/log-in"
         method="POST"
+        onSubmit={async (e) => {
+          e.preventDefault();
+        
+          const data = {
+              email: "asd@asd.com",
+              password: "asdasdasd"
+            }
+
+          const res = await fetch('/api/log-in', {
+            method: 'POST',
+            body: JSON.stringify(data),
+          })
+
+          console.log(res.ok)
+        }}
       >
         <label htmlFor="email">Email</label>
         <input type="email" name="email" id="email" />
