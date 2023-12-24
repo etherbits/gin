@@ -81,10 +81,7 @@ export const validateEmailVerificationToken = async (token: string) => {
 }
 
 export async function sendEmailVerification(userEmail: string, token: string) {
-  const baseUrl =
-    env.NEXT_PUBLIC_VERCEL_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://gin.nikaa.online"
+  const baseUrl = env.BASE_URL
 
   const verificationUrl = `${baseUrl}/api/verify-email?token=${token}`
 
@@ -163,10 +160,7 @@ export const validatePasswordResetToken = async (token: string) => {
 }
 
 export async function sendPasswordResetLink(userEmail: string, token: string) {
-  const baseUrl =
-    env.NEXT_PUBLIC_VERCEL_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://gin.nikaa.online"
+  const baseUrl = env.BASE_URL
 
   const resetUrl = `${baseUrl}/api/reset-password?token=${token}`
 
