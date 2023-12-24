@@ -1,7 +1,10 @@
 import { createServerEnv } from "@/utils/env"
 import { z } from "zod"
 
-export const base_urls = ['http://localhost:3000', 'https://gin.nikaa.online'] as const
+export const base_urls = [
+  "http://localhost:3000",
+  "https://gin.nikaa.online",
+] as const
 
 export const env = createServerEnv({
   DATABASE_URL: z.string(),

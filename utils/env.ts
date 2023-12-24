@@ -1,5 +1,12 @@
 import { z } from "zod"
 
+
+// Quick and dirty
+process.env.BASE_URL =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://gin.nikaa.online"
+
 export function createServerEnv<ServerEnv extends Record<string, z.ZodTypeAny>>(
   server: ServerEnv,
 ) {
