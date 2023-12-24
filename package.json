@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "check": "tsc --noEmit",
-    "test": "npx playwright test",
+    "test": "pnpm exec playwright test",
     "db:generate": "drizzle-kit generate:mysql",
     "db:push": "drizzle-kit push:mysql",
     "db:studio": "drizzle-kit studio",
