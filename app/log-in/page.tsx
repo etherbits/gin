@@ -8,15 +8,15 @@ export default async function LogIn() {
         action="/api/log-in"
         method="POST"
         onSubmit={async (e) => {
-          e.preventDefault();
-        
-          const data = {
-              email: "asd@asd.com",
-              password: "asdasdasd"
-            }
+          e.preventDefault()
 
-          const res = await fetch('/api/log-in', {
-            method: 'POST',
+          const data = {
+            email: "asd@asd.com",
+            password: "asdasdasd",
+          }
+
+          const res = await fetch("/api/log-in", {
+            method: "POST",
             body: JSON.stringify(data),
           })
 
@@ -30,5 +30,5 @@ export default async function LogIn() {
         <button>Log In</button>
       </form>
     </main>
-  );
+  )
 }

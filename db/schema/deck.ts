@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { sql } from "drizzle-orm"
 import {
   binary,
   boolean,
@@ -7,9 +7,9 @@ import {
   text,
   timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/mysql-core"
 
-const cardStateEnum = ["NEW", "LEARNING", "YOUNG", "MATURE", "FROZEN"] as const;
+const cardStateEnum = ["NEW", "LEARNING", "YOUNG", "MATURE", "FROZEN"] as const
 
 export const deck = mysqlTable("deck", {
   id: binary("id", { length: 16 })
@@ -27,7 +27,7 @@ export const deck = mysqlTable("deck", {
   createdAt: timestamp("created_at")
     .notNull()
     .default(sql`NOW()`),
-});
+})
 
 export const deckGroup = mysqlTable("deck_group", {
   id: binary("id", { length: 16 })
@@ -39,7 +39,7 @@ export const deckGroup = mysqlTable("deck_group", {
   }).notNull(),
   title: varchar("title", { length: 255 }).notNull().unique(),
   isVisible: boolean("is_visible").notNull().default(true),
-});
+})
 
 export const card = mysqlTable("card", {
   id: binary("id", { length: 16 })
@@ -58,4 +58,4 @@ export const card = mysqlTable("card", {
   createdAt: timestamp("created_at")
     .notNull()
     .default(sql`NOW()`),
-});
+})

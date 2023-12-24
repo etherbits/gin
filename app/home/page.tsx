@@ -1,9 +1,9 @@
-import { getPageSession } from "@/utils/auth";
-import { redirect } from "next/navigation";
-import { env } from "@/app/env";
-import TextBox from "../components/TextBox";
+import { getPageSession } from "@/utils/auth"
+import { redirect } from "next/navigation"
+import { env } from "@/app/env"
+import TextBox from "../components/TextBox"
 
-const session = { user: { username: "test", emailVerified: true } };
+const session = { user: { username: "test", emailVerified: true } }
 
 export default async function Home() {
   // const session = await getPageSession();
@@ -28,5 +28,5 @@ export default async function Home() {
 
       <TextBox />
     </main>
-  );
+  )
 }

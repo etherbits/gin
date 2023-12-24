@@ -79,9 +79,7 @@
       "compositePrimaryKeys": {
         "card_id": {
           "name": "card_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -155,9 +153,7 @@
       "compositePrimaryKeys": {
         "deck_id": {
           "name": "deck_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -201,17 +197,13 @@
       "compositePrimaryKeys": {
         "deck_group_id": {
           "name": "deck_group_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "deck_group_title_unique": {
           "name": "deck_group_title_unique",
-          "columns": [
-            "title"
-          ]
+          "columns": ["title"]
         }
       }
     },
@@ -245,9 +237,7 @@
       "compositePrimaryKeys": {
         "email_verification_id": {
           "name": "email_verification_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -282,9 +272,7 @@
       "compositePrimaryKeys": {
         "user_key_id": {
           "name": "user_key_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -319,9 +307,7 @@
       "compositePrimaryKeys": {
         "password_reset_id": {
           "name": "password_reset_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -363,9 +349,7 @@
       "compositePrimaryKeys": {
         "user_session_id": {
           "name": "user_session_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {}
@@ -408,23 +392,17 @@
       "compositePrimaryKeys": {
         "user_id": {
           "name": "user_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "user_username_unique": {
           "name": "user_username_unique",
-          "columns": [
-            "username"
-          ]
+          "columns": ["username"]
         },
         "user_email_unique": {
           "name": "user_email_unique",
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     }

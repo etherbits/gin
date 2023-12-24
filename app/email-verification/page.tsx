@@ -2,15 +2,15 @@ import {
   generateEmailVerificationToken,
   getPageSession,
   sendEmailVerification,
-} from "@/utils/auth";
+} from "@/utils/auth"
 
 export default async function EmailVerification() {
-  const { user } = (await getPageSession())!;
+  const { user } = (await getPageSession())!
 
   async function resendVerificationEmail() {
-    "use server";
-    const token = await generateEmailVerificationToken(user.userId);
-    sendEmailVerification(user.email, token);
+    "use server"
+    const token = await generateEmailVerificationToken(user.userId)
+    sendEmailVerification(user.email, token)
   }
 
   return (
@@ -21,5 +21,5 @@ export default async function EmailVerification() {
         <button>Resend Email</button>
       </form>
     </div>
-  );
+  )
 }

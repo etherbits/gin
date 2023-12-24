@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export default async function Landing() {
   return (
@@ -8,5 +8,5 @@ export default async function Landing() {
       <Link href="/register"> Register </Link>
       <Link href="/home"> Home </Link>
     </main>
-  );
+  )
 }

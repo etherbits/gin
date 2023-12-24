@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useChat } from "ai/react";
+import { useChat } from "ai/react"
 
 export default function TextBox() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -15,11 +15,9 @@ export default function TextBox() {
           Respond with just the answer`,
       },
     ],
-  });
+  })
 
-  const clientMessages = messages.filter(
-    (message) => message.role !== "system",
-  );
+  const clientMessages = messages.filter((message) => message.role !== "system")
 
   return (
     <div>
@@ -39,5 +37,5 @@ export default function TextBox() {
         </button>
       </form>
     </div>
-  );
+  )
 }

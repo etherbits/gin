@@ -17,5 +17,5 @@ export default async function Registration() {
         <button>Register</button>
       </form>
     </main>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-import { auth } from "@/lib/lucia";
-import type { NextRequest } from "next/server";
-import { getRouteSession } from "@/utils/auth";
-import { ApiError, getResult } from "@/utils/errorHandling";
-import { respondWithSuccess } from "@/utils/api";
+import { auth } from "@/lib/lucia"
+import type { NextRequest } from "next/server"
+import { getRouteSession } from "@/utils/auth"
+import { ApiError, getResult } from "@/utils/errorHandling"
+import { respondWithSuccess } from "@/utils/api"
 
 export const POST = async (request: NextRequest) => {
-  const session = await getRouteSession(request);
+  const session = await getRouteSession(request)
 
-  await invalidateSession(session.sessionId);
+  await invalidateSession(session.sessionId)
 
-  return respondWithSuccess();
-};
+  return respondWithSuccess()
+}
 
 async function invalidateSession(sessionId: string) {
   return await getResult(
     async () => {
-      await auth.invalidateSession(sessionId);
+      await auth.invalidateSession(sessionId)
     },
     new ApiError(500, "Something went wrong with logging out"),
-  );
+  )
 }

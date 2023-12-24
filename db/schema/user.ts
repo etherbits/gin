@@ -1,5 +1,5 @@
-import { InferSelectModel } from "drizzle-orm";
-import { mysqlTable, bigint, varchar, boolean } from "drizzle-orm/mysql-core";
+import { InferSelectModel } from "drizzle-orm"
+import { mysqlTable, bigint, varchar, boolean } from "drizzle-orm/mysql-core"
 
 export const user = mysqlTable("user", {
   id: varchar("id", {
@@ -8,7 +8,7 @@ export const user = mysqlTable("user", {
   username: varchar("username", { length: 64 }).notNull().unique(),
   email: varchar("email", { length: 254 }).notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
-});
+})
 
 export const key = mysqlTable("user_key", {
   id: varchar("id", {
@@ -20,7 +20,7 @@ export const key = mysqlTable("user_key", {
   hashedPassword: varchar("hashed_password", {
     length: 255,
   }),
-});
+})
 
 export const session = mysqlTable("user_session", {
   id: varchar("id", {
@@ -35,7 +35,7 @@ export const session = mysqlTable("user_session", {
   idleExpires: bigint("idle_expires", {
     mode: "number",
   }).notNull(),
-});
+})
 
 export const emailVerification = mysqlTable("email_verification", {
   id: varchar("id", {
@@ -47,7 +47,7 @@ export const emailVerification = mysqlTable("email_verification", {
   expires: bigint("expires", {
     mode: "number",
   }).notNull(),
-});
+})
 
 export const passwordReset = mysqlTable("password_reset", {
   id: varchar("id", {
@@ -59,6 +59,6 @@ export const passwordReset = mysqlTable("password_reset", {
   expires: bigint("expires", {
     mode: "number",
   }).notNull(),
-});
+})
 
-export type User = InferSelectModel<typeof user>;
+export type User = InferSelectModel<typeof user>
