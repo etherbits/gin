@@ -4,6 +4,7 @@ import { planetscale } from "@lucia-auth/adapter-mysql"
 import { connection } from "@/db/drizzle"
 import { env } from "@/app/env"
 import { nextjs_future } from "lucia/middleware"
+import { github } from '@lucia-auth/oauth/providers'
 
 const tableNames = {
   user: "user",
@@ -23,6 +24,11 @@ export const auth = lucia({
     emailVerified: user.email_verified,
   }),
   env: env.NEXT_PUBLIC_VERCEL_ENV === "development" ? "DEV" : "PROD",
+})
+
+export const ghAuth = github(auth, {
+  clientId: env.GITHUB_CLIENT_ID,
+  clientSecret: env.GITHUB_CLIENT_SECRET,
 })
 
 export type Auth = typeof auth
