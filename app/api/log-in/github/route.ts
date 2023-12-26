@@ -5,6 +5,7 @@ import * as context from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
+  console.log('hello');
 	const [url, state] = await ghAuth.getAuthorizationUrl();
 
 	context.cookies().set("github_oauth_state", state, {

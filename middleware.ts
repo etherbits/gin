@@ -4,8 +4,10 @@ import { auth } from "@/lib/lucia"
 import { env } from "@/app/env"
 import { Session } from "lucia"
 
+// This sucks do better
+
 const publicPaths = ["/"]
-const authenticationPaths = ["/log-in", "/register"]
+const authenticationPaths = ["/log-in", '/log-in/github', "/register"]
 
 export async function middleware(request: NextRequest) {
   if (isPublic(request)) {

@@ -28,6 +28,7 @@ export default async function LogIn() {
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" />
         <button>Log In</button>
+        <a href="/api/log-in/github">Log in with github</a>
       </form>
     </main>
   )
