@@ -1,12 +1,12 @@
-import { ghAuth } from "@/lib/lucia"
+import { googleAuth } from "@/lib/lucia"
 import { withErrorHandler } from "@/utils/errorHandling"
 import * as context from "next/headers"
 import { NextResponse, type NextRequest } from "next/server"
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const [url, state] = await ghAuth.getAuthorizationUrl()
+  const [url, state] = await googleAuth.getAuthorizationUrl()
 
-  context.cookies().set("github_oauth_state", state, {
+  context.cookies().set("google_oauth_state", state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
