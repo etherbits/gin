@@ -9,7 +9,7 @@ import { getParsedJsonData } from "@/utils/parser"
 import { RegistrationData, registrationSchema } from "@/validation-schemas/auth"
 import { Session, User } from "lucia"
 import * as context from "next/headers"
-import { NextResponse, type NextRequest } from "next/server"
+import { type NextRequest } from "next/server"
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
   const registrationData = await getParsedJsonData(request, registrationSchema)
