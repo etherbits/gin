@@ -14,6 +14,8 @@ export const env = createServerEnv({
   GITHUB_CLIENT_SECRET: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  DISCORD_CLIENT_ID: z.string(),
+  DISCORD_CLIENT_SECRET: z.string(),
   NEXT_PUBLIC_VERCEL_ENV: z.enum(["production", "development", "test"]),
   DEFAULT_PATH: z.string(),
   AUTH_GUARD_PATH: z.string(),

@@ -4,7 +4,7 @@ import { planetscale } from "@lucia-auth/adapter-mysql"
 import { connection } from "@/db/drizzle"
 import { env } from "@/app/env"
 import { nextjs_future } from "lucia/middleware"
-import { github, google } from "@lucia-auth/oauth/providers"
+import { discord, github, google } from "@lucia-auth/oauth/providers"
 
 const tableNames = {
   user: "user",
@@ -39,6 +39,13 @@ export const googleAuth = google(auth, {
     "https://www.googleapis.com/auth/userinfo.profile",
     "https://www.googleapis.com/auth/userinfo.email",
   ],
+})
+
+export const discordAuth = discord(auth, {
+  clientId: env.DISCORD_CLIENT_ID,
+  clientSecret: env.DISCORD_CLIENT_SECRET,
+  redirectUri: `${env.BASE_URL}/api/log-in/discord/callback`,
+  scope: ["identify", "email"],
 })
 
 export type Auth = typeof auth
