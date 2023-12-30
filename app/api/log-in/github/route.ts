@@ -1,24 +1,23 @@
 // app/login/github/route.ts
-import { ghAuth } from "@/lib/lucia";
-import * as context from "next/headers";
+import { ghAuth } from "@/lib/lucia"
+import { withErrorHandler } from "@/utils/errorHandling"
+import * as context from "next/headers"
+import { NextResponse, type NextRequest } from "next/server"
 
-import { NextResponse, type NextRequest } from "next/server";
+export const GET = withErrorHandler(async (request: NextRequest) => {
+  const [url, state] = await ghAuth.getAuthorizationUrl()
 
-export const GET = async (request: NextRequest) => {
-  console.log('hello');
-	const [url, state] = await ghAuth.getAuthorizationUrl();
+  context.cookies().set("github_oauth_state", state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60,
+  })
 
-	context.cookies().set("github_oauth_state", state, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === "production",
-		path: "/",
-		maxAge: 60 * 60
-	});
-
-	return new NextResponse(null, {
-		status: 302,
-		headers: {
-			Location: url.toString()
-		}
-	});
-};
+  return new NextResponse(null, {
+    status: 302,
+    headers: {
+      Location: url.toString(),
+    },
+  })
+})

@@ -2,12 +2,10 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { auth } from "@/lib/lucia"
 import { env } from "@/app/env"
-import { Session } from "lucia"
+import { AuthRequest, Session } from "lucia"
 
-// This sucks do better
-
-const publicPaths = ["/"]
-const authenticationPaths = ["/log-in", '/log-in/github', "/register"]
+const publicRegex = /^\/$/ // exactly '/'
+const authenticationRegex = /^(\/log-in|\/register).*$/ // starts with '/log-in' or '/register'
 
 export async function middleware(request: NextRequest) {
   if (isPublic(request)) {
@@ -47,15 +45,15 @@ export const config = {
 
 function isPublic(request: NextRequest) {
   const parsedUrl = new URL(request.url)
-  return publicPaths.includes(parsedUrl.pathname)
+  return publicRegex.test(parsedUrl.pathname)
 }
 
 function shouldAuthenticate(request: NextRequest, session: Session | null) {
   const parsedUrl = new URL(request.url)
-  return !session && !authenticationPaths.includes(parsedUrl.pathname)
+  return !session && !authenticationRegex.test(parsedUrl.pathname)
 }
 
 function isAlreadyAuthenticated(request: NextRequest, session: Session | null) {
   const parsedUrl = new URL(request.url)
-  return session && authenticationPaths.includes(parsedUrl.pathname)
+  return session && authenticationRegex.test(parsedUrl.pathname)
 }
