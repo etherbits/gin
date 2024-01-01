@@ -1,9 +1,9 @@
 import { auth, googleAuth } from "@/lib/lucia"
 import { parseCookie } from "lucia/utils"
-import { OAuthRequestError } from "@lucia-auth/oauth"
-import { ApiError, withErrorHandler } from "@/utils/errorHandling"
+import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling"
 import { NextRequest } from "next/server"
 import { env } from "@/app/env"
+import { User } from "lucia"
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const cookies = parseCookie(request.headers.get("Cookie") ?? "")
@@ -17,52 +17,62 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
       status: 400,
     })
   }
-  try {
-    const { getExistingUser, googleUser, createUser } =
-      await googleAuth.validateCallback(code)
 
-    const getUser = async () => {
+  const user = await getUser(code)
+  console.log("user: ", user)
+  return createSession(user)
+})
+
+function getUser(code: string) {
+  return getResult(
+    async () => {
+      const { getExistingUser, googleUser, createUser } =
+        await googleAuth.validateCallback(code)
+
       const existingUser = await getExistingUser()
+      console.log("existingUser", existingUser)
+
       if (existingUser) return existingUser
 
       if (!googleUser.email) {
-				 throw new ApiError(500, 'No email found')
-			}
-
+        throw new ApiError(500, "User email was not found")
+      }
+        
+      console.log('create user')
       const user = await createUser({
         attributes: {
           username: googleUser.name,
-          email: googleUser.email ?? "",
-          email_verified: true,
+          email: googleUser.email,
+          email_verified: !!googleUser.email_verified,
         },
       })
-      return user
-    }
 
-    const user = await getUser()
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    })
-    const sessionCookie = auth.createSessionCookie(session)
-    // redirect to profile page
-    return new Response(null, {
-      headers: {
-        Location: env.DEFAULT_PATH,
-        "Set-Cookie": sessionCookie.serialize(), // store session cookie
-      },
-      status: 302,
-    })
-  } catch (e) {
-    if (e instanceof OAuthRequestError) {
-      // invalid code
-      return new Response(null, {
-        status: 400,
+
+      return user
+    },
+
+    new ApiError(500, "User was not found and could not be created"),
+  )
+}
+
+async function createSession(user: User) {
+  return getResult(
+    async () => {
+      const session = await auth.createSession({
+        userId: user.userId,
+        attributes: {},
       })
-    }
-    console.error('err: ', e)
-    return new Response(null, {
-      status: 500,
-    })
-  }
-})
+
+      const sessionCookie = auth.createSessionCookie(session)
+      // redirect to profile page
+      return new Response(null, {
+        headers: {
+          Location: env.DEFAULT_PATH,
+          "Set-Cookie": sessionCookie.serialize(), // store session cookie
+        },
+        status: 302,
+      })
+    },
+    new ApiError(500, "Could not create session"),
+  )
+}
