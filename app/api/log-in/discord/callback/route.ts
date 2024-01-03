@@ -6,7 +6,7 @@ import { NextRequest } from "next/server"
 import { env } from "@/app/env"
 import { db } from "@/db/drizzle"
 import { eq } from "drizzle-orm"
-import { user as userSchema } from "@/db/schema"
+import { user as userSchema } from "@/db/schema/user"
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const cookies = parseCookie(request.headers.get("Cookie") ?? "")
@@ -21,59 +21,59 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   }
   try {
-    const { getExistingUser, discordUser, createUser, createKey } =
+    const { getExistingUser, discordUser, createUser, createKey} =
       await discordAuth.validateCallback(code)
 
     const getUser = async () => {
-      const existingUser = await getExistingUser()
-      if (existingUser) return existingUser
-      if (!discordUser.verified) {
-        throw new Error("Email not verified")
-      }
-      const existingDatabaseUserWithEmail = await db.query.user.findFirst({ where: eq(userSchema.email, discordUser.email) })
-      if (existingDatabaseUserWithEmail) {
+      const existingUser = await getExistingUser();
+      if (existingUser) return existingUser;
 
+      if (!discordUser.email || !discordUser.verified) {
+        throw new Error("Email not verified");
+      }
+
+      const existingDatabaseUserWithEmail = await db.query.user.findFirst(
+        { where: eq(userSchema.email, discordUser.email) }
+      );
+
+      if (existingDatabaseUserWithEmail) {
         // transform `UserSchema` to `User`
         const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail);
         await createKey(user.userId);
         return user;
       }
-    }
-
-    return await createUser({
-      attributes: {
-        username: discordUser.username,
-        email: discordUser.email!,
-        email_verified: false
-      }
-    });
-  }
-
-const user = await getUser()
-  nst session = await auth.createSession({
-    userId: user.userId,
-    attributes: {},
-  })
-  const sessionCookie = auth.createSessionCookie(session)
-// redirect to profile page
-  turn new Response(null, {
-    aders: {
-      Location: env.DEFAULT_PATH,
-      "Set-Cookie": sessionCookie.serialize(), // store session cookie
-    },
-    status: 302,
-  })
-  catch (e) {
-    (e instanceof OAuthRequestError) {
-    // invalid code
-      turn new Response(null, {
-      status: 400,
+      return await createUser({
+        attributes: {
+          username: discordUser.username,
+          email: discordUser.email,
+          email_verified: false
+        }
+      });
+    };
+    const user = await getUser()
+    const session = await auth.createSession({
+      userId: user.userId,
+      attributes: {},
     })
+    const sessionCookie = auth.createSessionCookie(session)
+    // redirect to profile page
+    return new Response(null, {
+      headers: {
+        Location: env.DEFAULT_PATH,
+        "Set-Cookie": sessionCookie.serialize(), // store session cookie
+      },
+      status: 302,
+    })
+  } catch (e) {
+    if (e instanceof OAuthRequestError) {
+      // invalid code
+      return new Response(null, {
+        status: 400,
+      })
     }
-    console.error("err: ", e)
-    turn new Response(null, {
+    console.error('err: ', e)
+    return new Response(null, {
       status: 500,
     })
   }
 })
-        existingDatabaseUserWithEmail.email_verified = true
