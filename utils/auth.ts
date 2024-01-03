@@ -3,11 +3,19 @@ import { cache } from "react"
 import * as context from "next/headers"
 import { db } from "@/db/drizzle"
 import { generateRandomString, isWithinExpiration } from "lucia/utils"
-import { emailVerification, passwordReset } from "@/db/schema/user"
+import { emailVerification, passwordReset, user } from "@/db/schema/user"
 import { eq } from "drizzle-orm"
 import { NextRequest } from "next/server"
 import { env } from "@/app/env"
 import { ApiError } from "./errorHandling"
+import {
+  DiscordAuth,
+  DiscordUser,
+  GithubAuth,
+  GithubUser,
+  GoogleAuth,
+  GoogleUser,
+} from "@lucia-auth/oauth/providers"
 
 const EMAIL_VERIFICATION_EXPIRY = 1000 * 60 * 60 * 2
 const PASSWORD_VERIFICATION_EXPIRY = EMAIL_VERIFICATION_EXPIRY

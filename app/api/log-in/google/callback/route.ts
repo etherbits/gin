@@ -4,6 +4,9 @@ import { ApiError, getResult, withErrorHandler } from "@/utils/errorHandling"
 import { NextRequest } from "next/server"
 import { env } from "@/app/env"
 import { User } from "lucia"
+import { db } from "@/db/drizzle"
+import { user as userSchema } from "@/db/schema/user"
+import { eq } from "drizzle-orm"
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const cookies = parseCookie(request.headers.get("Cookie") ?? "")
@@ -23,35 +26,34 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   return createSession(user)
 })
 
-function getUser(code: string) {
-  return getResult(
-    async () => {
-      const { getExistingUser, googleUser, createUser } =
-        await googleAuth.validateCallback(code)
+async function getUser(code: string) {
+  const { getExistingUser, googleUser, createUser, createKey } =
+    await googleAuth.validateCallback(code)
 
-      const existingUser = await getExistingUser()
-      console.log("existingUser", existingUser)
+  const existingUser = await getExistingUser()
+  if (existingUser) return existingUser
 
-      if (existingUser) return existingUser
+  if (!googleUser.email || !googleUser.email_verified) {
+    throw new Error("Email not verified")
+  }
 
-      if (!googleUser.email) {
-        throw new ApiError(500, "User email was not found")
-      }
+  const existingDatabaseUserWithEmail = await db.query.user.findFirst({
+    where: eq(userSchema.email, googleUser.email),
+  })
 
-      console.log("create user")
-      const user = await createUser({
-        attributes: {
-          username: googleUser.name,
-          email: googleUser.email,
-          email_verified: !!googleUser.email_verified,
-        },
-      })
-
-      return user
+  if (existingDatabaseUserWithEmail) {
+    // transform `UserSchema` to `User`
+    const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail)
+    await createKey(user.userId)
+    return user
+  }
+  return await createUser({
+    attributes: {
+      username: googleUser.name,
+      email: googleUser.email,
+      email_verified: false,
     },
-
-    new ApiError(500, "User was not found and could not be created"),
-  )
+  })
 }
 
 async function createSession(user: User) {

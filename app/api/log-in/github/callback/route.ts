@@ -4,6 +4,9 @@ import { OAuthRequestError } from "@lucia-auth/oauth"
 import { withErrorHandler } from "@/utils/errorHandling"
 import { NextRequest } from "next/server"
 import { env } from "@/app/env"
+import { db } from "@/db/drizzle"
+import { eq } from "drizzle-orm"
+import { user as userSchema } from "@/db/schema/user"
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const cookies = parseCookie(request.headers.get("Cookie") ?? "")
@@ -18,20 +21,34 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   }
   try {
-    const { getExistingUser, githubUser, createUser } =
+    const { getExistingUser, githubUser, createUser , createKey} =
       await ghAuth.validateCallback(code)
 
     const getUser = async () => {
       const existingUser = await getExistingUser()
       if (existingUser) return existingUser
-      const user = await createUser({
+
+      if (!githubUser.email) {
+        throw new Error("Email not verified")
+      }
+
+      const existingDatabaseUserWithEmail = await db.query.user.findFirst({
+        where: eq(userSchema.email, githubUser.email),
+      })
+
+      if (existingDatabaseUserWithEmail) {
+        // transform `UserSchema` to `User`
+        const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail)
+        await createKey(user.userId)
+        return user
+      }
+      return await createUser({
         attributes: {
-          username: githubUser.login,
-          email: githubUser.email ?? "",
-          email_verified: true,
+          username: githubUser.name!,
+          email: githubUser.email,
+          email_verified: false,
         },
       })
-      return user
     }
 
     const user = await getUser()

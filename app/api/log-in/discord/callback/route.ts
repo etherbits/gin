@@ -50,6 +50,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
         }
       });
     };
+
     const user = await getUser()
     const session = await auth.createSession({
       userId: user.userId,
