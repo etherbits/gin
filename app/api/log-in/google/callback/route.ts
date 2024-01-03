@@ -37,8 +37,8 @@ function getUser(code: string) {
       if (!googleUser.email) {
         throw new ApiError(500, "User email was not found")
       }
-        
-      console.log('create user')
+
+      console.log("create user")
       const user = await createUser({
         attributes: {
           username: googleUser.name,
@@ -46,7 +46,6 @@ function getUser(code: string) {
           email_verified: !!googleUser.email_verified,
         },
       })
-
 
       return user
     },

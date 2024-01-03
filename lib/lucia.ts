@@ -21,7 +21,7 @@ export const auth = lucia({
   getUserAttributes: (user) => ({
     username: user.username,
     email: user.email,
-    emailVerified: user.email_verified,
+    email_verified: user.email_verified,
   }),
   env: env.NEXT_PUBLIC_VERCEL_ENV === "development" ? "DEV" : "PROD",
 })

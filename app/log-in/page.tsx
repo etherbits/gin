@@ -28,9 +28,15 @@ export default async function LogIn() {
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" />
         <button>Log In</button>
-        <a href="/api/log-in/github" className="bg-slate-700 p-2">Log in with github</a>
-        <a href="/api/log-in/google" className="bg-red-700 p-2">Log in with google</a>
-        <a href="/api/log-in/discord" className="bg-blue-700 p-2">Log in with discord</a>
+        <a href="/api/log-in/github" className="bg-slate-700 p-2">
+          Log in with github
+        </a>
+        <a href="/api/log-in/google" className="bg-red-700 p-2">
+          Log in with google
+        </a>
+        <a href="/api/log-in/discord" className="bg-blue-700 p-2">
+          Log in with discord
+        </a>
       </form>
     </main>
   )

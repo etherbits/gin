@@ -6,7 +6,7 @@ declare namespace Lucia {
   type DatabaseUserAttributes = {
     username: User["username"]
     email: User["email"]
-    email_verified: User["emailVerified"]
+    emailVerified: User["emailVerified"]
   }
   type DatabaseSessionAttributes = {}
 }

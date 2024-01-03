@@ -4,8 +4,8 @@ import { env } from "@/app/env"
 import TextBox from "../components/TextBox"
 
 export default async function Home() {
-  const session = await getPageSession();
-  if (!session) redirect(env.AUTH_GUARD_PATH);
+  const session = await getPageSession()
+  if (!session) redirect(env.AUTH_GUARD_PATH)
 
   return (
     <main>

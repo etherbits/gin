@@ -7,7 +7,7 @@ export const user = mysqlTable("user", {
   }).primaryKey(),
   username: varchar("username", { length: 64 }).notNull().unique(),
   email: varchar("email", { length: 254 }).notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
+  email_verified: boolean("email_verified").default(false).notNull(),
 })
 
 export const key = mysqlTable("user_key", {
