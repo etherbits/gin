@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-
 // Quick and dirty
 process.env.BASE_URL =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "development"

@@ -21,35 +21,35 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   }
   try {
-    const { getExistingUser, discordUser, createUser, createKey} =
+    const { getExistingUser, discordUser, createUser, createKey } =
       await discordAuth.validateCallback(code)
 
     const getUser = async () => {
-      const existingUser = await getExistingUser();
-      if (existingUser) return existingUser;
+      const existingUser = await getExistingUser()
+      if (existingUser) return existingUser
 
       if (!discordUser.email || !discordUser.verified) {
-        throw new Error("Email not verified");
+        throw new Error("Email not verified")
       }
 
-      const existingDatabaseUserWithEmail = await db.query.user.findFirst(
-        { where: eq(userSchema.email, discordUser.email) }
-      );
+      const existingDatabaseUserWithEmail = await db.query.user.findFirst({
+        where: eq(userSchema.email, discordUser.email),
+      })
 
       if (existingDatabaseUserWithEmail) {
         // transform `UserSchema` to `User`
-        const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail);
-        await createKey(user.userId);
-        return user;
+        const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail)
+        await createKey(user.userId)
+        return user
       }
       return await createUser({
         attributes: {
           username: discordUser.username,
           email: discordUser.email,
-          email_verified: false
-        }
-      });
-    };
+          email_verified: false,
+        },
+      })
+    }
 
     const user = await getUser()
     const session = await auth.createSession({
@@ -72,7 +72,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
         status: 400,
       })
     }
-    console.error('err: ', e)
+    console.error("err: ", e)
     return new Response(null, {
       status: 500,
     })

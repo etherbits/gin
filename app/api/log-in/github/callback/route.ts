@@ -21,7 +21,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   }
   try {
-    const { getExistingUser, githubUser, createUser , createKey} =
+    const { getExistingUser, githubUser, createUser, createKey } =
       await ghAuth.validateCallback(code)
 
     const getUser = async () => {
