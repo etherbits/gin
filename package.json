@@ -16,6 +16,7 @@
     "db:seed": "node -r dotenv/config --loader esbuild-register/loader -r esbuild-register ./db/seed"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@lucia-auth/adapter-mysql": "^2.1.0",
     "@lucia-auth/oauth": "^3.5.0",
     "@planetscale/database": "^1.11.0",
@@ -30,6 +31,7 @@
     "openai": "^4.20.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.49.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
