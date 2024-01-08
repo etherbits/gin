@@ -1,9 +1,9 @@
-import RegistrationForm from "../components/RegistrationForm";
+import RegistrationForm from "../components/RegistrationForm"
 
 export default async function Registration() {
   return (
     <main>
-     <RegistrationForm/> 
+      <RegistrationForm />
     </main>
   )
 }
