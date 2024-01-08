@@ -1,12 +1,24 @@
 "use client"
-import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form"
+import {
+  useForm,
+  SubmitHandler,
+  UseFormRegister,
+  FieldErrors,
+} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {  ZodType, z } from "zod"
+import { ZodType, z } from "zod"
+
+export type FormRegister<T extends ZodType> = UseFormRegister<z.infer<T>>
+
+export type FieldProps<T extends ZodType> = {
+  register: FormRegister<T>
+  errors: FieldErrors<T>
+}
 
 type Props<T extends ZodType> = {
   title?: string
   description?: string
-  fields?: (register: UseFormRegister<z.infer<T>>) => React.ReactNode
+  fields?: (fieldProps: FieldProps<T>) => React.ReactNode
   schema: T
 }
 
@@ -27,7 +39,7 @@ export default function Form<T extends ZodType>(props: Props<T>) {
     >
       <h1 className="text-2xl text-center">{props.title}</h1>
       <p className="text-base text-center">{props.description}</p>
-      {props.fields && props.fields(register)}
+      {props.fields && props.fields({ register, errors })}
     </form>
   )
 }
