@@ -35,7 +35,7 @@ async function updateUserPassword(userId: string, password: string) {
       await auth.invalidateAllUserSessions(user.userId)
       await auth.updateKeyPassword("email", user.email, password)
 
-      if (!user.emailVerified) {
+      if (!user.email_verified) {
         user = await auth.updateUserAttributes(user.userId, {
           email_verified: true,
         })
