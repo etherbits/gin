@@ -11,7 +11,7 @@ export default async function Home() {
     <main>
       <h1>Gin Home Page</h1>
       <div>username: {session.user.username}</div>
-      <div>is email verified: {String(!!session.user.emailVerified)}</div>
+      <div>is email verified: {String(!!session.user.email_verified)}</div>
       <form action="/api/log-out" method="POST">
         <button>log out</button>
       </form>
