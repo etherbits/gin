@@ -20,26 +20,28 @@ type Props<T extends ZodType> = {
   description?: string
   fields?: (fieldProps: FieldProps<T>) => React.ReactNode
   schema: T
-}
+  onSubmit?: SubmitHandler<T>
+} & React.HTMLAttributes<HTMLFormElement>
 
 export default function Form<T extends ZodType>(props: Props<T>) {
+  const { title, description, fields, schema, onSubmit, ...formAttributes } =
+    props
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<T>({ resolver: zodResolver(props.schema) })
-
-  const onSubmit: SubmitHandler<T> = (data) => console.log(data)
-  console.log(errors)
+  } = useForm<T>({ resolver: zodResolver(schema) })
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit && handleSubmit(onSubmit)}
       className="flex flex-col w-[500px] bg-charcoal-900 gap-8 p-8 m-auto mt-[8%]"
+      {...formAttributes}
     >
-      <h1 className="text-2xl text-center">{props.title}</h1>
-      <p className="text-base text-center">{props.description}</p>
-      {props.fields && props.fields({ register, errors })}
+      <h1 className="text-2xl text-center">{title}</h1>
+      <p className="text-base text-center">{description}</p>
+      {fields && fields({ register, errors })}
     </form>
   )
 }
