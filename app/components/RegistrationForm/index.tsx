@@ -1,12 +1,37 @@
 "use client"
 
-import { registrationSchema } from "@/validation-schemas/auth"
+import { RegistrationData, registrationSchema } from "@/validation-schemas/auth"
 import Form from "../Form"
 import Input from "../Input"
 import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
+import { useState } from "react"
+import ErrorLine from "../ErrorLine"
 
 export default function RegistrationForm() {
   const router = useRouter()
+
+  const [error, setError] = useState<string | null>(null)
+
+  async function register(registrationData: RegistrationData) {
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registrationData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        router.replace("/home")
+        return resolve(data)
+      }
+      
+      setError(data.message)
+      reject(data)
+    })
+  }
 
   return (
     <Form
@@ -14,21 +39,11 @@ export default function RegistrationForm() {
       description="Create an account to start using the app."
       schema={registrationSchema}
       onSubmit={async (values) => {
-        const res = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+        toast.promise(register(values), {
+          pending: "Registering...",
+          success: "Registered!",
+          error: "Registration failed.",
         })
-
-        console.log(res)
-
-        if (res.ok) {
-          alert("Registration successful!")
-          router.replace("/home")
-        }
-
-        const errData = await res.json()
-        console.error(errData)
       }}
       fields={(formProps) => (
         <>
@@ -61,6 +76,7 @@ export default function RegistrationForm() {
             {...formProps}
           />
           <button type="submit">Register</button>
+          {error && <ErrorLine severity="error" message={error}/>}
         </>
       )}
     />

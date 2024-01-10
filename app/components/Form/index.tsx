@@ -1,7 +1,6 @@
 "use client"
 import {
   useForm,
-  SubmitHandler,
   UseFormRegister,
   FieldErrors,
 } from "react-hook-form"
@@ -20,8 +19,8 @@ type Props<T extends ZodType> = {
   description?: string
   fields?: (fieldProps: FieldProps<T>) => React.ReactNode
   schema: T
-  onSubmit?: SubmitHandler<T>
-} & React.HTMLAttributes<HTMLFormElement>
+  onSubmit?: (data: z.infer<T>) => void
+} & Omit<React.HTMLAttributes<HTMLFormElement>, "onSubmit">
 
 export default function Form<T extends ZodType>(props: Props<T>) {
   const { title, description, fields, schema, onSubmit, ...formAttributes } =
