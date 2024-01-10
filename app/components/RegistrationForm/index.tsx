@@ -14,24 +14,21 @@ export default function RegistrationForm() {
       description="Create an account to start using the app."
       schema={registrationSchema}
       onSubmit={async (values) => {
-
         const res = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values),
         })
-        
+
         console.log(res)
 
-        if(res.ok) {
+        if (res.ok) {
           alert("Registration successful!")
           router.replace("/home")
         }
 
         const errData = await res.json()
         console.error(errData)
-
-
       }}
       fields={(formProps) => (
         <>
