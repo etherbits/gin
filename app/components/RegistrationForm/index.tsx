@@ -39,6 +39,8 @@ export default function RegistrationForm() {
       description="Create an account to start using the app."
       schema={registrationSchema}
       onSubmit={async (values) => {
+        setError(null)
+
         toast.promise(register(values), {
           pending: "Registering...",
           success: "Registered!",
