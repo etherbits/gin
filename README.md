@@ -1,6 +1,6 @@
 # Gin
 
-Spaced repetition learning webapp
+Spaced repetition learning web application
 
 ![image](https://github.com/etherbits/gin/assets/43289097/fcea0fde-0ab6-42fb-90dd-62f435f3f4e6)
 ![image](https://github.com/etherbits/gin/assets/43289097/8cbbcf77-715a-4587-b4ae-2094d83e6d20)
