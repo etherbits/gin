@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { useState } from "react"
 import StatusLine from "../StatusLine"
-
 export default function AuthForm() {
   const router = useRouter()
 
@@ -27,7 +26,7 @@ export default function AuthForm() {
         router.replace("/home")
         return resolve(data)
       }
-
+      
       setError(data.message)
       reject(data)
     })
@@ -65,6 +64,7 @@ export default function AuthForm() {
             {...formProps}
           />
           <button type="submit">Log In</button>
+          {error && <ErrorLine severity="error" message={error}/>}
         </>
       )}
     />
