@@ -11,17 +11,8 @@ export default async function Home() {
     <main>
       <h1>Gin Home Page</h1>
       <div>username: {session.user.username}</div>
-      <div>is email verified: {String(!!session.user.email_verified)}</div>
       <form action="/api/log-out" method="POST">
         <button>log out</button>
-      </form>
-
-      <form action="/api/deck/add" method="POST">
-        <input type="text" name="title" value="virgil" />
-        <input type="text" name="description" value="desc" />
-        <input type="text" name="isPublic" value="true" />
-        <input type="text" name="isVisible" value="true" />
-        <button>add deck</button>
       </form>
 
       <TextBox />
