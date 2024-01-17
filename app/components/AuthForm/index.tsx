@@ -1,6 +1,6 @@
 "use client"
 
-import { LoginData,  loginSchema } from "@/validation-schemas/auth"
+import { LoginData, loginSchema } from "@/validation-schemas/auth"
 import Form from "../Form"
 import Input from "../Input"
 import { useRouter } from "next/navigation"
@@ -27,7 +27,7 @@ export default function AuthForm() {
         router.replace("/home")
         return resolve(data)
       }
-      
+
       setError(data.message)
       reject(data)
     })
@@ -64,7 +64,7 @@ export default function AuthForm() {
             {...formProps}
           />
           <button type="submit">Log In</button>
-          {error && <ErrorLine severity="error" message={error}/>}
+          {error && <ErrorLine severity="error" message={error} />}
         </>
       )}
     />

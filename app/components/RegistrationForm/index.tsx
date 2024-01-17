@@ -27,7 +27,7 @@ export default function RegistrationForm() {
         router.replace("/home")
         return resolve(data)
       }
-      
+
       setError(data.message)
       reject(data)
     })
@@ -78,7 +78,7 @@ export default function RegistrationForm() {
             {...formProps}
           />
           <button type="submit">Register</button>
-          {error && <ErrorLine severity="error" message={error}/>}
+          {error && <ErrorLine severity="error" message={error} />}
         </>
       )}
     />

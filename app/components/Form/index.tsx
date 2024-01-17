@@ -1,9 +1,5 @@
 "use client"
-import {
-  useForm,
-  UseFormRegister,
-  FieldErrors,
-} from "react-hook-form"
+import { useForm, UseFormRegister, FieldErrors } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType, z } from "zod"
 
@@ -35,11 +31,11 @@ export default function Form<T extends ZodType>(props: Props<T>) {
   return (
     <form
       onSubmit={onSubmit && handleSubmit(onSubmit)}
-      className="flex flex-col w-[500px] bg-charcoal-900 gap-8 p-8 m-auto mt-[8%]"
+      className="m-auto mt-[8%] flex w-[500px] flex-col gap-8 bg-charcoal-950 p-8"
       {...formAttributes}
     >
-      <h1 className="text-2xl text-center">{title}</h1>
-      <p className="text-base text-center">{description}</p>
+      <h1 className="text-center text-2xl">{title}</h1>
+      <p className="text-center text-base">{description}</p>
       {fields && fields({ register, errors })}
     </form>
   )

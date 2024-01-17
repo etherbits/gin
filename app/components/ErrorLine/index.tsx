@@ -12,10 +12,10 @@ type Props = {
 
 export default function ErrorLine(props: Props) {
   return (
-    <section className="flex gap-2 mt-2 items-center">
+    <section className="mt-2 flex items-center gap-2">
       <Icon
         icon={getSeverityIcon(props.severity)}
-        className="stroke-red-400 w-4 h-4"
+        className="h-4 w-4 stroke-red-400"
       />
       <p
         className={cn("text-slate-400", {

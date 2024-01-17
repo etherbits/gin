@@ -23,7 +23,7 @@ export default function TextBox() {
     <div>
       {clientMessages.map((message) => (
         <div key={message.id}>
-          <p className="bg-charcoal-900 px-2 py-1 mb-4">{message.content}</p>
+          <p className="mb-4 bg-charcoal-900 px-2 py-1">{message.content}</p>
         </div>
       ))}
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
@@ -32,7 +32,7 @@ export default function TextBox() {
           onChange={handleInputChange}
           className="bg-charcoal-900 px-4 py-2"
         />
-        <button type="submit" className="bg-ship-cove-500 rounded-md px-4 py-2">
+        <button type="submit" className="rounded-md bg-ship-cove-500 px-4 py-2">
           Send
         </button>
       </form>

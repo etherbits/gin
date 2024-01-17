@@ -23,7 +23,7 @@ export default function Input<T extends ZodType>(props: Props<T>) {
       <input
         {...inputProps}
         {...register(name)}
-        className={cn("px-3 py-2 bg-charcoal-800", inputProps.className)}
+        className={cn("bg-charcoal-800 px-3 py-2", inputProps.className)}
       />
       {errorMessage && <ErrorLine severity="error" message={errorMessage} />}
     </div>
