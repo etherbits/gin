@@ -76,6 +76,9 @@ devDependencies:
   '@playwright/test':
     specifier: ^1.40.1
     version: 1.40.1
+  '@prettier/sync':
+    specifier: ^0.3.0
+    version: 0.3.0(prettier@3.2.3)
   '@types/crypto-js':
     specifier: ^4.2.1
     version: 4.2.1
@@ -118,6 +121,12 @@ devDependencies:
   prettier:
     specifier: ^3.2.3
     version: 3.2.3
+  prettier-plugin-classnames:
+    specifier: ^0.3.2
+    version: 0.3.2(@prettier/sync@0.3.0)(prettier@3.2.3)
+  prettier-plugin-merge:
+    specifier: ^0.5.1
+    version: 0.5.1(prettier@3.2.3)
   prettier-plugin-tailwindcss:
     specifier: ^0.5.11
     version: 0.5.11(prettier@3.2.3)
@@ -1136,6 +1145,14 @@ packages:
       playwright: 1.40.1
     dev: true
 
+  /@prettier/sync@0.3.0(prettier@3.2.3):
+    resolution: {integrity: sha512-3dcmCyAxIcxy036h1I7MQU/uEEBq8oLwf1CE3xeze+MPlgkdlb/+w6rGR/1dhp6Hqi17fRS6nvwnOzkESxEkOw==}
+    peerDependencies:
+      prettier: ^3.0.0
+    dependencies:
+      prettier: 3.2.3
+    dev: true
+
   /@rushstack/eslint-patch@1.6.0:
     resolution: {integrity: sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==}
     dev: true
@@ -1906,6 +1923,11 @@ packages:
 
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
+    dev: true
+
+  /diff@5.1.0:
+    resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==}
+    engines: {node: '>=0.3.1'}
     dev: true
 
   /difflib@0.2.4:
@@ -3893,6 +3915,30 @@ packages:
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier-plugin-classnames@0.3.2(@prettier/sync@0.3.0)(prettier@3.2.3):
+    resolution: {integrity: sha512-IZos7NZbdozAjbWlGkcLQW/XReg/9z4ol1I0F2RFzXS8Gr88agJRUULTjttDpFC9ySDttfjnBk0HX8h5FTMPSA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@prettier/sync': ^0.3.0
+      prettier: ^2 || ^3
+    peerDependenciesMeta:
+      '@prettier/sync':
+        optional: true
+    dependencies:
+      '@prettier/sync': 0.3.0(prettier@3.2.3)
+      prettier: 3.2.3
+    dev: true
+
+  /prettier-plugin-merge@0.5.1(prettier@3.2.3):
+    resolution: {integrity: sha512-Wj+EWDi9diamU1F3XGIF+jJIdbrDVa7IXO10qhT1bQGnjjvd+yoVKXo19s7VOheWnp7xBSZJ4Q849AFibFoLtQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      prettier: ^2 || ^3
+    dependencies:
+      diff: 5.1.0
+      prettier: 3.2.3
     dev: true
 
   /prettier-plugin-tailwindcss@0.5.11(prettier@3.2.3):

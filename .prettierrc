@@ -3,5 +3,12 @@
   "tabWidth": 2,
   "semi": false,
   "singleQuote": false,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "printWidth": 80,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ],
+  "customAttributes": ["className"],
+  "customFunctions": ["classNames"]
 }
