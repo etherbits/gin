@@ -7,10 +7,10 @@ type Severity = "error" | "warning" | "info"
 
 type Props = {
   severity: Severity
-  message: string
+  children: string
 }
 
-export default function ErrorLine(props: Props) {
+export default function StatusLine(props: Props) {
   return (
     <section className="mt-2 flex items-center gap-2">
       <Icon
@@ -23,7 +23,7 @@ export default function ErrorLine(props: Props) {
           "text-yellow-400": props.severity === "warning",
         })}
       >
-        {props.message}
+        {props.children}
       </p>
     </section>
   )

@@ -6,7 +6,6 @@ import Input from "../Input"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { useState } from "react"
-import ErrorLine from "../ErrorLine"
 
 export default function RegistrationForm() {
   const router = useRouter()
@@ -38,6 +37,7 @@ export default function RegistrationForm() {
       title="Registration"
       description="Create an account to start using the app."
       schema={registrationSchema}
+      serverError={error}
       onSubmit={async (values) => {
         setError(null)
 
@@ -78,7 +78,6 @@ export default function RegistrationForm() {
             {...formProps}
           />
           <button type="submit">Register</button>
-          {error && <ErrorLine severity="error" message={error} />}
         </>
       )}
     />

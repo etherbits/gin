@@ -2,6 +2,7 @@
 import { useForm, UseFormRegister, FieldErrors } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType, z } from "zod"
+import StatusLine from "../ErrorLine"
 
 export type FormRegister<T extends ZodType> = UseFormRegister<z.infer<T>>
 
@@ -13,6 +14,7 @@ export type FieldProps<T extends ZodType> = {
 type Props<T extends ZodType> = {
   title?: string
   description?: string
+  serverError?: string | null
   fields?: (fieldProps: FieldProps<T>) => React.ReactNode
   schema: T
   onSubmit?: (data: z.infer<T>) => void
@@ -37,6 +39,9 @@ export default function Form<T extends ZodType>(props: Props<T>) {
       <h1 className="text-center text-2xl">{title}</h1>
       <p className="text-center text-base">{description}</p>
       {fields && fields({ register, errors })}
+      {props.serverError && (
+        <StatusLine severity="error">{props.serverError}</StatusLine>
+      )}
     </form>
   )
 }

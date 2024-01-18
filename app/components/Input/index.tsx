@@ -1,7 +1,7 @@
 "use client"
 
 import { FieldErrors, Path } from "react-hook-form"
-import ErrorLine from "../ErrorLine"
+import StatusLine from "../ErrorLine"
 import { FormRegister } from "../Form"
 import { TypeOf, ZodType } from "zod"
 import { cn } from "@/utils/styling"
@@ -25,7 +25,7 @@ export default function Input<T extends ZodType>(props: Props<T>) {
         {...register(name)}
         className={cn("bg-charcoal-800 px-3 py-2", inputProps.className)}
       />
-      {errorMessage && <ErrorLine severity="error" message={errorMessage} />}
+      {errorMessage && <StatusLine severity="error">{errorMessage}</StatusLine>}
     </div>
   )
 }

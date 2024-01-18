@@ -6,7 +6,7 @@ import Input from "../Input"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { useState } from "react"
-import ErrorLine from "../ErrorLine"
+import StatusLine from "../ErrorLine"
 
 export default function AuthForm() {
   const router = useRouter()
@@ -38,6 +38,7 @@ export default function AuthForm() {
       title="Log in"
       description="Fill in your credentials to log in"
       schema={loginSchema}
+      serverError={error}
       onSubmit={async (values) => {
         setError(null)
 
@@ -64,7 +65,6 @@ export default function AuthForm() {
             {...formProps}
           />
           <button type="submit">Log In</button>
-          {error && <ErrorLine severity="error" message={error} />}
         </>
       )}
     />
