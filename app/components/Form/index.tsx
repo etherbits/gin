@@ -2,7 +2,7 @@
 import { useForm, UseFormRegister, FieldErrors } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType, z } from "zod"
-import StatusLine from "../ErrorLine"
+import StatusLine from "../StatusLine"
 
 export type FormRegister<T extends ZodType> = UseFormRegister<z.infer<T>>
 

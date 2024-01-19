@@ -1,7 +1,7 @@
 "use client"
 
 import { FieldErrors, Path } from "react-hook-form"
-import StatusLine from "../ErrorLine"
+import StatusLine from "../StatusLine"
 import { FormRegister } from "../Form"
 import { TypeOf, ZodType } from "zod"
 import { cn } from "@/utils/styling"

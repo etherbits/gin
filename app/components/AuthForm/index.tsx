@@ -6,7 +6,7 @@ import Input from "../Input"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 import { useState } from "react"
-import StatusLine from "../ErrorLine"
+import StatusLine from "../StatusLine"
 
 export default function AuthForm() {
   const router = useRouter()
