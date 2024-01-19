@@ -15,7 +15,10 @@ export default function StatusLine(props: Props) {
     <section className="mt-2 flex items-center gap-2">
       <Icon
         icon={getSeverityIcon(props.severity)}
-        className="h-4 w-4 stroke-red-400"
+        className={cn("h-4 w-4 stroke-slate-400", {
+          "stroke-red-400": props.severity === "error",
+          "stroke-yellow-400": props.severity === "warning",
+        })}
       />
       <p
         className={cn("text-slate-400", {
