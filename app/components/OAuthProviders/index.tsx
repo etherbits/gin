@@ -12,6 +12,20 @@ export default function OAuthProviders() {
           </button>
         </Link>
       </li>
+      <li>
+        <Link href="/api/log-in/github">
+          <button>
+            <Icon icon="Github" />
+          </button>
+        </Link>
+      </li>
+      <li>
+        <Link href="/api/log-in/discord">
+          <button>
+            <Icon icon="Voicemail" />
+          </button>
+        </Link>
+      </li>
     </ul>
   )
 }
