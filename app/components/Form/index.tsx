@@ -3,6 +3,7 @@ import { useForm, UseFormRegister, FieldErrors } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ZodType, z } from "zod"
 import StatusLine from "../StatusLine"
+import { cn } from "@/utils/styling"
 
 export type FormRegister<T extends ZodType> = UseFormRegister<z.infer<T>>
 
@@ -33,7 +34,10 @@ export default function Form<T extends ZodType>(props: Props<T>) {
   return (
     <form
       onSubmit={onSubmit && handleSubmit(onSubmit)}
-      className="m-auto mt-[8%] flex w-[500px] flex-col gap-8 bg-charcoal-950 p-8"
+      className={cn(
+        "m-auto flex w-full flex-col gap-8 p-8",
+        formAttributes.className,
+      )}
       {...formAttributes}
     >
       <h1 className="text-center text-2xl">{title}</h1>
