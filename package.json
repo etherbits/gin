@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
+    "format": "prettier --write \"**/*.{ts,tsx,js,md,mdx,css,yaml}\"",
     "check": "tsc --noEmit",
     "test": "pnpm exec dotenv playwright test",
     "db:generate": "drizzle-kit generate:mysql",
