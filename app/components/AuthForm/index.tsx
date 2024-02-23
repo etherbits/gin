@@ -26,7 +26,7 @@ export default function AuthForm() {
         router.replace("/home")
         return resolve(data)
       }
-      
+
       setError(data.message)
       reject(data)
     })
@@ -64,7 +64,7 @@ export default function AuthForm() {
             {...formProps}
           />
           <button type="submit">Log In</button>
-          {error && <ErrorLine severity="error" message={error}/>}
+          {error && <StatusLine severity="error">{error}</StatusLine>}
         </>
       )}
     />
