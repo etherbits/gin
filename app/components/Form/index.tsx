@@ -15,15 +15,22 @@ export type FieldProps<T extends ZodType> = {
 type Props<T extends ZodType> = {
   title?: string
   description?: string
-  serverError?: string | null
+  serverSideError?: string | null
   fields?: (fieldProps: FieldProps<T>) => React.ReactNode
   schema: T
   onSubmit?: (data: z.infer<T>) => void
 } & Omit<React.HTMLAttributes<HTMLFormElement>, "onSubmit">
 
 export default function Form<T extends ZodType>(props: Props<T>) {
-  const { title, description, fields, schema, onSubmit, ...formAttributes } =
-    props
+  const {
+    title,
+    description,
+    fields,
+    schema,
+    serverSideError,
+    onSubmit,
+    ...formAttributes
+  } = props
 
   const {
     register,
@@ -43,8 +50,8 @@ export default function Form<T extends ZodType>(props: Props<T>) {
       <h1 className="text-center text-2xl">{title}</h1>
       <p className="text-center text-base">{description}</p>
       {fields && fields({ register, errors })}
-      {props.serverError && (
-        <StatusLine severity="error">{props.serverError}</StatusLine>
+      {props.serverSideError && (
+        <StatusLine severity="error">{props.serverSideError}</StatusLine>
       )}
     </form>
   )

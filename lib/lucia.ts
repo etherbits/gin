@@ -1,7 +1,7 @@
 import { lucia } from "lucia"
 import { planetscale } from "@lucia-auth/adapter-mysql"
 
-import { connection } from "@/db/drizzle"
+import { client } from "@/db/drizzle"
 import { env } from "@/app/env"
 import { nextjs_future } from "lucia/middleware"
 import { discord, github, google } from "@lucia-auth/oauth/providers"
@@ -13,7 +13,7 @@ const tableNames = {
 } as const
 
 export const auth = lucia({
-  adapter: planetscale(connection, tableNames),
+  adapter: planetscale(client, tableNames),
   middleware: nextjs_future(),
   sessionCookie: {
     expires: false,

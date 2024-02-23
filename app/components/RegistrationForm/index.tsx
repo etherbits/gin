@@ -37,7 +37,7 @@ export default function RegistrationForm() {
       title="Registration"
       description="Create an account to start using the app."
       schema={registrationSchema}
-      serverError={error}
+      serverSideError={error}
       onSubmit={async (values) => {
         setError(null)
 

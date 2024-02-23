@@ -1,6 +1,6 @@
 import { env } from "@/app/env"
 import { drizzle } from "drizzle-orm/planetscale-serverless"
-import { connect } from "@planetscale/database"
+import { Client } from "@planetscale/database"
 import * as userSchemas from "./schema/user"
 import * as deckSchemas from "./schema/deck"
 
@@ -10,10 +10,10 @@ const schema = {
 }
 
 // create the connection
-export const connection = connect({
+export const client = new Client({
   url: env.DATABASE_URL,
 })
 
-export const db = drizzle(connection, {
+export const db = drizzle(client, {
   schema,
 })

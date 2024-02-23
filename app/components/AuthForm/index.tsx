@@ -37,7 +37,7 @@ export default function AuthForm() {
       title="Log in"
       description="Fill in your credentials to log in"
       schema={loginSchema}
-      serverError={error}
+      serverSideError={error}
       onSubmit={async (values) => {
         setError(null)
 
