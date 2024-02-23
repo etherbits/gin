@@ -9,7 +9,8 @@ const schema = {
   ...deckSchemas,
 }
 
-// create the connection
+// planetscale free tier no longer available for me :((((
+// ill find a different way to host the database
 export const client = new Client({
   url: env.DATABASE_URL,
 })
