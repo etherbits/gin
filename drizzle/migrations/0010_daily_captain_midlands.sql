@@ -1,1 +1,0 @@
-ALTER TABLE `user` ADD `email_verified` boolean DEFAULT false;
