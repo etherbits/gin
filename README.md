@@ -9,19 +9,19 @@ Spaced repetition learning web application
 
 First build the docker image using the Dockerfile:
 
-```zsh
+```shell
 docker build -t gin-docker .
 ```
 
 Run the container and attach to it's shell:
 
-```zsh
+```shell
 docker run --name gin --rm -it -p 3000:3000 gin-docker sh
 ```
 
 Finally you can use the scripts provided in the package.json.
 Run a development server using:
-```zsh
+```shell
 npm run dev
 (or)
 pnpm dev
