@@ -7,28 +7,22 @@ Spaced repetition learning web application
 
 ## Getting Started
 
-First, run the development server:
+First build the docker image using the Dockerfile:
 
-```bash
+```
+docker build -t gin-docker .
+```
+
+Run the container and attach to it's shell:
+
+```
+docker run --name gin-dv --rm -it -p 3000:3000 gin-docker sh
+```
+
+Finally you can use the scripts provided in the package.json.
+Run a development server using:
+```
 npm run dev
-# or
-yarn dev
-# or
+(or)
 pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-seed database with:
-
-```bash
-pnpm db:seed
-```
-
-run tests with:
-
-```bash
-pnpm test
 ```
