@@ -25,4 +25,5 @@ Run a development server using:
 > npm run dev
 (or)
 > pnpm dev
+(or an equivalent)
 ```
