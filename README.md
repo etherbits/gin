@@ -16,7 +16,7 @@ docker build -t gin-docker .
 Run the container and attach to it's shell:
 
 ```
-docker run --name gin-dv --rm -it -p 3000:3000 gin-docker sh
+docker run --name gin --rm -it -p 3000:3000 gin-docker sh
 ```
 
 Finally you can use the scripts provided in the package.json.
