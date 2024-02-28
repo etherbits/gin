@@ -7,7 +7,7 @@ Spaced repetition learning web application
 
 ## Getting Started
 
-# Running dev server on local machine
+### Running dev server on local machine
 Install deps:
 ```console
 > pnpm i
@@ -18,7 +18,7 @@ Run dev server:
 > pnpm dev
 ```
 
-# Running dev server using docker
+### Running dev server using docker
 
 First build the docker image using the Dockerfile:
 
