@@ -4,6 +4,8 @@ import { s3 } from "@/lib/objectStorage";
 import { parsedEnv } from "@/utils/env";
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const result = await db.select().from(foo).all();
   const buckets = await s3.send(
