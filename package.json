@@ -12,6 +12,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.523.0",
     "@libsql/client": "^0.5.2",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.4",
