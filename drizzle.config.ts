@@ -1,8 +1,8 @@
 import type { Config } from "drizzle-kit";
-import { parsedEnv } from "./utils/env";
+import { parsedEnv } from "@/utils/env";
 
 export default {
-  schema: "./db/schemas/schema.ts",
+  schema: "./db/schemas/*",
   out: "./db/migrations",
   driver: "turso",
   dbCredentials: {

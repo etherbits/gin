@@ -1,0 +1,40 @@
+import { sql } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+const cardStateEnum = ["NEW", "LEARNING", "YOUNG", "MATURE", "FROZEN"] as const;
+
+export const deck = sqliteTable("deck", {
+  id: integer("id").primaryKey().notNull(),
+  userId: text("user_id", {
+    length: 15,
+  }).notNull(),
+  deckGroupId: integer("deck_group_id"),
+  title: text("title", { length: 255 }).notNull(),
+  description: text("description"),
+  isPublic: integer("is_public").notNull().default(0),
+  isVisible: integer("is_visible").notNull().default(1),
+  createdAt: integer("created_at")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const deckGroup = sqliteTable("deck_group", {
+  id: integer("id").primaryKey().notNull(),
+  userId: integer("user_id").notNull(),
+  title: text("title", { length: 255 }).notNull().unique(),
+  isVisible: integer("is_visible").notNull().default(1),
+});
+
+export const card = sqliteTable("card", {
+  id: integer("id").primaryKey().notNull(),
+  userId: text("user_id").notNull(),
+  deckId: integer("deck_id").notNull(),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  state: text("state", { enum: cardStateEnum }).notNull().default("NEW"),
+  lastReviewedAt: integer("last_reviewed_at"),
+  nextReviewAt: integer("next_review_at"),
+  createdAt: integer("created_at")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});

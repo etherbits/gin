@@ -8,6 +8,20 @@
       "when": 1709213138479,
       "tag": "0000_curly_vanisher",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709318326425,
+      "tag": "0001_previous_vision",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709320611414,
+      "tag": "0002_new_gorilla_man",
+      "breakpoints": true
     }
   ]
 }
