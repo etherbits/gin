@@ -5,11 +5,9 @@ const cardStateEnum = ["NEW", "LEARNING", "YOUNG", "MATURE", "FROZEN"] as const;
 
 export const deck = sqliteTable("deck", {
   id: integer("id").primaryKey().notNull(),
-  userId: text("user_id", {
-    length: 15,
-  }).notNull(),
+  userId: text("user_id").notNull(),
   deckGroupId: integer("deck_group_id"),
-  title: text("title", { length: 255 }).notNull(),
+  title: text("title").notNull(),
   description: text("description"),
   isPublic: integer("is_public").notNull().default(0),
   isVisible: integer("is_visible").notNull().default(1),
@@ -21,7 +19,7 @@ export const deck = sqliteTable("deck", {
 export const deckGroup = sqliteTable("deck_group", {
   id: integer("id").primaryKey().notNull(),
   userId: integer("user_id").notNull(),
-  title: text("title", { length: 255 }).notNull().unique(),
+  title: text("title").notNull().unique(),
   isVisible: integer("is_visible").notNull().default(1),
 });
 

@@ -2,21 +2,15 @@ import { InferSelectModel } from "drizzle-orm";
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
-  id: text("id", {
-    length: 255,
-  }).primaryKey(),
+  id: text("id").notNull().primaryKey(),
   username: text("username", { length: 64 }).notNull().unique(),
   email: text("email", { length: 254 }).notNull().unique(),
   email_verified: integer("email_verified").default(0).notNull(),
 });
 
 export const session = sqliteTable("user_session", {
-  id: text("id", {
-    length: 255,
-  }).primaryKey(),
-  userId: text("user_id", {
-    length: 255,
-  })
+  id: text("id").notNull().primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => user.id),
   expiresAt: integer("expires_at", {
