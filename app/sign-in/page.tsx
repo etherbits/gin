@@ -59,5 +59,5 @@ async function login(formData: FormData) {
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect("/");
+  return redirect("/home");
 }
