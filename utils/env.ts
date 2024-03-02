@@ -3,6 +3,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const envSchema = z.object({
+  // General
+  NODE_ENV: z.enum(["production", "development", "test"]),
+
   // Turso DB
   TURSO_DATABASE_URL: z.string(),
   TURSO_AUTH_TOKEN: z.string(),
