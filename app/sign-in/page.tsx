@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { user } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
