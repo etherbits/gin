@@ -14,9 +14,17 @@ export const sessions = sqliteTable("sessions", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id),
-  expiresAt: integer("expires_at", {
-    mode: "number",
-  }).notNull(),
+  expiresAt: integer("expires_at").notNull(),
+});
+
+export const emailVerificationCodes = sqliteTable("email_verification_codes", {
+  id: text("id").notNull().primaryKey(),
+  code: text("code").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  email: text("email").notNull(),
+  expiresAt: integer("expires_at").notNull(),
 });
 
 // export const emailVerification = sqliteTable("email_verification", {

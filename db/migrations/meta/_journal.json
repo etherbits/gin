@@ -50,6 +50,13 @@
       "when": 1709489716855,
       "tag": "0006_lovely_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1709490690754,
+      "tag": "0007_gigantic_greymalkin",
+      "breakpoints": true
     }
   ]
 }
