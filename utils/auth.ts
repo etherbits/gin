@@ -25,6 +25,7 @@ export const validateRequest = cache(
 				cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 			}
 		} catch {}
+    console.log(Date.now());
 		return result;
 	}
 );
