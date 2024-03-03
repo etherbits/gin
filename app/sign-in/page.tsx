@@ -30,7 +30,7 @@ async function login(formData: FormData) {
     return;
   }
 
-  const existingUser = await db.query.user.findFirst({
+  const existingUser = await db.query.users.findFirst({
     where: (user, { eq }) => eq(user.username, username),
   });
 
