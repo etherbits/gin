@@ -44,7 +44,7 @@ export const validateRequest = cache(
   },
 );
 
-async function generateEmailVerificationCode(
+export async function generateEmailVerificationCode(
   userId: string,
   email: string,
 ): Promise<string> {
