@@ -35,7 +35,6 @@ export const validateRequest = cache(
         );
       }
     } catch {}
-    console.log(Date.now());
     return result;
   },
 );
