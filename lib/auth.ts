@@ -10,7 +10,7 @@ export const lucia = new Lucia(adapter, {
   sessionCookie: {
     attributes: {
       secure: parsedEnv.NODE_ENV === "production",
-    }
+    },
   },
   getUserAttributes: (attributes) => {
     return {
@@ -18,14 +18,14 @@ export const lucia = new Lucia(adapter, {
       email: attributes.email,
       email_verified: attributes.email_verified,
     };
-  }
-})
+  },
+});
 
 declare module "lucia" {
-	interface Register {
-		Lucia: typeof lucia;
-    DatabaseUserAttributes: DatabaseUserAttributes
-	}
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
 }
 
 export type DatabaseUserAttributes = {
@@ -33,5 +33,3 @@ export type DatabaseUserAttributes = {
   email: string;
   email_verified: boolean;
 };
-
-

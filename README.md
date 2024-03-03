@@ -8,12 +8,15 @@ Spaced repetition learning web application
 ## Getting Started
 
 ### Running dev server on local machine
+
 Install deps:
+
 ```console
 > pnpm i
 ```
 
 Run dev server:
+
 ```console
 > pnpm dev
 ```
@@ -34,6 +37,7 @@ Run the container and attach to it's shell:
 
 Finally you can use the scripts provided in the package.json.
 Run a development server using:
+
 ```console
 > pnpm dev
 ```
