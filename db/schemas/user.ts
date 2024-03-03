@@ -1,7 +1,7 @@
 import { InferSelectModel } from "drizzle-orm";
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
-export const user = sqliteTable("user", {
+export const users = sqliteTable("users", {
   id: text("id").notNull().primaryKey(),
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
@@ -9,11 +9,11 @@ export const user = sqliteTable("user", {
   hashed_password: text("hashed_password").notNull(),
 });
 
-export const session = sqliteTable("user_session", {
+export const sessions = sqliteTable("sessions", {
   id: text("id").notNull().primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => users.id),
   expiresAt: integer("expires_at", {
     mode: "number",
   }).notNull(),
@@ -43,4 +43,4 @@ export const session = sqliteTable("user_session", {
 //   }).notNull(),
 // });
 
-export type User = InferSelectModel<typeof user>;
+export type User = InferSelectModel<typeof users>;

@@ -43,6 +43,13 @@
       "when": 1709406375791,
       "tag": "0005_overjoyed_hellcat",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1709489716855,
+      "tag": "0006_lovely_snowbird",
+      "breakpoints": true
     }
   ]
 }

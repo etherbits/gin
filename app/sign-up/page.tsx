@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { user } from "@/db/schemas/user";
+import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
@@ -40,7 +40,7 @@ async function signup(formData: FormData) {
   const userId = generateId(15);
 
   // TODO: check if username is already used
-  await db.insert(user).values({
+  await db.insert(users).values({
     id: userId,
     username: username,
     email: email,
