@@ -1,6 +1,8 @@
 import { db } from "@/db";
 import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
+import { generateEmailVerificationCode } from "@/utils/auth";
+import { sendEmailVerificationCode } from "@/utils/mail";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -47,6 +49,9 @@ async function signup(formData: FormData) {
     hashed_password: hashedPassword,
   });
 
+  const code = await generateEmailVerificationCode(userId, email);
+  await sendEmailVerificationCode(email, code);
+
   const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(
@@ -54,5 +59,5 @@ async function signup(formData: FormData) {
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect("/");
+  return redirect("/home");
 }

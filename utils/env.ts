@@ -33,7 +33,7 @@ const envSchema = z.object({
   DISCORD_OAUTH_SECRET: z.string(),
 
   // Resend Email
-  RESEND_EMAIL_API_KEY: z.string(),
+  RESEND_API_KEY: z.string(),
 });
 
 export const parsedEnv = envSchema.parse(process.env);
