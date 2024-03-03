@@ -23,22 +23,20 @@ export const emailVerificationCodes = sqliteTable("email_verification_codes", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id),
-  email: text("email").notNull(),
+  email: text("email")
+    .notNull()
+    .references(() => users.email),
   expiresAt: integer("expires_at").notNull(),
 });
 
-// export const emailVerification = sqliteTable("email_verification", {
-//   id: text("id", {
-//     length: 64,
-//   }).primaryKey(),
-//   userId: text("user_id", {
-//     length: 15,
-//   }).notNull(),
-//   expires: integer("expires", {
-//     mode: "number",
-//   }).notNull(),
-// });
-//
+export const passwordResetTokens = sqliteTable("password_reset_tokens", {
+  id: text("id").notNull().primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  expiresAt: integer("expires_at").notNull(),
+});
+
 // export const passwordReset = sqliteTable("password_reset", {
 //   id: text("id", {
 //     length: 64,
