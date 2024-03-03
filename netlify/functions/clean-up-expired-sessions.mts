@@ -6,5 +6,5 @@ export default async function cleanUpExpiredSessions() {
 }
 
 export const config: Config = {
-  schedule: "@hourly",
+  schedule: "@daily",
 };

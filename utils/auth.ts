@@ -1,6 +1,11 @@
+import { db } from "@/db";
+import { emailVerificationCodes } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
-import { User, Session } from "lucia";
+import { eq } from "drizzle-orm";
+import { Session, User, generateId } from "lucia";
 import { cookies } from "next/headers";
+import { TimeSpan, createDate } from "oslo";
+import { alphabet, generateRandomString } from "oslo/crypto";
 import { cache } from "react";
 
 export const validateRequest = cache(
@@ -34,7 +39,29 @@ export const validateRequest = cache(
           sessionCookie.attributes,
         );
       }
-    } catch {}
+    } catch { }
     return result;
   },
 );
+
+async function generateEmailVerificationCode(
+  userId: string,
+  email: string,
+): Promise<string> {
+  await db
+    .delete(emailVerificationCodes)
+    .where(eq(emailVerificationCodes.userId, userId));
+
+  const id = generateId(15);
+  const code = generateRandomString(8, alphabet("0-9"));
+
+  await db.insert(emailVerificationCodes).values({
+    id,
+    userId: userId,
+    email,
+    code,
+    expiresAt: createDate(new TimeSpan(5, "m")).getUTCMilliseconds(), // 5 minutes
+  });
+
+  return code;
+}
