@@ -15,6 +15,7 @@
     "@aws-sdk/client-s3": "^3.523.0",
     "@libsql/client": "^0.5.2",
     "@lucia-auth/adapter-drizzle": "^1.0.2",
+    "@netlify/functions": "^2.6.0",
     "@upstash/ratelimit": "^1.0.1",
     "@upstash/redis": "^1.28.4",
     "dotenv": "^16.4.5",

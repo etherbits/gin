@@ -11,7 +11,7 @@ export default async function Page() {
 
   return (
     <div className="flex justify-between items-center gap-8 p-16">
-      <h1 className="text-2xl">Welcome {user.username}</h1>
+      <h1 className="text-2xl">Welcome {user.username} {user.email}</h1>
       <form action={logout}>
         <button className="bg-neutral-950 px-4 py-2">Sign out</button>
       </form>
