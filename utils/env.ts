@@ -31,6 +31,9 @@ const envSchema = z.object({
   // Discord OAuth
   DISCORD_OAUTH_ID: z.string(),
   DISCORD_OAUTH_SECRET: z.string(),
+
+  // Resend Email
+  RESEND_EMAIL_API_KEY: z.string(),
 });
 
 export const parsedEnv = envSchema.parse(process.env);
