@@ -37,16 +37,4 @@ export const passwordResetTokens = sqliteTable("password_reset_tokens", {
   expiresAt: integer("expires_at").notNull(),
 });
 
-// export const passwordReset = sqliteTable("password_reset", {
-//   id: text("id", {
-//     length: 64,
-//   }).primaryKey(),
-//   userId: text("user_id", {
-//     length: 15,
-//   }).notNull(),
-//   expires: integer("expires", {
-//     mode: "number",
-//   }).notNull(),
-// });
-
 export type User = InferSelectModel<typeof users>;
