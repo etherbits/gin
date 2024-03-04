@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { emailVerificationCodes } from "@/db/schemas/user";
+import { emailVerificationCodes, passwordResetTokens } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { Session, User, generateId } from "lucia";
@@ -64,4 +64,21 @@ export async function generateEmailVerificationCode(
   });
 
   return code;
+}
+
+async function createPasswordResetToken(userId: string): Promise<string> {
+  // optionally invalidate all existing tokens
+  await db
+    .delete(passwordResetTokens)
+    .where(eq(passwordResetTokens.userId, userId));
+
+  const tokenId = generateId(40);
+
+  await db.insert(passwordResetTokens).values({
+    id: tokenId,
+    userId,
+    expiresAt: createDate(new TimeSpan(2, "h")).getTime(), // 2 hours
+  })
+
+  return tokenId;
 }

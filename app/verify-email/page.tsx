@@ -3,10 +3,10 @@ import { emailVerificationCodes, users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { validateRequest } from "@/utils/auth";
 import { eq } from "drizzle-orm";
-import { TimeSpan, User } from "lucia";
+import { User } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createDate, isWithinExpirationDate } from "oslo";
+import { isWithinExpirationDate } from "oslo";
 
 export default async function Page() {
   const { user } = await validateRequest();
@@ -93,7 +93,6 @@ async function verifyEmailCode(user: User, code: string) {
   }
 
   const codeExpirationDate = new Date(dbCode.expiresAt);
-  console.log(codeExpirationDate);
 
   if (
     !isWithinExpirationDate(codeExpirationDate) ||
@@ -101,8 +100,6 @@ async function verifyEmailCode(user: User, code: string) {
   ) {
     return false;
   }
-
-  console.log("code is valid");
 
   return true;
 }
