@@ -39,7 +39,7 @@ export const validateRequest = cache(
           sessionCookie.attributes,
         );
       }
-    } catch { }
+    } catch {}
     return result;
   },
 );

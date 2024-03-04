@@ -10,7 +10,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="flex justify-between items-center gap-8 p-16">
+    <div className="flex items-center justify-between gap-8 p-16">
       <h1 className="text-2xl">
         Welcome {user.username} {user.email}
       </h1>
