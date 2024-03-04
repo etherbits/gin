@@ -66,7 +66,7 @@ export async function generateEmailVerificationCode(
   return code;
 }
 
-async function createPasswordResetToken(userId: string): Promise<string> {
+export async function createPasswordResetToken(userId: string): Promise<string> {
   // optionally invalidate all existing tokens
   await db
     .delete(passwordResetTokens)
