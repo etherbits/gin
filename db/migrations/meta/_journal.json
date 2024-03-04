@@ -57,6 +57,13 @@
       "when": 1709490690754,
       "tag": "0007_gigantic_greymalkin",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1709558951711,
+      "tag": "0008_wakeful_justice",
+      "breakpoints": true
     }
   ]
 }
