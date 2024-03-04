@@ -12,8 +12,8 @@ export const users = sqliteTable("users", {
 export const sessions = sqliteTable("sessions", {
   id: text("id").notNull().primaryKey(),
   userId: text("user_id")
-    .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
   expiresAt: integer("expires_at").notNull(),
 });
 
@@ -21,19 +21,19 @@ export const emailVerificationCodes = sqliteTable("email_verification_codes", {
   id: text("id").notNull().primaryKey(),
   code: text("code").notNull(),
   userId: text("user_id")
-    .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
   email: text("email")
-    .notNull()
-    .references(() => users.email),
+    .references(() => users.email, { onDelete: "cascade" })
+    .notNull(),
   expiresAt: integer("expires_at").notNull(),
 });
 
 export const passwordResetTokens = sqliteTable("password_reset_tokens", {
   id: text("id").notNull().primaryKey(),
   userId: text("user_id")
-    .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
   expiresAt: integer("expires_at").notNull(),
 });
 
