@@ -1,16 +1,25 @@
 import { db } from "@/db";
 import { emailVerificationCodes, users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
+import { validateRequest } from "@/utils/auth";
 import { eq } from "drizzle-orm";
-import { User } from "lucia";
+import { TimeSpan, User } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { isWithinExpirationDate } from "oslo";
+import { createDate, isWithinExpirationDate } from "oslo";
 
-export default function Page() {
+export default async function Page() {
+  const { user } = await validateRequest();
+  if (!user) {
+    return redirect("/sign-in");
+  }
+
   return (
     <div>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main
+        className="flex min-h-screen flex-col items-center justify-between
+          p-24"
+      >
         <form action={verifyEmail}>
           <label htmlFor="code">Verification Code</label>
           <input type="text" id="code" name="code" />
@@ -84,6 +93,7 @@ async function verifyEmailCode(user: User, code: string) {
   }
 
   const codeExpirationDate = new Date(dbCode.expiresAt);
+  console.log(codeExpirationDate);
 
   if (
     !isWithinExpirationDate(codeExpirationDate) ||
@@ -91,6 +101,8 @@ async function verifyEmailCode(user: User, code: string) {
   ) {
     return false;
   }
+
+  console.log("code is valid");
 
   return true;
 }

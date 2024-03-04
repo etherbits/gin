@@ -39,7 +39,7 @@ export const validateRequest = cache(
           sessionCookie.attributes,
         );
       }
-    } catch {}
+    } catch { }
     return result;
   },
 );
@@ -60,7 +60,7 @@ export async function generateEmailVerificationCode(
     userId: userId,
     email,
     code,
-    expiresAt: createDate(new TimeSpan(5, "m")).getUTCMilliseconds(), // 5 minutes
+    expiresAt: createDate(new TimeSpan(5, "m")).getTime(), // 5 minutes
   });
 
   return code;

@@ -59,5 +59,5 @@ async function signup(formData: FormData) {
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect("/home");
+  return redirect("/verify-email");
 }
