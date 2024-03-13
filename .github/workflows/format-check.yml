@@ -1,5 +1,5 @@
 name: Formatting check
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   formatting-check:
     name: Formatting check
