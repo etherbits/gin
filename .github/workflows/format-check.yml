@@ -5,11 +5,11 @@ jobs:
     name: Formatting check
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    - name: Installing prettier deps
-      run: npm i prettier prettier-plugin-classnames prettier-plugin-merge prettier-plugin-tailwindcss
+      - name: Installing prettier deps
+        run: npm i prettier prettier-plugin-classnames prettier-plugin-merge prettier-plugin-tailwindcss
 
-    - name: Run formatting check
-      run: npm run format:check
+      - name: Run formatting check
+        run: npm run format:check
