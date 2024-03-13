@@ -37,7 +37,7 @@ async function resetPassword(formData: FormData) {
 
   const resetToken = await createPasswordResetToken(user.id);
   const host = headers().get("host");
-  const resetLink = `${host}/reset-password?token=${resetToken}`;
+  const resetLink = `${host}/reset-password/${resetToken}`;
   console.log(resetLink);
   await sendPasswordResetLink(email, resetLink);
 
