@@ -29,6 +29,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.29.4
     version: 0.29.4(@libsql/client@0.5.2)(@types/react@18.2.60)(react@18.2.0)
+  input-otp:
+    specifier: ^1.1.0
+    version: 1.1.0(react-dom@18.2.0)(react@18.2.0)
   jiti:
     specifier: ^1.21.0
     version: 1.21.0
@@ -5943,6 +5946,19 @@ packages:
       {
         integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==,
       }
+    dev: false
+
+  /input-otp@1.1.0(react-dom@18.2.0)(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-bHM7u1nIbhtupHrCO7hxBksbAp5SNuYYLG9pmMeL9ghJPDDmyJRgJ8dcAylHT9JHyB9tLB+U8tjM8xa+DTpacA==,
+      }
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /internal-slot@1.0.7:
