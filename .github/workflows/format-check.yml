@@ -1,13 +1,15 @@
-name: Formatting Check
+name: Formatting check
 on: [push, pull_request]
 jobs:
   formatting-check:
-    name: Formatting Check
+    name: Formatting check
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repo
+    - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Prettier format check
+    - name: Installing prettier deps
       run: npm i prettier prettier-plugin-classnames prettier-plugin-merge prettier-plugin-tailwindcss
+
+    - name: Run formatting check
       run: npm run format:check
