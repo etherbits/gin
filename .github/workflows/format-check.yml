@@ -1,0 +1,12 @@
+name: Formatting Check
+on: [push, pull_request]
+jobs:
+  formatting-check:
+    name: Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout
+
+    - name: Prettier format check
+      run: npx prettier --check .

@@ -39,7 +39,7 @@ export const validateRequest = cache(
           sessionCookie.attributes,
         );
       }
-    } catch { }
+    } catch {}
     return result;
   },
 );
@@ -66,7 +66,9 @@ export async function generateEmailVerificationCode(
   return code;
 }
 
-export async function createPasswordResetToken(userId: string): Promise<string> {
+export async function createPasswordResetToken(
+  userId: string,
+): Promise<string> {
   // optionally invalidate all existing tokens
   await db
     .delete(passwordResetTokens)
@@ -78,7 +80,7 @@ export async function createPasswordResetToken(userId: string): Promise<string> 
     id: tokenId,
     userId,
     expiresAt: createDate(new TimeSpan(2, "h")).getTime(), // 2 hours
-  })
+  });
 
   return tokenId;
 }

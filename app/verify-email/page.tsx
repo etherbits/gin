@@ -16,10 +16,7 @@ export default async function Page() {
 
   return (
     <div>
-      <main
-        className="flex min-h-screen flex-col items-center justify-between
-          p-24"
-      >
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <form action={verifyEmail}>
           <label htmlFor="code">Verification Code</label>
           <input type="text" id="code" name="code" />

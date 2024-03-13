@@ -30,10 +30,10 @@ export async function sendEmailVerificationCode(email: string, code: string) {
  */
 export async function sendPasswordResetLink(email: string, link: string) {
   const { data, error } = await resend.emails.send({
-  from: "Gin <noreply@nikaa.online>",
-  to: [email],
-  subject: "Password reset",
-  html: `<div>
+    from: "Gin <noreply@nikaa.online>",
+    to: [email],
+    subject: "Password reset",
+    html: `<div>
           <h1>Password reset</h1>
           <p>Go to the following link to reset your password: <a href="${link}">${link}</a></p>
          </div>`,
