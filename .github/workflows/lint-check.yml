@@ -1,0 +1,15 @@
+name: Linter check
+on: [push, pull_request]
+jobs:
+  formatting-check:
+    name: Linter check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Installing deps
+        run: npm i
+
+      - name: Run linter
+        run: npm run lint
