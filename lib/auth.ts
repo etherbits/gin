@@ -28,7 +28,7 @@ declare module "lucia" {
   }
 }
 
-export type DatabaseUserAttributes = {
+export interface DatabaseUserAttributes {
   username: string;
   email: string;
   email_verified: boolean;

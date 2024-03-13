@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { createPasswordResetToken } from "@/utils/auth";
-import { parsedEnv } from "@/utils/env";
 import { sendPasswordResetLink } from "@/utils/mail";
 import { headers } from "next/headers";
 import React from "react";
