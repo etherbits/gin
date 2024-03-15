@@ -98,7 +98,7 @@ export function SignUpForm(props: Props) {
           Sign Up
         </Button>
         <span className="ml-auto">
-          Already have an account? {" "} 
+          Already have an account?{" "}
           <Link className="text-blue-500" href="/sign-in">
             Sign in.
           </Link>

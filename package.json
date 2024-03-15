@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "check-all": "pnpm type-check && pnpm lint && pnpm format:check",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
