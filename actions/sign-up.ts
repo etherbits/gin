@@ -1,4 +1,5 @@
 "use server";
+
 import { db } from "@/db";
 import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
@@ -13,11 +14,11 @@ import { Argon2id } from "oslo/password";
 
 export async function signUp(_prevState: unknown, formData: FormData) {
   const parseResult = await validateFormData(formData, registrationSchema);
-  if(!parseResult.success) {
+  if (!parseResult.success) {
     return parseResult.error.formErrors;
   }
 
-  const {username, email, password} = parseResult.data;
+  const { username, email, password } = parseResult.data;
 
   const hashedPassword = await new Argon2id().hash(password);
   const userId = generateId(15);

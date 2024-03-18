@@ -1,6 +1,9 @@
 import { ZodSchema } from "zod";
 
-export async function validateFormData<T>(formData: FormData, schema: ZodSchema<T>) {
+export async function validateFormData<T>(
+  formData: FormData,
+  schema: ZodSchema<T>,
+) {
   const data: Record<string, FormDataEntryValue> = {};
 
   formData.forEach((value, key) => {

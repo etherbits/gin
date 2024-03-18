@@ -45,9 +45,7 @@ export function SignUpForm() {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormMessage>
-                {state?.fieldErrors.username || null}
-              </FormMessage>
+              <FormMessage>{state?.fieldErrors.username || null}</FormMessage>
             </FormItem>
           )}
         />
