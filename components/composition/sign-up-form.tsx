@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../primitive/button";
+import { Input } from "../primitive/input";
 import {
   Form,
   FormControl,
@@ -8,17 +10,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/primitive/form";
-import { useForm } from "react-hook-form";
-import { Input } from "../primitive/input";
-import { Button } from "../primitive/button";
+import { registrationSchema } from "@/validation-schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 interface Props {
   action: (arg0: FormData) => Promise<undefined>;
 }
 
 export function SignUpForm(props: Props) {
-  const form = useForm();
+  const form = useForm({ resolver: zodResolver(registrationSchema) });
   return (
     <Form {...form}>
       <form action={props.action} className="flex w-full flex-col gap-4">

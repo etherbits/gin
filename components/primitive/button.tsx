@@ -1,8 +1,7 @@
-import * as React from "react";
+import { cn } from "@/utils/tailwind";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
-import { cn } from "@/utils/tailwind";
+import * as React from "react";
 
 const buttonVariants = cva(
   `inline-flex items-center justify-center whitespace-nowrap rounded-md 
