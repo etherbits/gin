@@ -1,5 +1,4 @@
 import { Button } from "@/components/primitive/button";
-import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -7,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/primitive/card";
+import Image from "next/image";
 
 export default function DashboardLayout({
   children,

@@ -1,7 +1,7 @@
-import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 import { ChainableMiddlewareArgs } from "./middleware";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),

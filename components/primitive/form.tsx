@@ -1,6 +1,8 @@
-import * as React from "react";
+import { Label } from "@/components/primitive/label";
+import { cn } from "@/utils/tailwind";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
 import {
   Controller,
   ControllerProps,
@@ -9,9 +11,6 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-
-import { cn } from "@/utils/tailwind";
-import { Label } from "@/components/primitive/label";
 
 const Form = FormProvider;
 

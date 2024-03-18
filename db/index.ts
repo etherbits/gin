@@ -1,8 +1,8 @@
-import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client";
-import { parsedEnv } from "@/utils/env";
-import * as userSchemas from "@/db/schemas/user";
 import * as deckSchemas from "@/db/schemas/deck";
+import * as userSchemas from "@/db/schemas/user";
+import { parsedEnv } from "@/utils/env";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 
 const schema = {
   ...userSchemas,
