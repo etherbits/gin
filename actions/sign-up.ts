@@ -6,7 +6,10 @@ import { lucia } from "@/lib/auth";
 import { generateEmailVerificationCode } from "@/utils/auth";
 import { sendEmailVerificationCode } from "@/utils/mail";
 import { validateFormData } from "@/utils/validation";
-import { registrationSchema } from "@/validation-schemas/auth";
+import {
+  RegistrationData,
+  registrationSchema,
+} from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,7 +18,24 @@ import { Argon2id } from "oslo/password";
 export async function signUp(_prevState: unknown, formData: FormData) {
   const parseResult = await validateFormData(formData, registrationSchema);
   if (!parseResult.success) {
-    return parseResult.error.formErrors;
+    const {
+      error: { formErrors },
+    } = parseResult;
+
+    const fieldErrors: Partial<
+      Record<keyof RegistrationData, { message: string }>
+    > = {};
+
+    Object.entries(formErrors.fieldErrors).forEach(([field, error]) => {
+      fieldErrors[field as keyof RegistrationData] = {
+        message: error.join(", "),
+      };
+    });
+
+    return {
+      fieldErrors,
+      formErrors: formErrors.formErrors,
+    };
   }
 
   const { username, email, password } = parseResult.data;

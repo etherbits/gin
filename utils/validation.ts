@@ -13,3 +13,4 @@ export async function validateFormData<T>(
 
   return schema.safeParseAsync(data);
 }
+

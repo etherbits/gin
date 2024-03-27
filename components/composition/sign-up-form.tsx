@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/primitive/form";
+import { cn } from "@/utils/tailwind";
 import {
   RegistrationData,
   registrationSchema,
@@ -30,11 +31,16 @@ export function SignUpForm() {
   } = form;
 
   const [state, formAction] = useFormState(signUp, null);
-
-  console.log(state, errors);
+  const fieldErrors = Object.assign(errors, state?.fieldErrors ?? {});
 
   return (
-    <Form {...form}>
+    <Form
+      {...form}
+      formState={{
+        ...form.formState,
+        errors: fieldErrors,
+      }}
+    >
       <form action={formAction} className="flex w-full flex-col gap-4">
         <FormField
           control={form.control}
@@ -45,7 +51,7 @@ export function SignUpForm() {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormMessage>{state?.fieldErrors.username || null}</FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -88,6 +94,11 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+
+        <p className={cn("text-destructive text-sm font-medium")}>
+          {state?.formErrors}
+        </p>
+
         <Button className="mt-4 bg-green-800" type="submit">
           Sign Up
         </Button>
