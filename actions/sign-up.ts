@@ -10,7 +10,10 @@ import {
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import { registrationSchema } from "@/validation-schemas/auth";
+import {
+  RegistrationData,
+  registrationSchema,
+} from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -18,7 +21,7 @@ import { Argon2id } from "oslo/password";
 
 export async function signUp(
   _prevState: ActionResult<null>,
-  formData: FormData,
+  formData: RegistrationData,
 ): Promise<ActionResult<null>> {
   const parseResult = await validateFormData(formData, registrationSchema);
 
@@ -31,14 +34,60 @@ export async function signUp(
   const hashedPassword = await new Argon2id().hash(password);
   const userId = generateId(15);
 
-  // TODO: check if username is already used
-  await db.insert(users).values({
-    id: userId,
-    username: username,
-    email: email,
-    hashed_password: hashedPassword,
+  const userWithUsername = await db.query.users.findFirst({
+    where: ({ username: currUsername }, { eq }) => eq(currUsername, username),
   });
 
+  if (userWithUsername) {
+    return {
+      status: "error",
+      error: {
+        fieldErrors: {
+          username: {
+            message: "Username is already in use",
+          },
+        },
+      },
+    };
+  }
+
+  const userWithEmail = await db.query.users.findFirst({
+    where: ({ email: currEmail }, { eq }) => eq(currEmail, email),
+  });
+
+  if (userWithEmail) {
+    return {
+      status: "error",
+      error: {
+        fieldErrors: {
+          email: {
+            message: "Email is already in use",
+          },
+        },
+      },
+    };
+  }
+
+  try {
+    await db.insert(users).values({
+      id: userId,
+      username: username,
+      email: email,
+      hashed_password: hashedPassword,
+    });
+  } catch (e: unknown) {
+    return {
+      status: "error",
+      error: {
+        fieldErrors: {
+          email: {
+            message:
+              "Something went wrong. Try with different credentials or come back later",
+          },
+        },
+      },
+    };
+  }
   const code = await generateEmailVerificationCode(userId, email);
   await sendEmailVerificationCode(email, code);
 

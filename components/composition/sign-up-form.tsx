@@ -20,6 +20,7 @@ export function SignUpForm() {
   const {
     form,
     handleAction,
+    pending,
     errors: { fieldErrors, formError },
   } = useStateForm({ schema: registrationSchema, action: signUp });
 
@@ -99,8 +100,8 @@ export function SignUpForm() {
           {formError}
         </p>
 
-        <Button className="mt-4 bg-green-800" type="submit">
-          Sign Up
+        <Button className="mt-4 bg-green-800" type="submit" disabled={pending}>
+          {pending ? "Loading..." : "Sign Up"}
         </Button>
         <span className="ml-auto">
           Already have an account?{" "}

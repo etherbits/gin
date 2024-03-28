@@ -4,7 +4,7 @@ import {
   generateFormErrors,
 } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -38,9 +38,12 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
     formAction(data);
   });
 
+  const { pending } = useFormStatus()
+
   return {
     form,
     handleAction,
+    pending,
     errors: generateFormErrors(state, errors),
   };
 }
