@@ -4,7 +4,8 @@ import {
   generateFormErrors,
 } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState, useFormStatus } from "react-dom";
+import { useTransition } from "react";
+import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,7 +17,7 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
   schema: Schema;
   action: (
     arg0: ActionResult<ActionData>,
-    arg1: FormData,
+    arg1: z.infer<Schema>,
   ) => Promise<ActionResult<ActionData>>;
   formProps?: Omit<Parameters<typeof useForm>[0], "defaultValues">;
 }) {
@@ -34,16 +35,19 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
 
   const [state, formAction] = useFormState(action, { status: "idle" });
 
-  const handleAction = handleSubmit((data) => {
-    formAction(data);
-  });
+  const [isPending, startTransition] = useTransition();
+  console.log(isPending);
 
-  const { pending } = useFormStatus()
+  const handleAction = handleSubmit((data) => {
+    startTransition(async () => {
+      formAction(data);
+    });
+  });
 
   return {
     form,
     handleAction,
-    pending,
+    isPending,
     errors: generateFormErrors(state, errors),
   };
 }
