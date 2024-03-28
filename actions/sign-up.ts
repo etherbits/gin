@@ -5,37 +5,25 @@ import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { generateEmailVerificationCode } from "@/utils/auth";
 import { sendEmailVerificationCode } from "@/utils/mail";
-import { validateFormData } from "@/utils/validation";
 import {
-  RegistrationData,
-  registrationSchema,
-} from "@/validation-schemas/auth";
+  ActionResult,
+  generateServerErrors,
+  validateFormData,
+} from "@/utils/validation";
+import { registrationSchema } from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 
-export async function signUp(_prevState: unknown, formData: FormData) {
+export async function signUp(
+  _prevState: ActionResult<null>,
+  formData: FormData,
+): Promise<ActionResult<null>> {
   const parseResult = await validateFormData(formData, registrationSchema);
+
   if (!parseResult.success) {
-    const {
-      error: { formErrors },
-    } = parseResult;
-
-    const fieldErrors: Partial<
-      Record<keyof RegistrationData, { message: string }>
-    > = {};
-
-    Object.entries(formErrors.fieldErrors).forEach(([field, error]) => {
-      fieldErrors[field as keyof RegistrationData] = {
-        message: error.join(", "),
-      };
-    });
-
-    return {
-      fieldErrors,
-      formErrors: formErrors.formErrors,
-    };
+    return { status: "error", error: generateServerErrors(parseResult.error) };
   }
 
   const { username, email, password } = parseResult.data;
