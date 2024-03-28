@@ -12,26 +12,16 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
-import {
-  RegistrationData,
-  registrationSchema,
-} from "@/validation-schemas/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useStateForm } from "@/utils/useStateForm";
+import { registrationSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
-import { useFormState } from "react-dom";
-import { useForm } from "react-hook-form";
 
 export function SignUpForm() {
-  const form = useForm<RegistrationData>({
-    mode: "all",
-    resolver: zodResolver(registrationSchema),
-  });
   const {
-    formState: { errors },
-  } = form;
-
-  const [state, formAction] = useFormState(signUp, null);
-  const fieldErrors = Object.assign(errors, state?.fieldErrors ?? {});
+    form,
+    handleAction,
+    errors: { fieldErrors, formError },
+  } = useStateForm({ schema: registrationSchema, action: signUp });
 
   return (
     <Form
@@ -41,7 +31,7 @@ export function SignUpForm() {
         errors: fieldErrors,
       }}
     >
-      <form action={formAction} className="flex w-full flex-col gap-4">
+      <form onSubmit={handleAction} className="flex w-full flex-col gap-4">
         <FormField
           control={form.control}
           name="username"
@@ -49,7 +39,7 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="shadcn" {...field} autoFocus required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -62,7 +52,7 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>E-Mail</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="shadcn" {...field} />
+                <Input type="email" placeholder="shadcn" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,7 +65,12 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +83,12 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +96,7 @@ export function SignUpForm() {
         />
 
         <p className={cn("text-destructive text-sm font-medium")}>
-          {state?.formErrors}
+          {formError}
         </p>
 
         <Button className="mt-4 bg-green-800" type="submit">
