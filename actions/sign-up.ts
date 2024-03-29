@@ -10,10 +10,7 @@ import {
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import {
-  RegistrationData,
-  registrationSchema,
-} from "@/validation-schemas/auth";
+import { registrationSchema } from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -21,7 +18,7 @@ import { Argon2id } from "oslo/password";
 
 export async function signUp(
   _prevState: ActionResult<null>,
-  formData: RegistrationData,
+  formData: FormData,
 ): Promise<ActionResult<null>> {
   const parseResult = await validateFormData(formData, registrationSchema);
 

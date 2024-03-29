@@ -15,14 +15,18 @@ import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
 import { registrationSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
+import { useRef } from "react";
+import { useFormStatus } from "react-dom";
 
 export function SignUpForm() {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const {
     form,
-    handleAction,
-    isPending,
+    formAction,
+    onSubmit,
     errors: { fieldErrors, formError },
-  } = useStateForm({ schema: registrationSchema, action: signUp });
+  } = useStateForm({ formRef, schema: registrationSchema, action: signUp });
 
   return (
     <Form
@@ -32,7 +36,12 @@ export function SignUpForm() {
         errors: fieldErrors,
       }}
     >
-      <form onSubmit={handleAction} className="flex w-full flex-col gap-4">
+      <form
+        ref={formRef}
+        action={formAction}
+        onSubmit={onSubmit}
+        className="flex w-full flex-col gap-4"
+      >
         <FormField
           control={form.control}
           name="username"
@@ -99,14 +108,7 @@ export function SignUpForm() {
         <p className={cn("text-destructive text-sm font-medium")}>
           {formError}
         </p>
-
-        <Button
-          className="mt-4 bg-green-800"
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending ? "Loading..." : "Sign Up"}
-        </Button>
+        <SubmitButton />
         <span className="ml-auto">
           Already have an account?{" "}
           <Link className="text-blue-500" href="/sign-in">
@@ -115,5 +117,17 @@ export function SignUpForm() {
         </span>
       </form>
     </Form>
+  );
+}
+
+
+function SubmitButton() {
+  const status = useFormStatus();
+  console.log(status);
+
+  return (
+    <button type="submit" aria-disabled={status.pending} className="bg-green-400">
+      {status.pending ? "Loading..." : "Sign Up"}
+    </button>
   );
 }

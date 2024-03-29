@@ -2,10 +2,17 @@ import { DefaultValues, FieldErrors } from "react-hook-form";
 import { z } from "zod";
 
 export async function validateFormData<T>(
-  formData: object,
+  formData: FormData,
   schema: z.ZodSchema<T>,
 ) {
-  return schema.safeParseAsync(formData);
+  const data: Record<string, FormDataEntryValue> = {};
+
+  formData.forEach((value, key) => {
+    if (typeof value !== "string" || key[0] === "$") return;
+    data[key] = value;
+  });
+
+  return schema.safeParseAsync(data);
 }
 
 export function generateDefaults<Schema extends z.Schema>(schema: Schema) {
