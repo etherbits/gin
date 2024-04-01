@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "../primitive/button";
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
+import { PasswordInput } from "../primitive/password-input";
 import { signUp } from "@/actions/sign-up";
 import {
   Form,
@@ -15,23 +16,45 @@ import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
 import { registrationSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
+import { useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 export function SignUpForm() {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const {
     form,
-    handleAction,
+    form: { formState },
+    formAction,
     errors: { fieldErrors, formError },
-  } = useStateForm({ schema: registrationSchema, action: signUp });
+  } = useStateForm({
+    schema: registrationSchema,
+    action: signUp,
+    formProps: {
+      defaultValues: {
+        username: "something",
+        email: "asd@asd.com",
+        password: "asdasdasd",
+        confirmPassword: "asdasdasd",
+      },
+    },
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form
       {...form}
       formState={{
-        ...form.formState,
+        ...formState,
         errors: fieldErrors,
       }}
     >
-      <form onSubmit={handleAction} className="flex w-full flex-col gap-4">
+      <form
+        ref={formRef}
+        action={formAction}
+        className="flex w-full flex-col gap-4"
+      >
         <FormField
           control={form.control}
           name="username"
@@ -39,7 +62,13 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} autoFocus required />
+                <Input
+                  LeftIcon={() => <InputIcon icon="User" />}
+                  placeholder="shadcn"
+                  {...field}
+                  autoFocus
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -52,7 +81,13 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>E-Mail</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="shadcn" {...field} required />
+                <Input
+                  LeftIcon={() => <InputIcon icon="Mail" />}
+                  type="email"
+                  placeholder="shadcn"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,8 +100,10 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  LeftIcon={() => <InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required
@@ -81,10 +118,11 @@ export function SignUpForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  LeftIcon={() => <InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required
@@ -98,10 +136,7 @@ export function SignUpForm() {
         <p className={cn("text-destructive text-sm font-medium")}>
           {formError}
         </p>
-
-        <Button className="mt-4 bg-green-800" type="submit">
-          Sign Up
-        </Button>
+        <SubmitButton isValid={formState.isValid} />
         <span className="ml-auto">
           Already have an account?{" "}
           <Link className="text-blue-500" href="/sign-in">
@@ -110,5 +145,16 @@ export function SignUpForm() {
         </span>
       </form>
     </Form>
+  );
+}
+
+function SubmitButton({ isValid }: { isValid: boolean }) {
+  const status = useFormStatus();
+  const isDisabled = status.pending || !isValid;
+
+  return (
+    <Button type="submit" disabled={isDisabled} className="bg-green-400">
+      {status.pending ? "Loading..." : "Sign Up"}
+    </Button>
   );
 }

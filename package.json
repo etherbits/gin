@@ -16,7 +16,9 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@anatine/zod-mock": "^3.13.4",
     "@aws-sdk/client-s3": "^3.523.0",
+    "@faker-js/faker": "^8.4.1",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.5.2",
     "@lucia-auth/adapter-drizzle": "^1.0.2",
@@ -33,10 +35,10 @@
     "jiti": "^1.21.0",
     "lucia": "^3.0.1",
     "lucide-react": "^0.358.0",
-    "next": "14.1.0",
+    "next": "14.1.4",
     "oslo": "^1.1.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.0",
     "resend": "^3.2.0",
     "tailwind-merge": "^2.2.1",

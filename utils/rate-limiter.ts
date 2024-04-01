@@ -14,11 +14,11 @@ export async function rateLimitMiddleware(
   request: NextRequest,
   event: NextFetchEvent,
 ): Promise<ChainableMiddlewareArgs> {
-  if (!request.nextUrl.pathname.startsWith("/api/")) {
+  if (request.method === "GET") {
     return [request, event, NextResponse.next()];
   }
-
   const ip = request.ip ?? "127.0.0.1";
+  console.log(ip);
 
   const { success, pending, limit, reset, remaining } = await ratelimit.limit(
     `ratelimit_middleware_${ip}`,
