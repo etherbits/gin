@@ -2,7 +2,7 @@ import { Label } from "@/components/primitive/label";
 import { cn } from "@/utils/tailwind";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
-import { Circle, CircleX, XIcon } from "lucide-react";
+import { CircleX } from "lucide-react";
 import * as React from "react";
 import {
   Controller,
