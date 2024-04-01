@@ -14,7 +14,7 @@ import {
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
-import { registrationSchema } from "@/validation-schemas/auth";
+import { signUpSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
@@ -28,7 +28,7 @@ export function SignUpForm() {
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: registrationSchema,
+    schema: signUpSchema,
     action: signUp,
     formProps: {
       defaultValues: {
@@ -39,6 +39,8 @@ export function SignUpForm() {
       },
     },
   });
+
+  console.log(fieldErrors);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -63,7 +65,7 @@ export function SignUpForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
-                  LeftIcon={() => <InputIcon icon="User" />}
+                  LeftComponent={<InputIcon icon="User" />}
                   placeholder="shadcn"
                   {...field}
                   autoFocus
@@ -82,7 +84,7 @@ export function SignUpForm() {
               <FormLabel>E-Mail</FormLabel>
               <FormControl>
                 <Input
-                  LeftIcon={() => <InputIcon icon="Mail" />}
+                  LeftComponent={<InputIcon icon="Mail" />}
                   type="email"
                   placeholder="shadcn"
                   {...field}
@@ -103,7 +105,7 @@ export function SignUpForm() {
                 <PasswordInput
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}
-                  LeftIcon={() => <InputIcon icon="Lock" />}
+                  LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required
@@ -122,7 +124,7 @@ export function SignUpForm() {
               <FormControl>
                 <Input
                   type={showPassword ? "text" : "password"}
-                  LeftIcon={() => <InputIcon icon="Lock" />}
+                  LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required

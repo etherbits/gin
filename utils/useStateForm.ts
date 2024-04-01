@@ -24,12 +24,15 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
     mode: "onBlur",
     resolver: zodResolver(schema),
     defaultValues: generateFieldDefaults(schema),
+    criteriaMode: "all",
     ...formProps,
   });
 
   const {
     formState: { errors },
   } = form;
+
+  console.log(errors);
 
   const [state, formAction] = useFormState(action, { status: "idle" });
 

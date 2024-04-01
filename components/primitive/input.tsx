@@ -4,12 +4,12 @@ import { icons } from "lucide-react";
 import * as React from "react";
 
 export type InputProps = {
-  LeftIcon?: () => JSX.Element;
-  RightComponent?: () => JSX.Element;
+  LeftComponent?:JSX.Element;
+  RightComponent?: JSX.Element;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ LeftIcon, RightComponent: RightIcon, className, type, ...props }, ref) => {
+  ({ LeftComponent: LeftIcon, RightComponent: RightIcon, className, type, ...props }, ref) => {
     const { error } = useFormField();
     const isInvalid = !!error;
 
@@ -25,14 +25,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className,
         )}
       >
-        {LeftIcon && <LeftIcon />}
+        {LeftIcon && LeftIcon}
         <input
           type={type}
           ref={ref}
           {...props}
           className="bg-transparent w-full h-full outline-none"
         />
-        {RightIcon && <RightIcon />}
+        {RightIcon && RightIcon}
       </div>
     );
   },
