@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "../primitive/button";
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
+import { PasswordInput } from "../primitive/password-input";
 import { signUp } from "@/actions/sign-up";
 import {
   Form,
@@ -15,7 +16,7 @@ import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
 import { registrationSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 export function SignUpForm() {
@@ -29,14 +30,17 @@ export function SignUpForm() {
   } = useStateForm({
     schema: registrationSchema,
     action: signUp,
-    formProps: { defaultValues: {
-      username: "something",
-      email: "asd@asd.com",
-      password: "asdasdasd",
-      confirmPassword: "asdasdasd",
-    
-    }},
+    formProps: {
+      defaultValues: {
+        username: "something",
+        email: "asd@asd.com",
+        password: "asdasdasd",
+        confirmPassword: "asdasdasd",
+      },
+    },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form
@@ -58,7 +62,13 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} autoFocus required />
+                <Input
+                  LeftIcon={() => <InputIcon icon="User" />}
+                  placeholder="shadcn"
+                  {...field}
+                  autoFocus
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,7 +81,13 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>E-Mail</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="shadcn" {...field} required />
+                <Input
+                  LeftIcon={() => <InputIcon icon="Mail" />}
+                  type="email"
+                  placeholder="shadcn"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,8 +100,10 @@ export function SignUpForm() {
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  LeftIcon={() => <InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required
@@ -100,10 +118,11 @@ export function SignUpForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  LeftIcon={() => <InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
                   required

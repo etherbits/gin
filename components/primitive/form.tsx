@@ -153,7 +153,7 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 text-destructive items-center">
       <CircleX className="h-4 w-4 text-destructive" />
       <p
         ref={ref}
