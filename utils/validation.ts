@@ -15,14 +15,18 @@ export async function validateFormData<T>(
   return schema.safeParseAsync(data);
 }
 
-export function generateDefaults<Schema extends z.Schema>(schema: Schema) {
-  let shape: z.ZodRawShape = z.object({}).shape;
-
+function getSchemaShape<Schema extends z.Schema>(schema: Schema) {
   if (schema instanceof z.ZodObject) {
-    shape = schema.shape;
+    return schema.shape;
   } else if (schema instanceof z.ZodEffects) {
-    shape = schema._def.schema.shape;
+    return schema._def.schema.shape;
   }
+
+  return {};
+}
+
+export function generateFieldDefaults<Schema extends z.Schema>(schema: Schema) {
+  const shape = getSchemaShape(schema);
 
   const defaults = Object.fromEntries(
     Object.entries(shape).map(([key, value]) => {

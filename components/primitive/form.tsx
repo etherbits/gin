@@ -2,6 +2,7 @@ import { Label } from "@/components/primitive/label";
 import { cn } from "@/utils/tailwind";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
+import { Circle, CircleX, XIcon } from "lucide-react";
 import * as React from "react";
 import {
   Controller,
@@ -152,18 +153,20 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn("text-destructive text-sm font-medium", className)}
-      {...props}
-    >
-      {body}
-    </p>
+    <div className="flex gap-2">
+      <CircleX className="h-4 w-4 text-destructive" />
+      <p
+        ref={ref}
+        id={formMessageId}
+        className={cn("text-destructive text-sm font-medium", className)}
+        {...props}
+      >
+        {body}
+      </p>
+    </div>
   );
 });
 FormMessage.displayName = "FormMessage";
-
 
 export {
   useFormField,

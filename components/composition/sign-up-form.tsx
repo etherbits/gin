@@ -23,23 +23,32 @@ export function SignUpForm() {
 
   const {
     form,
+    form: { formState },
     formAction,
-    onSubmit,
     errors: { fieldErrors, formError },
-  } = useStateForm({ formRef, schema: registrationSchema, action: signUp });
+  } = useStateForm({
+    schema: registrationSchema,
+    action: signUp,
+    formProps: { defaultValues: {
+      username: "something",
+      email: "asd@asd.com",
+      password: "asdasdasd",
+      confirmPassword: "asdasdasd",
+    
+    }},
+  });
 
   return (
     <Form
       {...form}
       formState={{
-        ...form.formState,
+        ...formState,
         errors: fieldErrors,
       }}
     >
       <form
         ref={formRef}
         action={formAction}
-        onSubmit={onSubmit}
         className="flex w-full flex-col gap-4"
       >
         <FormField
@@ -108,7 +117,7 @@ export function SignUpForm() {
         <p className={cn("text-destructive text-sm font-medium")}>
           {formError}
         </p>
-        <SubmitButton />
+        <SubmitButton isValid={formState.isValid} />
         <span className="ml-auto">
           Already have an account?{" "}
           <Link className="text-blue-500" href="/sign-in">
@@ -120,14 +129,13 @@ export function SignUpForm() {
   );
 }
 
-
-function SubmitButton() {
+function SubmitButton({ isValid }: { isValid: boolean }) {
   const status = useFormStatus();
-  console.log(status);
+  const isDisabled = status.pending || !isValid;
 
   return (
-    <button type="submit" aria-disabled={status.pending} className="bg-green-400">
+    <Button type="submit" disabled={isDisabled} className="bg-green-400">
       {status.pending ? "Loading..." : "Sign Up"}
-    </button>
+    </Button>
   );
 }
