@@ -5,7 +5,7 @@ import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { signUp } from "@/actions/sign-up";
 import {
-    FieldRequirements,
+  FieldRequirements,
   Form,
   FormControl,
   FormField,
@@ -112,8 +112,7 @@ export function SignUpForm() {
                   required
                 />
               </FormControl>
-              <FieldRequirements requirements={passwordRequirements}
-              />
+              <FieldRequirements requirements={passwordRequirements} />
             </FormItem>
           )}
         />

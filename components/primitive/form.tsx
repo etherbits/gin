@@ -178,7 +178,7 @@ const FieldRequirements = React.forwardRef<
     requirements: z.ZodEffects<z.ZodType>;
   }
 >(({ className, requirements, ...props }, ref) => {
-  const { error, value,  fieldRequirementsId } = useFormField();
+  const { error, value, fieldRequirementsId } = useFormField();
 
   if (typeof value !== "string") return null;
 
@@ -187,22 +187,20 @@ const FieldRequirements = React.forwardRef<
 
   let checkedReqs: { valid: boolean; msg: string }[] = [];
 
-  if(defaultParse.success) return null;
+  if (defaultParse.success) return null;
 
   checkedReqs = defaultParse.error.issues.map((issue) => {
     return { valid: true, msg: issue.message };
-  })
+  });
 
   if (!parsedValue.success) {
     checkedReqs = checkedReqs.map((req) => {
-      if(parsedValue.error.issues.some((issue) => issue.message === req.msg)) {
+      if (parsedValue.error.issues.some((issue) => issue.message === req.msg)) {
         return { valid: false, msg: req.msg };
       }
       return req;
-    })
+    });
   }
-
-
 
   return (
     <ul className="flex flex-col gap-2 py-2">
@@ -214,7 +212,11 @@ const FieldRequirements = React.forwardRef<
           {req.valid ? (
             <CircleCheck className="h-4 w-4 stroke-green-400" />
           ) : (
-            <CircleAlert className={ cn(`h-4 w-4 stroke-slate-400`, {'stroke-destructive' : error}) } />
+            <CircleAlert
+              className={cn(`h-4 w-4 stroke-slate-400`, {
+                "stroke-destructive": error,
+              })}
+            />
           )}
           <p
             ref={ref}
