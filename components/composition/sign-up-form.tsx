@@ -15,7 +15,7 @@ import {
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
-import { signUpSchema } from "@/validation-schemas/auth";
+import { passwordRequirements, signUpSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
@@ -112,12 +112,7 @@ export function SignUpForm() {
                   required
                 />
               </FormControl>
-              <FormMessage />
-              <FieldRequirements requirements={[
-                {regex: /[a-z]/, validMsg: 'Has lowercase letters', requirement: 'Should have at least one lowercase letter'}, 
-                {regex: /[A-Z]/, validMsg: 'Has uppercase letters', requirement: 'Should have at least one uppercase letter'},
-                {regex: /[0-9]/, validMsg: 'Has a digit', requirement: 'Should have at least one digit'}
-              ]}
+              <FieldRequirements requirements={passwordRequirements}
               />
             </FormItem>
           )}

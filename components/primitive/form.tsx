@@ -12,6 +12,7 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
+import { z } from "zod";
 
 const Form = FormProvider;
 
@@ -174,18 +175,34 @@ FormMessage.displayName = "FormMessage";
 const FieldRequirements = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    requirements: { regex: RegExp; validMsg: string; requirement: string }[];
+    requirements: z.ZodEffects<z.ZodType>;
   }
 >(({ className, requirements, ...props }, ref) => {
-  const { value, fieldRequirementsId } = useFormField();
+  const { error, value,  fieldRequirementsId } = useFormField();
 
   if (typeof value !== "string") return null;
 
-  const checkedReqs = requirements.map((req) => {
-    if (value.match(req.regex)) return { valid: true, msg: req.validMsg };
+  const defaultParse = requirements.safeParse("");
+  const parsedValue = requirements.safeParse(value);
 
-    return { valid: false, msg: req.requirement };
-  });
+  let checkedReqs: { valid: boolean; msg: string }[] = [];
+
+  if(defaultParse.success) return null;
+
+  checkedReqs = defaultParse.error.issues.map((issue) => {
+    return { valid: true, msg: issue.message };
+  })
+
+  if (!parsedValue.success) {
+    checkedReqs = checkedReqs.map((req) => {
+      if(parsedValue.error.issues.some((issue) => issue.message === req.msg)) {
+        return { valid: false, msg: req.msg };
+      }
+      return req;
+    })
+  }
+
+
 
   return (
     <ul className="flex flex-col gap-2">
@@ -197,7 +214,7 @@ const FieldRequirements = React.forwardRef<
           {req.valid ? (
             <CircleCheck className="h-4 w-4 stroke-green-400" />
           ) : (
-            <CircleAlert className="h-4 w-4 stroke-slate-400" />
+            <CircleAlert className={ cn(`h-4 w-4 stroke-slate-400`, {'stroke-destructive' : error}) } />
           )}
           <p
             ref={ref}
