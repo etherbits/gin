@@ -5,6 +5,7 @@ import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { signUp } from "@/actions/sign-up";
 import {
+    FieldRequirements,
   Form,
   FormControl,
   FormField,
@@ -112,6 +113,12 @@ export function SignUpForm() {
                 />
               </FormControl>
               <FormMessage />
+              <FieldRequirements requirements={[
+                {regex: /[a-z]/, validMsg: 'Has lowercase letters', requirement: 'Should have at least one lowercase letter'}, 
+                {regex: /[A-Z]/, validMsg: 'Has uppercase letters', requirement: 'Should have at least one uppercase letter'},
+                {regex: /[0-9]/, validMsg: 'Has a digit', requirement: 'Should have at least one digit'}
+              ]}
+              />
             </FormItem>
           )}
         />
