@@ -205,7 +205,7 @@ const FieldRequirements = React.forwardRef<
 
 
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-2 py-2">
       {checkedReqs.map((req, i) => (
         <li
           key={`${fieldRequirementsId}-${i}`}
