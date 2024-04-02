@@ -10,7 +10,7 @@ import {
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import { registrationSchema } from "@/validation-schemas/auth";
+import { signUpSchema } from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -20,7 +20,7 @@ export async function signUp(
   _prevState: ActionResult<null>,
   formData: FormData,
 ): Promise<ActionResult<null>> {
-  const parseResult = await validateFormData(formData, registrationSchema);
+  const parseResult = await validateFormData(formData, signUpSchema);
 
   if (!parseResult.success) {
     return { status: "error", error: generateServerErrors(parseResult.error) };
@@ -41,7 +41,7 @@ export async function signUp(
       error: {
         fieldErrors: {
           username: {
-            message: "Username is already in use",
+            message: `Username: \"${username}\", is already in use`,
           },
         },
       },
@@ -58,7 +58,7 @@ export async function signUp(
       error: {
         fieldErrors: {
           email: {
-            message: "Email is already in use",
+            message: `Email: \"${email}\", is already in use`,
           },
         },
       },

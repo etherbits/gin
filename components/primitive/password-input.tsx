@@ -14,21 +14,19 @@ const PasswordInput = React.forwardRef<
       {...props}
       ref={ref}
       type={props.showPassword ? "text" : "password"}
-      RightComponent={() => {
-        return (
-          <Button
-            type="button"
-            size="icon"
-            className={"h-full aspect-square w-auto hover:bg-gray-800 p-[2px]"}
-            onClick={() => props.setShowPassword((prev) => !prev)}
-          >
-            <InputIcon
-              className="hover:stroke-slate-100"
-              icon={props.showPassword ? "EyeOff" : "Eye"}
-            />
-          </Button>
-        );
-      }}
+      RightComponent={
+        <Button
+          type="button"
+          size="icon"
+          className={"h-full aspect-square w-auto hover:bg-gray-800 p-[2px]"}
+          onClick={() => props.setShowPassword((prev) => !prev)}
+        >
+          <InputIcon
+            className="hover:stroke-slate-100"
+            icon={props.showPassword ? "EyeOff" : "Eye"}
+          />
+        </Button>
+      }
     />
   );
 });
