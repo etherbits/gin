@@ -1,4 +1,5 @@
 import "./globals.css";
+import { cn } from "@/utils/tailwind";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -23,7 +24,7 @@ export default function RootLayout({
           data-website-id="ebb4a417-3f6b-40cc-b816-822a4fa64f13"
         ></script>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={cn(inter.className, "bg-charcoal-950")}>{children}</body>
     </html>
   );
 }

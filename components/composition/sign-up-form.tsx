@@ -33,10 +33,10 @@ export function SignUpForm() {
     action: signUp,
     formProps: {
       defaultValues: {
-        username: "something",
-        email: "asd@asd.com",
-        password: "asdasdasd",
-        confirmPassword: "asdasdasd",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       },
     },
   });
@@ -56,7 +56,7 @@ export function SignUpForm() {
       <form
         ref={formRef}
         action={formAction}
-        className="flex w-full flex-col gap-4"
+        className="flex w-full flex-col gap-6"
       >
         <FormField
           control={form.control}
@@ -140,9 +140,9 @@ export function SignUpForm() {
           {formError}
         </p>
         <SubmitButton isValid={formState.isValid} />
-        <span className="ml-auto">
+        <span className="ml-auto text-charcoal-200">
           Already have an account?{" "}
-          <Link className="text-blue-500" href="/sign-in">
+          <Link className="text-ship-cove-400" href="/sign-in">
             Sign in.
           </Link>
         </span>
@@ -156,7 +156,7 @@ function SubmitButton({ isValid }: { isValid: boolean }) {
   const isDisabled = status.pending || !isValid;
 
   return (
-    <Button type="submit" disabled={isDisabled} className="bg-green-400">
+    <Button type="submit" disabled={isDisabled} className="bg-gossamer-500">
       {status.pending ? "Loading..." : "Sign Up"}
     </Button>
   );

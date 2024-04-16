@@ -22,7 +22,7 @@ const PasswordInput = React.forwardRef<
           onClick={() => props.setShowPassword((prev) => !prev)}
         >
           <InputIcon
-            className="hover:stroke-slate-100"
+            className="hover:stroke-slate-100 w-5 h-5"
             icon={props.showPassword ? "EyeOff" : "Eye"}
           />
         </Button>
