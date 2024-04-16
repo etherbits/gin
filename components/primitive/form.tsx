@@ -82,7 +82,7 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <div ref={ref} className={cn("space-y-4", className)} {...props} />
     </FormItemContext.Provider>
   );
 });
@@ -203,7 +203,7 @@ const FieldRequirements = React.forwardRef<
   }
 
   return (
-    <ul className="flex flex-col gap-2 py-2">
+    <ul className="flex flex-col gap-2 py-2 px-3">
       {checkedReqs.map((req, i) => (
         <li
           key={`${fieldRequirementsId}-${i}`}
