@@ -4,7 +4,10 @@ import { db } from "@/db";
 import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { generateEmailVerificationCode } from "@/utils/auth";
-import { sendEmailVerificationCode } from "@/utils/mail";
+import {
+  sendAccountAlreadyExists,
+  sendEmailVerificationCode,
+} from "@/utils/mail";
 import {
   ActionResult,
   generateServerErrors,
@@ -53,16 +56,8 @@ export async function signUp(
   });
 
   if (userWithEmail) {
-    return {
-      status: "error",
-      error: {
-        fieldErrors: {
-          email: {
-            message: `Email: \"${email}\", is already in use`,
-          },
-        },
-      },
-    };
+    sendAccountAlreadyExists(email);
+    return redirect("/verify-email");
   }
 
   try {
@@ -85,6 +80,7 @@ export async function signUp(
       },
     };
   }
+
   const code = await generateEmailVerificationCode(userId, email);
   await sendEmailVerificationCode(email, code);
 
