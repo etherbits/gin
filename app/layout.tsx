@@ -24,7 +24,14 @@ export default function RootLayout({
           data-website-id="ebb4a417-3f6b-40cc-b816-822a4fa64f13"
         ></script>
       </head>
-      <body className={cn(inter.className, "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-screen")}>{children}</body>
+      <body
+        className={cn(
+          inter.className,
+          "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-screen",
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }
