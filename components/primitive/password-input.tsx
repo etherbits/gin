@@ -19,7 +19,10 @@ const PasswordInput = React.forwardRef<
           type="button"
           size="icon"
           className={"h-full aspect-square w-auto hover:bg-gray-800 p-[2px]"}
-          onClick={() => props.setShowPassword((prev) => !prev)}
+          onClick={(e) => {
+            e.stopPropagation();
+            props.setShowPassword((prev) => !prev);
+          }}
         >
           <InputIcon
             className="hover:stroke-slate-100 w-5 h-5"

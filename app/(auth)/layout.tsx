@@ -16,7 +16,7 @@ export default function DashboardLayout({
   return (
     <div className="flex flex-col items-center pt-16">
       <main>
-        <Card className="max-w-[400px]">
+        <Card className="max-w-[400px] border-none bg-charcoal-950 shadow-xl">
           <CardHeader className="flex items-center gap-4 p-6">
             <CardTitle className="text-2xl text-charcoal-50">Sign Up</CardTitle>
             <CardDescription className="m-0 p-0 text-lg text-charcoal-300">
@@ -28,6 +28,7 @@ export default function DashboardLayout({
               <Button
                 size="icon"
                 className="flex h-14 w-14 items-center justify-center bg-charcoal-900"
+                title="Sign up with Github"
               >
                 <Image
                   src="/icons/github_icon.svg"
@@ -39,6 +40,7 @@ export default function DashboardLayout({
               <Button
                 size="icon"
                 className="flex h-14 w-14 items-center justify-center bg-charcoal-900"
+                title="Sign up with Discord"
               >
                 <Image
                   src="/icons/discord_icon.svg"
@@ -50,6 +52,7 @@ export default function DashboardLayout({
               <Button
                 size="icon"
                 className="flex h-14 w-14 items-center justify-center bg-charcoal-900"
+                title="Sign up with Google"
               >
                 <Image
                   src="/icons/gmail_icon.svg"
