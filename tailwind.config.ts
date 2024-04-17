@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        destructive: "#FF4136",
+        destructive: "hsl(7 100% 56%)",
         "charcoal-100": "hsl(220 19% 94%)",
         "charcoal-200": "hsl(222 18% 86%)",
         "charcoal-300": "hsl(217 17% 74%)",

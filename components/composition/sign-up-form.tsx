@@ -41,8 +41,6 @@ export function SignUpForm() {
     },
   });
 
-  console.log(fieldErrors);
-
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -136,16 +134,23 @@ export function SignUpForm() {
           )}
         />
 
-        <p className={cn("text-destructive text-sm font-medium")}>
+        <p
+          className={cn("text-destructive text-sm font-medium", {
+            hidden: !formError,
+          })}
+        >
           {formError}
         </p>
-        <SubmitButton isValid={formState.isValid} />
-        <span className="ml-auto text-charcoal-200">
-          Already have an account?{" "}
-          <Link className="text-ship-cove-400" href="/sign-in">
-            Sign in.
-          </Link>
-        </span>
+
+        <div className="flex flex-col mt-2 gap-3">
+          <SubmitButton isValid={formState.isValid} />
+          <span className="ml-auto text-charcoal-200">
+            Already have an account?{" "}
+            <Link className="text-ship-cove-400" href="/sign-in">
+              Sign in.
+            </Link>
+          </span>
+        </div>
       </form>
     </Form>
   );
@@ -156,7 +161,20 @@ function SubmitButton({ isValid }: { isValid: boolean }) {
   const isDisabled = status.pending || !isValid;
 
   return (
-    <Button type="submit" disabled={isDisabled} className="bg-gossamer-500">
+    <Button
+      type="submit"
+      disabled={isDisabled}
+      className={cn(
+        "bg-gossamer-500 disabled:pointer-events-auto disabled:cursor-not-allowed",
+      )}
+      title={
+        isDisabled
+          ? status.pending
+            ? "Loading..."
+            : "Please fill out the form"
+          : undefined
+      }
+    >
       {status.pending ? "Loading..." : "Sign Up"}
     </Button>
   );
