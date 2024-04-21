@@ -32,19 +32,23 @@ export const passwordRequirements = z
   });
 
 export const signInSchema = z.object({
-  email: z.string().min(1).max(254).email(),
+  username: z.string().min(1).max(64),
   password: passwordRequirements,
 });
 
 export const signUpSchema = signInSchema
   .extend({
-    username: z.string().min(1).max(64),
+    email: z.string().min(1).max(254).email(),
     confirmPassword: z.string().min(8).max(128),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const otpCodeSchema = z.object({
+  code: z.string().length(8),
+});
 
 export type LoginData = z.infer<typeof signInSchema>;
 export type RegistrationData = z.infer<typeof signUpSchema>;
