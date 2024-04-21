@@ -1,11 +1,10 @@
 "use client";
 
-import { SubmitButton } from "../primitive/submit-button";
 import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
-import { signUp } from "@/actions/sign-up";
+import { SubmitButton } from "../primitive/submit-button";
+import { signIn } from "@/actions/sign-in";
 import {
-  FieldRequirements,
   Form,
   FormControl,
   FormField,
@@ -15,27 +14,23 @@ import {
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
-import { passwordRequirements, signUpSchema } from "@/validation-schemas/auth";
+import { signInSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
-export function SignUpForm() {
-  const formRef = useRef<HTMLFormElement>(null);
-
+export function SignInForm() {
   const {
     form,
     form: { formState },
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: signUpSchema,
-    action: signUp,
+    schema: signInSchema,
+    action: signIn,
     formProps: {
       defaultValues: {
         username: "",
-        email: "",
         password: "",
-        confirmPassword: "",
       },
     },
   });
@@ -50,11 +45,7 @@ export function SignUpForm() {
         errors: fieldErrors,
       }}
     >
-      <form
-        ref={formRef}
-        action={formAction}
-        className="flex w-full flex-col gap-6"
-      >
+      <form action={formAction} className="flex w-full flex-col gap-6">
         <FormField
           control={form.control}
           name="username"
@@ -67,25 +58,6 @@ export function SignUpForm() {
                   placeholder="shadcn"
                   {...field}
                   autoFocus
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>E-Mail</FormLabel>
-              <FormControl>
-                <Input
-                  LeftComponent={<InputIcon icon="Mail" />}
-                  type="email"
-                  placeholder="shadcn"
-                  {...field}
                   required
                 />
               </FormControl>
@@ -109,25 +81,6 @@ export function SignUpForm() {
                   required
                 />
               </FormControl>
-              <FieldRequirements requirements={passwordRequirements} />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  LeftComponent={<InputIcon icon="Lock" />}
-                  placeholder="••••••••"
-                  {...field}
-                  required
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -144,9 +97,9 @@ export function SignUpForm() {
         <div className="flex flex-col mt-2 gap-3">
           <SubmitButton isValid={formState.isValid} />
           <span className="ml-auto text-charcoal-200">
-            Already have an account?{" "}
-            <Link className="text-ship-cove-400" href="/sign-in">
-              Sign in.
+            Don{"\'"}t have an account?{" "}
+            <Link className="text-ship-cove-400" href="/sign-up">
+              Sign Up
             </Link>
           </span>
         </div>
