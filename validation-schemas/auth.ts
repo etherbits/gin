@@ -46,5 +46,9 @@ export const signUpSchema = signInSchema
     path: ["confirmPassword"],
   });
 
+export const otpCodeSchema = z.object({
+  code: z.string().length(8),
+})
+
 export type LoginData = z.infer<typeof signInSchema>;
 export type RegistrationData = z.infer<typeof signUpSchema>;

@@ -31,7 +31,7 @@
     "clsx": "^2.1.0",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.4",
-    "input-otp": "^1.1.0",
+    "input-otp": "^1.2.4",
     "jiti": "^1.21.0",
     "lucia": "^3.0.1",
     "lucide-react": "^0.358.0",

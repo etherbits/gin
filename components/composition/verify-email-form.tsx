@@ -1,9 +1,7 @@
 "use client";
 
-import { Input, InputIcon } from "../primitive/input";
-import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
-import { signIn } from "@/actions/sign-in";
+import { verifyEmail } from "@/actions/verify-email";
 import {
   Form,
   FormControl,
@@ -14,28 +12,26 @@ import {
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
-import { signInSchema } from "@/validation-schemas/auth";
+import { otpCodeSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
-import { useState } from "react";
+import {  InputOTPPattern } from "../primitive/otp-input";
 
-export function SignInForm() {
+export function VerifyEmailForm() {
   const {
     form,
     form: { formState },
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: signInSchema,
-    action: signIn,
+    schema: otpCodeSchema,
+    action: verifyEmail,
     formProps: {
+      mode: "onSubmit",
       defaultValues: {
-        username: "",
-        password: "",
+        code: "",
       },
     },
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form
@@ -48,38 +44,12 @@ export function SignInForm() {
       <form action={formAction} className="flex w-full flex-col gap-6">
         <FormField
           control={form.control}
-          name="username"
+          name="code"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Confirmation Code</FormLabel>
               <FormControl>
-                <Input
-                  LeftComponent={<InputIcon icon="User" />}
-                  placeholder="shadcn"
-                  {...field}
-                  autoFocus
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput
-                  showPassword={showPassword}
-                  setShowPassword={setShowPassword}
-                  LeftComponent={<InputIcon icon="Lock" />}
-                  placeholder="••••••••"
-                  {...field}
-                  required
-                />
+                <InputOTPPattern maxLength={8} withDigits {...field}/> 
               </FormControl>
               <FormMessage />
             </FormItem>
