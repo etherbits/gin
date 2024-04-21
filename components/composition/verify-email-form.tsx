@@ -1,5 +1,6 @@
 "use client";
 
+import { InputOTPPattern } from "../primitive/otp-input";
 import { SubmitButton } from "../primitive/submit-button";
 import { verifyEmail } from "@/actions/verify-email";
 import {
@@ -14,7 +15,6 @@ import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
 import { otpCodeSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
-import {  InputOTPPattern } from "../primitive/otp-input";
 
 export function VerifyEmailForm() {
   const {
@@ -49,7 +49,7 @@ export function VerifyEmailForm() {
             <FormItem className="w-full">
               <FormLabel>Confirmation Code</FormLabel>
               <FormControl>
-                <InputOTPPattern maxLength={8} withDigits {...field}/> 
+                <InputOTPPattern maxLength={8} withDigits {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

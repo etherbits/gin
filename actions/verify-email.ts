@@ -1,4 +1,5 @@
-"use server"
+"use server";
+
 import { db } from "@/db";
 import { emailVerificationCodes, users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";

@@ -1,8 +1,8 @@
 "use client";
 
-import { SubmitButton } from "../primitive/submit-button";
 import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
+import { SubmitButton } from "../primitive/submit-button";
 import { signUp } from "@/actions/sign-up";
 import {
   FieldRequirements,

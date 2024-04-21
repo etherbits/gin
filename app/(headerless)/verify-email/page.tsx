@@ -10,7 +10,10 @@ export default async function VerifyEmail() {
   }
 
   return (
-    <FormCard title="Verify Email" description="Verify email by putting in the otp code">
+    <FormCard
+      title="Verify Email"
+      description="Verify email by putting in the otp code"
+    >
       <VerifyEmailForm />
     </FormCard>
   );
