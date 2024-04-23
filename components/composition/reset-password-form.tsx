@@ -1,8 +1,8 @@
 "use client";
 
-import { resetPassword } from "@/actions/reset-password";
 import { Input } from "../primitive/input";
 import { SubmitButton } from "../primitive/submit-button";
+import { resetPassword } from "@/actions/reset-password";
 import {
   Form,
   FormControl,
@@ -47,23 +47,29 @@ export function ResetPasswordForm() {
             <FormItem className="w-full">
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="johnsmith@example.com" {...field} required/>
+                <Input
+                  type="email"
+                  placeholder="johnsmith@example.com"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-
         <div className="flex flex-col mt-2 gap-3">
-        <p
-          className={cn("text-destructive text-sm font-medium", {
-            hidden: !formError,
-          })}
-        >
-          {formError}
-        </p>
-          <SubmitButton isValid={formState.isValid} >Reset Password</SubmitButton>
+          <p
+            className={cn("text-destructive text-sm font-medium", {
+              hidden: !formError,
+            })}
+          >
+            {formError}
+          </p>
+          <SubmitButton isValid={formState.isValid}>
+            Reset Password
+          </SubmitButton>
         </div>
       </form>
     </Form>

@@ -56,7 +56,10 @@ export async function changePassword(
   });
 
   if (!user) {
-    return { status: "error", error: { formError: "No user exists with that token" } };
+    return {
+      status: "error",
+      error: { formError: "No user exists with that token" },
+    };
   }
 
   await lucia.invalidateUserSessions(user.id);

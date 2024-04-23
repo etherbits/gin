@@ -2,7 +2,13 @@ import { Button } from "./button";
 import { cn } from "@/utils/tailwind";
 import { useFormStatus } from "react-dom";
 
-export function SubmitButton({ isValid, children }: { isValid: boolean, children: React.ReactNode}) {
+export function SubmitButton({
+  isValid,
+  children,
+}: {
+  isValid: boolean;
+  children: React.ReactNode;
+}) {
   const status = useFormStatus();
   const isDisabled = status.pending || !isValid;
 
