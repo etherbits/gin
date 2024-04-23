@@ -50,5 +50,20 @@ export const otpCodeSchema = z.object({
   code: z.string().length(8),
 });
 
+export const resetPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+export const changePasswordSchema = z
+  .object({
+    verificationToken: z.string().min(1),
+    password: passwordRequirements,
+    confirmPassword: z.string().min(8).max(128),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 export type LoginData = z.infer<typeof signInSchema>;
 export type RegistrationData = z.infer<typeof signUpSchema>;

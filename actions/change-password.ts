@@ -1,44 +1,31 @@
+"use server";
+
 import { db } from "@/db";
 import { passwordResetTokens, users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
+import {
+  ActionResult,
+  generateServerErrors,
+  validateFormData,
+} from "@/utils/validation";
+import { changePasswordSchema } from "@/validation-schemas/auth";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { isWithinExpirationDate } from "oslo";
 import { Argon2id } from "oslo/password";
 
-export default function Page({ params }: { params: { token: string } }) {
-  console.log(params.token);
-  return (
-    <div>
-      <main>
-        <form action={resetPassword}>
-          <input type="hidden" name="verification-token" value={params.token} />
-          <label htmlFor="new-password">New Password</label>
-          <input type="password" id="new-password" name="new-password" />
-          <label htmlFor="confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="confirm-password"
-          />
-          <button>Reset</button>
-        </form>
-      </main>
-    </div>
-  );
-}
+export async function changePassword(
+  _prevState: ActionResult<null>,
+  formData: FormData,
+): Promise<ActionResult<null>> {
+  const parsedData = await validateFormData(formData, changePasswordSchema);
 
-async function resetPassword(formData: FormData) {
-  "use server";
-
-  const verificationToken = formData.get("verification-token") as string;
-  const confirmPassword = formData.get("confirm-password") as string;
-  const newPassword = formData.get("new-password") as string;
-
-  if (newPassword !== confirmPassword) {
-    return "Passwords do not match";
+  if (!parsedData.success) {
+    return { status: "error", error: generateServerErrors(parsedData.error) };
   }
+
+  const { verificationToken, password: newPassword } = parsedData.data;
 
   const token = await db.transaction(async (tx) => {
     const token = await tx.query.passwordResetTokens.findFirst({
@@ -55,13 +42,13 @@ async function resetPassword(formData: FormData) {
   });
 
   if (!token) {
-    return "Invalid token";
+    return { status: "error", error: { formError: "Invalid token" } };
   }
 
   const tokenExpirationDate = new Date(token.expiresAt);
 
   if (!isWithinExpirationDate(tokenExpirationDate)) {
-    return "Token has expired";
+    return { status: "error", error: { formError: "Token has expired" } };
   }
 
   const user = await db.query.users.findFirst({
@@ -69,7 +56,7 @@ async function resetPassword(formData: FormData) {
   });
 
   if (!user) {
-    return "User not found";
+    return { status: "error", error: { formError: "No user exists with that token" } };
   }
 
   await lucia.invalidateUserSessions(user.id);
