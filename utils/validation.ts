@@ -78,7 +78,7 @@ export function generateServerErrors<T>(error: z.ZodError<T>) {
 }
 
 interface FormErrors {
-  fieldErrors?: Record<string, { message: string }>;
+  fieldErrors?: Partial<Record<string, { message: string }>>;
   formError?: string;
 }
 
