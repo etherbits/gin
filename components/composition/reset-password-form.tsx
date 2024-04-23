@@ -1,8 +1,8 @@
 "use client";
 
-import { InputOTPPattern } from "../primitive/otp-input";
+import { Input } from "../primitive/input";
 import { SubmitButton } from "../primitive/submit-button";
-import { verifyEmail } from "@/actions/verify-email";
+import { resetPassword } from "@/actions/reset-password";
 import {
   Form,
   FormControl,
@@ -13,22 +13,20 @@ import {
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
 import { useStateForm } from "@/utils/useStateForm";
-import { otpCodeSchema } from "@/validation-schemas/auth";
-import Link from "next/link";
+import { resetPasswordSchema } from "@/validation-schemas/auth";
 
-export function VerifyEmailForm() {
+export function ResetPasswordForm() {
   const {
     form,
     form: { formState },
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: otpCodeSchema,
-    action: verifyEmail,
+    schema: resetPasswordSchema,
+    action: resetPassword,
     formProps: {
-      mode: "onSubmit",
       defaultValues: {
-        code: "",
+        email: "",
       },
     },
   });
@@ -44,34 +42,34 @@ export function VerifyEmailForm() {
       <form action={formAction} className="flex w-full flex-col gap-6">
         <FormField
           control={form.control}
-          name="code"
+          name="email"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Confirmation Code</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <InputOTPPattern maxLength={8} withDigits {...field} />
+                <Input
+                  type="email"
+                  placeholder="johnsmith@example.com"
+                  {...field}
+                  required
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <p
-          className={cn("text-destructive text-sm font-medium", {
-            hidden: !formError,
-          })}
-        >
-          {formError}
-        </p>
-
         <div className="flex flex-col mt-2 gap-3">
-          <SubmitButton isValid={formState.isValid}>Verify Email</SubmitButton>
-          <span className="ml-auto text-charcoal-200">
-            Don{"'"}t have an account?{" "}
-            <Link className="text-ship-cove-400" href="/sign-up">
-              Sign Up
-            </Link>
-          </span>
+          <p
+            className={cn("text-destructive text-sm font-medium", {
+              hidden: !formError,
+            })}
+          >
+            {formError}
+          </p>
+          <SubmitButton isValid={formState.isValid}>
+            Reset Password
+          </SubmitButton>
         </div>
       </form>
     </Form>
