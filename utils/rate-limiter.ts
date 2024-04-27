@@ -17,6 +17,8 @@ export async function rateLimitMiddleware(
   if (request.method === "GET") {
     return [request, event, NextResponse.next()];
   }
+
+  console.log('rate limiter middleware hit');
   const ip = request.ip ?? "127.0.0.1";
   console.log(ip);
 

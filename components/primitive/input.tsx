@@ -29,9 +29,10 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
         className={cn(
           `border-input cursor-text bg-charcoal-900 ring-offset-background
           placeholder:text-charcoal-300 focus-visible:ring-ring flex w-full items-center
-          rounded-lg  px-4 py-3 file:border-0 file:bg-transparent
+          rounded-lg px-4 py-3 file:border-0 file:bg-transparent
           file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2
-          focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-3`,
+          focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-3
+          `,
           { "border-destructive border-[1px]": isInvalid },
           className,
         )}
@@ -43,7 +44,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
           type={type}
           ref={inputRef}
           {...props}
-          className="peer bg-transparent w-full h-full outline-none"
+          className="peer bg-transparent h-full outline-none"
         />
         {RightIcon && RightIcon}
       </div>
@@ -66,7 +67,7 @@ const InputIcon = React.forwardRef<
   return (
     <Icon
       className={cn(
-        "stroke-charcoal-400",
+        "stroke-charcoal-400 w-5 h-5",
         { "stroke-charcoal-200": value },
         { "stroke-destructive": error },
         className,

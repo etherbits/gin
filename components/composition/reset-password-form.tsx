@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
 import { SubmitButton } from "../primitive/submit-button";
 import { resetPassword } from "@/actions/reset-password";
 import {
@@ -39,7 +39,7 @@ export function ResetPasswordForm() {
         errors: fieldErrors,
       }}
     >
-      <form action={formAction} className="flex w-full flex-col gap-6">
+      <form action={formAction} className="flex flex-col flex-grow gap-6">
         <FormField
           control={form.control}
           name="email"
@@ -50,6 +50,7 @@ export function ResetPasswordForm() {
                 <Input
                   type="email"
                   placeholder="johnsmith@example.com"
+                  LeftComponent={<InputIcon icon="Mail" />}
                   {...field}
                   required
                 />
