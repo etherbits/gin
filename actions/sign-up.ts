@@ -16,13 +16,12 @@ import {
 import { signUpSchema } from "@/validation-schemas/auth";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 
 export async function signUp(
-  _prevState: ActionResult<null>,
+  _prevState: ActionResult<unknown>,
   formData: FormData,
-): Promise<ActionResult<null>> {
+): Promise<ActionResult<unknown>> {
   const parseResult = await validateFormData(formData, signUpSchema);
 
   if (!parseResult.success) {
@@ -57,7 +56,7 @@ export async function signUp(
 
   if (userWithEmail) {
     sendAccountAlreadyExists(email);
-    return redirect("/verify-email");
+    return {status: 'success'}
   }
 
   try {
@@ -93,5 +92,5 @@ export async function signUp(
     sessionCookie.attributes,
   );
 
-  return redirect("/verify-email");
+  return {status: "success"};
 }

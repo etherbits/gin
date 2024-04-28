@@ -14,10 +14,15 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
+import { eventAction, generateToaster } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
+import { ActionResult } from "@/utils/validation";
 import { passwordRequirements, signUpSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { v4 } from "uuid";
 
 export function SignUpForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -29,13 +34,26 @@ export function SignUpForm() {
     errors: { fieldErrors, formError },
   } = useStateForm({
     schema: signUpSchema,
-    action: signUp,
+    action: async (...action) => {
+      return eventAction(() => signUp(...action), {
+        init: (actionId) => {
+          toast.loading("Signing up...", { id: actionId });
+        },
+        error: (actionId) => {
+          toast.error("Sign up failed", { id: actionId });
+        },
+        success: (actionId) => {
+          toast.success("Sign up successful", { id: actionId });
+          redirect("/verify-email");
+        },
+      });
+    },
     formProps: {
       defaultValues: {
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        username: "etherbits",
+        email: "nika.qvrivishvilipc@gmail.com",
+        password: "asd123ASD!",
+        confirmPassword: "asd123ASD!",
       },
     },
   });

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/primitive/toaster";
 import "./globals.css";
 import { cn } from "@/utils/tailwind";
 import type { Metadata } from "next";
@@ -31,6 +32,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <Toaster/>
       </body>
     </html>
   );
