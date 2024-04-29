@@ -19,7 +19,6 @@ export async function rateLimitMiddleware(
   }
 
   const ip = request.ip ?? "127.0.0.1";
-  console.log(ip);
 
   const { success, pending, limit, reset, remaining } = await ratelimit.limit(
     `ratelimit_middleware_${ip}`,

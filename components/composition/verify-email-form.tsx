@@ -96,6 +96,7 @@ export function VerifyEmailForm({ user }: { user: User | null }) {
         <FormField
           control={form.control}
           name="code"
+          required
           render={({ field }) => (
             <FormItem className="flex-grow">
               <FormLabel>Confirmation Code</FormLabel>

@@ -89,6 +89,7 @@ export function ResetPasswordForm() {
         <FormField
           control={form.control}
           name="email"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Email</FormLabel>
@@ -98,7 +99,6 @@ export function ResetPasswordForm() {
                   placeholder="johnsmith@example.com"
                   LeftComponent={<InputIcon icon="Mail" />}
                   {...field}
-                  required
                 />
               </FormControl>
               <FormMessage />

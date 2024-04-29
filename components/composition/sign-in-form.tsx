@@ -97,6 +97,7 @@ export function SignInForm() {
         <FormField
           control={form.control}
           name="username"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
@@ -106,7 +107,6 @@ export function SignInForm() {
                   placeholder="shadcn"
                   {...field}
                   autoFocus
-                  required
                 />
               </FormControl>
               <FormMessage />
@@ -116,6 +116,7 @@ export function SignInForm() {
         <FormField
           control={form.control}
           name="password"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
@@ -126,7 +127,6 @@ export function SignInForm() {
                   LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
-                  required
                 />
               </FormControl>
               <FormMessage />

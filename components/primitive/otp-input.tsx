@@ -95,7 +95,8 @@ const InputOTPPattern = React.forwardRef<
       {...inputOtpProps}
     >
       <InputOTPGroup
-        className={`grid [grid-template-columns:repeat(${maxLength},1fr)] w-full`}
+        className={`grid w-full`}
+        style={{ gridTemplateColumns: `repeat(${maxLength}, 1fr)` }}
       >
         {[...Array(maxLength)].map((_, index) => (
           <InputOTPSlot

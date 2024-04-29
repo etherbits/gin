@@ -18,7 +18,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
     },
     ref,
   ) => {
-    const { error } = useFormField();
+    const { error, required } = useFormField();
     const isInvalid = !!error;
 
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -42,6 +42,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
         <input
           type={type}
           ref={inputRef}
+          required={required}
           {...props}
           className="peer bg-transparent h-full outline-none"
         />

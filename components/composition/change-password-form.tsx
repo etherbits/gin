@@ -117,6 +117,7 @@ export function ChangePasswordForm({
         <FormField
           control={form.control}
           name="password"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
@@ -127,7 +128,6 @@ export function ChangePasswordForm({
                   LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
-                  required
                 />
               </FormControl>
               <FieldRequirements requirements={passwordRequirements} />
@@ -137,6 +137,7 @@ export function ChangePasswordForm({
         <FormField
           control={form.control}
           name="confirmPassword"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Confirm Password</FormLabel>
@@ -146,7 +147,6 @@ export function ChangePasswordForm({
                   LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
-                  required
                 />
               </FormControl>
               <FormMessage />
