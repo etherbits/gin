@@ -1,5 +1,5 @@
-import { Button } from "./button";
-import { Input, InputIcon, InputProps } from "./input";
+import { IconButton, InputIcon } from "./icon";
+import { Input, InputProps } from "./input";
 import * as React from "react";
 
 const PasswordInput = React.forwardRef<
@@ -15,20 +15,17 @@ const PasswordInput = React.forwardRef<
       ref={ref}
       type={props.showPassword ? "text" : "password"}
       RightComponent={
-        <Button
-          type="button"
-          size="icon"
-          className={"h-full aspect-square w-auto hover:bg-gray-800 p-[2px]"}
+        <IconButton
           onClick={(e) => {
             e.stopPropagation();
             props.setShowPassword((prev) => !prev);
           }}
         >
           <InputIcon
-            className="hover:stroke-slate-100 w-5 h-5"
+            className="z-10 transition-all"
             icon={props.showPassword ? "EyeOff" : "Eye"}
           />
-        </Button>
+        </IconButton>
       }
     />
   );

@@ -34,11 +34,12 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
 
   console.log(errors);
 
-  const [state, formAction] = useFormState(action, { status: "idle" });
+  const [formState, formAction] = useFormState(action, { status: "idle" });
 
   return {
     form,
+    formState,
     formAction,
-    errors: generateFormErrors(state, errors),
+    errors: generateFormErrors(formState, errors),
   };
 }

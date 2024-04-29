@@ -1,6 +1,5 @@
 import { useFormField } from "./form";
 import { cn } from "@/utils/tailwind";
-import { icons } from "lucide-react";
 import * as React from "react";
 
 export type InputProps = {
@@ -29,9 +28,10 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
         className={cn(
           `border-input cursor-text bg-charcoal-900 ring-offset-background
           placeholder:text-charcoal-300 focus-visible:ring-ring flex w-full items-center
-          rounded-lg  px-4 py-3 file:border-0 file:bg-transparent
+          rounded-lg px-4 py-3 file:border-0 file:bg-transparent
           file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2
-          focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-3`,
+          focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-3
+          `,
           { "border-destructive border-[1px]": isInvalid },
           className,
         )}
@@ -43,7 +43,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
           type={type}
           ref={inputRef}
           {...props}
-          className="peer bg-transparent w-full h-full outline-none"
+          className="peer bg-transparent h-full outline-none"
         />
         {RightIcon && RightIcon}
       </div>
@@ -52,30 +52,4 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export type IconKey = keyof typeof icons;
-
-const InputIcon = React.forwardRef<
-  SVGSVGElement,
-  {
-    icon: IconKey;
-  } & React.SVGProps<SVGSVGElement>
->(({ icon, className, ...props }, ref) => {
-  const Icon = icons[icon];
-  const { error, value } = useFormField();
-
-  return (
-    <Icon
-      className={cn(
-        "stroke-charcoal-400",
-        { "stroke-charcoal-200": value },
-        { "stroke-destructive": error },
-        className,
-      )}
-      {...props}
-      ref={ref}
-    />
-  );
-});
-InputIcon.displayName = "InputIcon";
-
-export { Input, InputIcon };
+export { Input };

@@ -1,8 +1,10 @@
 "use client";
 
-import { Input, InputIcon } from "../primitive/input";
+import { InputIcon } from "../primitive/icon";
+import { Input } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
+import { Toast } from "../primitive/toaster";
 import { signIn } from "@/actions/sign-in";
 import {
   Form,
@@ -13,10 +15,13 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
+import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
 import { signInSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function SignInForm() {
   const {
@@ -26,7 +31,50 @@ export function SignInForm() {
     errors: { fieldErrors, formError },
   } = useStateForm({
     schema: signInSchema,
-    action: signIn,
+    action: async (...action) => {
+      return eventAction(() => signIn(...action), {
+        init: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Signing in..."
+                variant="loading"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        error: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Could not sign in"
+                variant="error"
+                toastData={{
+                  description: "Take a look at errors in the form",
+                  id: id,
+                }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        success: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Signed in!"
+                variant="success"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+          redirect("/home");
+        },
+      });
+    },
     formProps: {
       defaultValues: {
         username: "",

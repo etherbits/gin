@@ -1,3 +1,5 @@
+"use server";
+
 import { resend } from "@/lib/mail";
 import { headers } from "next/headers";
 

@@ -1,8 +1,10 @@
 "use client";
 
-import { Input, InputIcon } from "../primitive/input";
+import { InputIcon } from "../primitive/icon";
+import { Input } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
+import { Toast } from "../primitive/toaster";
 import { signUp } from "@/actions/sign-up";
 import {
   FieldRequirements,
@@ -14,10 +16,13 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
+import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
 import { passwordRequirements, signUpSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 
 export function SignUpForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -29,13 +34,56 @@ export function SignUpForm() {
     errors: { fieldErrors, formError },
   } = useStateForm({
     schema: signUpSchema,
-    action: signUp,
+    action: async (...action) => {
+      return eventAction(() => signUp(...action), {
+        init: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Signing up..."
+                variant="loading"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        error: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Account creation failed"
+                variant="error"
+                toastData={{
+                  description: "Take a look at errors in the form",
+                  id: id,
+                }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        success: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Account created successfully!"
+                variant="success"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+          redirect("/verify-email");
+        },
+      });
+    },
     formProps: {
       defaultValues: {
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        username: "etherbits",
+        email: "nika.qvrivishvilipc@gmail.com",
+        password: "asd123ASD!",
+        confirmPassword: "asd123ASD!",
       },
     },
   });

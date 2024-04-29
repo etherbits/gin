@@ -88,7 +88,7 @@ export type ActionResult<T> =
     }
   | {
       status: "success";
-      data: T;
+      data?: T;
     }
   | {
       status: "error";

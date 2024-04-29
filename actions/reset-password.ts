@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { createPasswordResetToken } from "@/utils/auth";
+import { createPasswordResetToken } from "@/utils/code";
 import { sendPasswordResetLink } from "@/utils/mail";
 import {
   ActionResult,
@@ -12,9 +12,9 @@ import { resetPasswordSchema } from "@/validation-schemas/auth";
 import { headers } from "next/headers";
 
 export async function resetPassword(
-  _prevState: ActionResult<string>,
+  _prevState: ActionResult<unknown>,
   formData: FormData,
-): Promise<ActionResult<string>> {
+): Promise<ActionResult<unknown>> {
   const parsedData = await validateFormData(formData, resetPasswordSchema);
 
   if (!parsedData.success) {
@@ -27,18 +27,12 @@ export async function resetPassword(
     where: (users, { eq }) => eq(users.email, email),
   });
 
-  if (!user || !user.email_verified) {
-    return {
-      status: "error",
-      error: { formError: "No verified user found with that email" },
-    };
+  if (user && user.email_verified) {
+    const resetToken = await createPasswordResetToken(user.id);
+    const host = headers().get("host");
+    const resetLink = `${host}/reset-password/${resetToken}`;
+    await sendPasswordResetLink(email, resetLink);
   }
 
-  const resetToken = await createPasswordResetToken(user.id);
-  const host = headers().get("host");
-  const resetLink = `${host}/reset-password/${resetToken}`;
-  console.log(resetLink);
-  await sendPasswordResetLink(email, resetLink);
-
-  return { status: "success", data: "Reset email sent" };
+  return { status: "success" };
 }

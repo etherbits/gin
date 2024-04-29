@@ -1,20 +1,17 @@
 import { FormCard } from "@/components/composition/form-card";
 import { VerifyEmailForm } from "@/components/composition/verify-email-form";
 import { validateRequest } from "@/utils/auth";
-import { redirect } from "next/navigation";
+import { emailVerificationExpiry } from "@/utils/timing";
 
 export default async function VerifyEmail() {
   const { user } = await validateRequest();
-  if (!user) {
-    return redirect("/sign-in");
-  }
 
   return (
     <FormCard
       title="Verify Email"
-      description="Verify email by putting in the otp code"
+      description={`Enter the code in your we sent to your email within ${Math.round(emailVerificationExpiry.seconds() / 60)} minutes`}
     >
-      <VerifyEmailForm />
+      <VerifyEmailForm user={user} />
     </FormCard>
   );
 }

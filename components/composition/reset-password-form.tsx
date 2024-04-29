@@ -1,7 +1,9 @@
 "use client";
 
+import { InputIcon } from "../primitive/icon";
 import { Input } from "../primitive/input";
 import { SubmitButton } from "../primitive/submit-button";
+import { Toast } from "../primitive/toaster";
 import { resetPassword } from "@/actions/reset-password";
 import {
   Form,
@@ -12,8 +14,10 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
+import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
 import { resetPasswordSchema } from "@/validation-schemas/auth";
+import { toast } from "sonner";
 
 export function ResetPasswordForm() {
   const {
@@ -23,7 +27,49 @@ export function ResetPasswordForm() {
     errors: { fieldErrors, formError },
   } = useStateForm({
     schema: resetPasswordSchema,
-    action: resetPassword,
+    action: async (...action) => {
+      return eventAction(() => resetPassword(...action), {
+        init: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Generating reset link..."
+                variant="loading"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        error: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Reset link generation failed"
+                variant="error"
+                toastData={{
+                  description: "Take a look at errors in the form",
+                  id: id,
+                }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        success: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Password reset link sent"
+                variant="success"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+      });
+    },
     formProps: {
       defaultValues: {
         email: "",
@@ -39,7 +85,7 @@ export function ResetPasswordForm() {
         errors: fieldErrors,
       }}
     >
-      <form action={formAction} className="flex w-full flex-col gap-6">
+      <form action={formAction} className="flex flex-col flex-grow gap-6">
         <FormField
           control={form.control}
           name="email"
@@ -50,6 +96,7 @@ export function ResetPasswordForm() {
                 <Input
                   type="email"
                   placeholder="johnsmith@example.com"
+                  LeftComponent={<InputIcon icon="Mail" />}
                   {...field}
                   required
                 />

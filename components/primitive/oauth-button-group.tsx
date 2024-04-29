@@ -4,7 +4,7 @@ import Image from "next/image";
 export function OAuthButtonGroup() {
   return (
     <>
-      <section className="flex gap-6">
+      <section className="flex gap-6 justify-center">
         <Button
           size="icon"
           className="flex h-14 w-14 items-center justify-center bg-charcoal-900"

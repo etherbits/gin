@@ -80,9 +80,15 @@ dependencies:
   resend:
     specifier: ^3.2.0
     version: 3.2.0
+  sonner:
+    specifier: ^1.4.41
+    version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
   tailwind-merge:
     specifier: ^2.2.1
     version: 2.2.1
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -100,6 +106,9 @@ devDependencies:
   "@types/react-dom":
     specifier: ^18
     version: 18.2.19
+  "@types/uuid":
+    specifier: ^9.0.8
+    version: 9.0.8
   "@typescript-eslint/eslint-plugin":
     specifier: ^7.2.0
     version: 7.2.0(@typescript-eslint/parser@7.7.0)(eslint@8.57.0)(typescript@5.3.3)
@@ -3859,6 +3868,13 @@ packages:
     resolution:
       {
         integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==,
+      }
+    dev: true
+
+  /@types/uuid@9.0.8:
+    resolution:
+      {
+        integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==,
       }
     dev: true
 
@@ -8259,6 +8275,19 @@ packages:
     engines: { node: ">=8" }
     dev: true
 
+  /sonner@1.4.41(react-dom@18.2.0)(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-uG511ggnnsw6gcn/X+YKkWPo5ep9il9wYi3QJxHsYe7yTZ4+cOd1wuodOUmOpFuXL+/RE3R04LczdNCDygTDgQ==,
+      }
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /source-map-js@1.0.2:
     resolution:
       {
@@ -8814,6 +8843,14 @@ packages:
     resolution:
       {
         integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==,
+      }
+    hasBin: true
+    dev: false
+
+  /uuid@9.0.1:
+    resolution:
+      {
+        integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==,
       }
     hasBin: true
     dev: false
