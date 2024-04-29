@@ -19,7 +19,7 @@ export function FormCard({
     <Card className="w-[min(90vw,400px)] border-none bg-charcoal-950 shadow-xl">
       <CardHeader className="flex items-center gap-4 p-6">
         <CardTitle className="text-2xl text-charcoal-50">{title}</CardTitle>
-        <CardDescription className="m-0 p-0 text-lg text-charcoal-300">
+        <CardDescription className="text-center m-0 p-0 text-lg text-charcoal-300">
           {description}
         </CardDescription>
       </CardHeader>

@@ -1,5 +1,5 @@
-import { Toaster } from "@/components/primitive/toaster";
 import "./globals.css";
+import { Toaster } from "@/components/primitive/toaster";
 import { cn } from "@/utils/tailwind";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -32,7 +32,7 @@ export default function RootLayout({
         )}
       >
         {children}
-        <Toaster/>
+        <Toaster />
       </body>
     </html>
   );

@@ -1,24 +1,22 @@
-import { Button } from "./button";
-import { cn } from "@/utils/tailwind";
+import { Button, ButtonProps } from "./button";
 import { useFormStatus } from "react-dom";
 
 export function SubmitButton({
   isValid,
   children,
+  ...props
 }: {
   isValid: boolean;
   children: React.ReactNode;
-}) {
+} & ButtonProps) {
   const status = useFormStatus();
   const isDisabled = status.pending || !isValid;
 
   return (
     <Button
+      {...props}
       type="submit"
       disabled={isDisabled}
-      className={cn(
-        "bg-gossamer-500 disabled:pointer-events-auto disabled:cursor-not-allowed",
-      )}
       title={
         isDisabled
           ? status.pending

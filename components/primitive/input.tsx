@@ -1,6 +1,5 @@
 import { useFormField } from "./form";
 import { cn } from "@/utils/tailwind";
-import { icons } from "lucide-react";
 import * as React from "react";
 
 export type InputProps = {
@@ -53,30 +52,4 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export type IconKey = keyof typeof icons;
-
-const InputIcon = React.forwardRef<
-  SVGSVGElement,
-  {
-    icon: IconKey;
-  } & React.SVGProps<SVGSVGElement>
->(({ icon, className, ...props }, ref) => {
-  const Icon = icons[icon];
-  const { error, value } = useFormField();
-
-  return (
-    <Icon
-      className={cn(
-        "stroke-charcoal-400 w-5 h-5",
-        { "stroke-charcoal-200": value },
-        { "stroke-destructive": error },
-        className,
-      )}
-      {...props}
-      ref={ref}
-    />
-  );
-});
-InputIcon.displayName = "InputIcon";
-
-export { Input, InputIcon };
+export { Input };

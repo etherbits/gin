@@ -94,9 +94,15 @@ const InputOTPPattern = React.forwardRef<
       pattern={pattern}
       {...inputOtpProps}
     >
-      <InputOTPGroup>
+      <InputOTPGroup
+        className={`grid [grid-template-columns:repeat(${maxLength},1fr)] w-full`}
+      >
         {[...Array(maxLength)].map((_, index) => (
-          <InputOTPSlot key={index} index={index} />
+          <InputOTPSlot
+            key={index}
+            index={index}
+            className="h-auto w-auto aspect-square"
+          />
         ))}
       </InputOTPGroup>
     </InputOTP>

@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
-import { generateEmailVerificationCode } from "@/utils/auth";
+import { generateEmailVerificationCode } from "@/utils/code";
 import {
   sendAccountAlreadyExists,
   sendEmailVerificationCode,
@@ -56,7 +56,7 @@ export async function signUp(
 
   if (userWithEmail) {
     sendAccountAlreadyExists(email);
-    return {status: 'success'}
+    return { status: "success" };
   }
 
   try {
@@ -92,5 +92,5 @@ export async function signUp(
     sessionCookie.attributes,
   );
 
-  return {status: "success"};
+  return { status: "success" };
 }

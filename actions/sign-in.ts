@@ -9,13 +9,12 @@ import {
 } from "@/utils/validation";
 import { signInSchema } from "@/validation-schemas/auth";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 
 export async function signIn(
-  _prevState: ActionResult<null>,
+  _prevState: ActionResult<unknown>,
   formData: FormData,
-): Promise<ActionResult<null>> {
+): Promise<ActionResult<unknown>> {
   const parseResult = await validateFormData(formData, signInSchema);
 
   if (!parseResult.success) {
@@ -67,5 +66,5 @@ export async function signIn(
     sessionCookie.attributes,
   );
 
-  return redirect("/home");
+  return { status: "success" };
 }

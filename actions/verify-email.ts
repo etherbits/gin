@@ -12,13 +12,12 @@ import { otpCodeSchema } from "@/validation-schemas/auth";
 import { eq } from "drizzle-orm";
 import { User } from "lucia";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { isWithinExpirationDate } from "oslo";
 
 export async function verifyEmail(
-  _prevState: ActionResult<null>,
+  _prevState: ActionResult<unknown>,
   formData: FormData,
-): Promise<ActionResult<null>> {
+): Promise<ActionResult<unknown>> {
   "use server";
   const sessionId = cookies().get(lucia.sessionCookieName);
   if (sessionId === undefined) {
@@ -62,7 +61,7 @@ export async function verifyEmail(
     sessionCookie.attributes,
   );
 
-  return redirect("/home");
+  return { status: "success" };
 }
 
 async function verifyEmailCode(user: User, code: string) {

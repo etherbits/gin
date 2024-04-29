@@ -1,8 +1,10 @@
 "use client";
 
-import { Input, InputIcon } from "../primitive/input";
+import { InputIcon } from "../primitive/icon";
+import { Input } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
+import { Toast } from "../primitive/toaster";
 import { changePassword } from "@/actions/change-password";
 import {
   FieldRequirements,
@@ -14,12 +16,15 @@ import {
   FormMessage,
 } from "@/components/primitive/form";
 import { cn } from "@/utils/tailwind";
+import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
 import {
   changePasswordSchema,
   passwordRequirements,
 } from "@/validation-schemas/auth";
+import { redirect } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function ChangePasswordForm({
   verificationToken,
@@ -33,7 +38,50 @@ export function ChangePasswordForm({
     errors: { fieldErrors, formError },
   } = useStateForm({
     schema: changePasswordSchema,
-    action: changePassword,
+    action: async (...action) => {
+      return eventAction(() => changePassword(...action), {
+        init: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Changing password..."
+                variant="loading"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        error: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Password change failed"
+                variant="error"
+                toastData={{
+                  description: "Take a look at errors in the form",
+                  id: id,
+                }}
+              />
+            ),
+            { id: actionId },
+          );
+        },
+        success: (actionId) => {
+          toast.custom(
+            (id) => (
+              <Toast
+                message="Password changed successfully!"
+                variant="success"
+                toastData={{ id: id }}
+              />
+            ),
+            { id: actionId },
+          );
+          redirect("/home");
+        },
+      });
+    },
     formProps: {
       defaultValues: {
         verificationToken,

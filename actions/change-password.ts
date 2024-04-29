@@ -11,14 +11,13 @@ import {
 import { changePasswordSchema } from "@/validation-schemas/auth";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { isWithinExpirationDate } from "oslo";
 import { Argon2id } from "oslo/password";
 
 export async function changePassword(
-  _prevState: ActionResult<null>,
+  _prevState: ActionResult<unknown>,
   formData: FormData,
-): Promise<ActionResult<null>> {
+): Promise<ActionResult<unknown>> {
   const parsedData = await validateFormData(formData, changePasswordSchema);
 
   if (!parsedData.success) {
@@ -80,5 +79,5 @@ export async function changePassword(
     sessionCookie.attributes,
   );
 
-  return redirect("/home");
+  return { status: "success" };
 }
