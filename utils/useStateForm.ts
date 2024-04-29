@@ -32,8 +32,6 @@ export function useStateForm<Schema extends z.Schema, ActionData>({
     formState: { errors },
   } = form;
 
-  console.log(errors);
-
   const [formState, formAction] = useFormState(action, { status: "idle" });
 
   return {

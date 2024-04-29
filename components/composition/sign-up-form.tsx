@@ -106,6 +106,7 @@ export function SignUpForm() {
         <FormField
           control={form.control}
           name="username"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
@@ -115,7 +116,6 @@ export function SignUpForm() {
                   placeholder="shadcn"
                   {...field}
                   autoFocus
-                  required
                 />
               </FormControl>
               <FormMessage />
@@ -125,6 +125,7 @@ export function SignUpForm() {
         <FormField
           control={form.control}
           name="email"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>E-Mail</FormLabel>
@@ -134,7 +135,6 @@ export function SignUpForm() {
                   type="email"
                   placeholder="shadcn"
                   {...field}
-                  required
                 />
               </FormControl>
               <FormMessage />
@@ -144,6 +144,7 @@ export function SignUpForm() {
         <FormField
           control={form.control}
           name="password"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Password</FormLabel>
@@ -154,7 +155,6 @@ export function SignUpForm() {
                   LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
-                  required
                 />
               </FormControl>
               <FieldRequirements requirements={passwordRequirements} />
@@ -164,6 +164,7 @@ export function SignUpForm() {
         <FormField
           control={form.control}
           name="confirmPassword"
+          required
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Confirm Password</FormLabel>
@@ -173,7 +174,6 @@ export function SignUpForm() {
                   LeftComponent={<InputIcon icon="Lock" />}
                   placeholder="••••••••"
                   {...field}
-                  required
                 />
               </FormControl>
               <FormMessage />
