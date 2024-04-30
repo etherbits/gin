@@ -71,6 +71,34 @@
       "when": 1709559613370,
       "tag": "0009_perfect_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1714465494981,
+      "tag": "0010_supreme_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1714465539867,
+      "tag": "0011_great_next_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1714466029895,
+      "tag": "0012_colossal_arclight",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1714466148135,
+      "tag": "0013_skinny_rockslide",
+      "breakpoints": true
     }
   ]
 }

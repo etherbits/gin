@@ -3,6 +3,7 @@ import { sessions, users } from "@/db/schemas/user";
 import { parsedEnv } from "@/utils/env";
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia } from "lucia";
+import {GitHub} from 'arctic'
 
 const adapter = new DrizzleSQLiteAdapter(db, sessions, users);
 
@@ -20,6 +21,8 @@ export const lucia = new Lucia(adapter, {
     };
   },
 });
+
+export const github = new GitHub(parsedEnv.GITHUB_OAUTH_ID, parsedEnv.GITHUB_OAUTH_SECRET)
 
 declare module "lucia" {
   interface Register {

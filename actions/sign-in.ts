@@ -40,6 +40,16 @@ export async function signIn(
     };
   }
 
+  if (!existingUser.hashed_password) {
+    return {
+      status: "error",
+      error: {
+        formError: `You don't have a password associated with this account.
+           You can sign in with the appropriate provider and set a password`,
+      },
+    };
+  }
+
   const validPassword = await new Argon2id().verify(
     existingUser.hashed_password,
     password,
