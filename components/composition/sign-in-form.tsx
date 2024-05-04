@@ -106,7 +106,6 @@ export function SignInForm() {
                   LeftComponent={<InputIcon icon="User" />}
                   placeholder="shadcn"
                   {...field}
-                  autoFocus
                 />
               </FormControl>
               <FormMessage />

@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { oauth_accounts, users } from "@/db/schemas/user";
-import { github, lucia } from "@/lib/auth";
+import { discord, lucia } from "@/lib/auth";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { parseCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const cookies = parseCookie(request.headers.get("Cookie") ?? "");
-  const stateCookie = cookies.get("github_oauth_state") ?? null;
+  const stateCookie = cookies.get("discord_oauth_state") ?? null;
 
   const url = new URL(request.url);
   const state = url.searchParams.get("state");
@@ -24,36 +24,22 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const tokens = await github.validateAuthorizationCode(code);
-    const githubUserResponse = await fetch("https://api.github.com/user", {
+    const tokens = await discord.validateAuthorizationCode(code);
+    const discordUserResponse = await fetch("https://discord.com/api/users/@me", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
       },
     });
-    const githubUserResult: GitHubUserResult = await githubUserResponse.json();
+    const discordUserResult: DiscordUserResult = await discordUserResponse.json();
 
-    const emailsResponse = await fetch("https://api.github.com/user/emails", {
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
-      },
-    });
 
-    const emails: {
-      primary: boolean;
-      email: string;
-      verified: boolean;
-    }[] = await emailsResponse.json();
-    console.log(emails)
-
-    const primaryEmail = emails.find((email) => email.primary) ?? null;
-
-    if (!primaryEmail) {
+    if (!discordUserResult.email) {
       return new Response("No primary email address", {
         status: 400,
       });
     }
 
-    if (!primaryEmail.verified) {
+    if (!discordUserResult.verified) {
       return new Response("Unverified email", {
         status: 400,
       });
@@ -61,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     const existingAccount = await db.query.oauth_accounts.findFirst({
       where: (oauthAccount, { eq }) =>
-        eq(oauthAccount.provider_user_id, String(githubUserResult.id)),
+        eq(oauthAccount.provider_user_id, String(discordUserResult.id)),
     });
 
     if (existingAccount) {
@@ -78,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     const existingUser = await db.query.users.findFirst({
       where: (existingUser, { eq }) =>
-        eq(existingUser.email, primaryEmail.email.toLowerCase()),
+        eq(existingUser.email, discordUserResult.email.toLowerCase()),
     });
 
     const userId = existingUser ? existingUser.id : generateId(15);
@@ -87,16 +73,16 @@ export async function GET(request: NextRequest) {
       if (!existingUser) {
         await tx.insert(users).values({
           id: userId,
-          profile_image: githubUserResult.avatar_url,
-          username: githubUserResult.login,
-          email: primaryEmail.email.toLowerCase(),
+          profile_image: generateDiscordAvatarUrl(discordUserResult.avatar),
+          username: discordUserResult.username,
+          email: discordUserResult.email.toLowerCase(),
           email_verified: 1
         });
       }
 
       await tx.insert(oauth_accounts).values({
-        provider_id: "github",
-        provider_user_id: String(githubUserResult.id),
+        provider_id: "discord",
+        provider_user_id: String(discordUserResult.id),
         user_id: userId,
       });
     });
@@ -124,8 +110,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-interface GitHubUserResult {
+function generateDiscordAvatarUrl(avatarHash: string){
+  return `https://cdn.discordapp.com/avatars/165716490400694272/${avatarHash}.webp` 
+}
+
+interface DiscordUserResult {
   id: number;
-  login: string; // username
-  avatar_url: string;
+  username: string;
+  email: string;
+  verified: boolean;
+  avatar: string;
 }
