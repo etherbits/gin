@@ -36,5 +36,5 @@ export interface DatabaseUserAttributes {
   username: string;
   email: string;
   email_verified: boolean;
-  profile_image: string
+  profile_image?: string
 }

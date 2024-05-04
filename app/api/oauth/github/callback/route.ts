@@ -32,9 +32,35 @@ export async function GET(request: NextRequest) {
     });
     const githubUserResult: GitHubUserResult = await githubUserResponse.json();
 
+    const emailsResponse = await fetch("https://api.github.com/user/emails", {
+      headers: {
+        Authorization: `Bearer ${tokens.accessToken}`,
+      },
+    });
+
+    const emails: {
+      primary: boolean;
+      email: string;
+      verified: boolean;
+    }[] = await emailsResponse.json();
+
+    const primaryEmail = emails.find((email) => email.primary) ?? null;
+
+    if (!primaryEmail) {
+      return new Response("No primary email address", {
+        status: 400,
+      });
+    }
+
+    if (!primaryEmail.verified) {
+      return new Response("Unverified email", {
+        status: 400,
+      });
+    }
+
     const existingAccount = await db.query.oauth_accounts.findFirst({
       where: (oauthAccount, { eq }) =>
-        eq(oauthAccount.provider_id, String(githubUserResult.id)),
+        eq(oauthAccount.provider_user_id, String(githubUserResult.id)),
     });
 
     if (existingAccount) {
@@ -43,7 +69,7 @@ export async function GET(request: NextRequest) {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/",
+          Location: "/home",
           "Set-Cookie": sessionCookie.serialize(),
         },
       });
@@ -51,7 +77,7 @@ export async function GET(request: NextRequest) {
 
     const existingUser = await db.query.users.findFirst({
       where: (existingUser, { eq }) =>
-        eq(existingUser.email, githubUserResult.email),
+        eq(existingUser.email, primaryEmail.email),
     });
 
     const userId = existingUser ? existingUser.id : generateId(15);
@@ -62,7 +88,8 @@ export async function GET(request: NextRequest) {
           id: userId,
           profile_image: githubUserResult.avatar_url,
           username: githubUserResult.login,
-          email: githubUserResult.email,
+          email: primaryEmail.email,
+          email_verified: 1
         });
       }
 
@@ -100,5 +127,5 @@ interface GitHubUserResult {
   id: number;
   login: string; // username
   email: string;
-  avatar_url: string
+  avatar_url: string;
 }

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const state = generateState();
-  const url = await github.createAuthorizationURL(state);
+  const url = await github.createAuthorizationURL(state, {scopes: ['user:email']});
 
   return new Response(null, {
     status: 302,
