@@ -115,7 +115,6 @@ export function SignUpForm() {
                   LeftComponent={<InputIcon icon="User" />}
                   placeholder="shadcn"
                   {...field}
-                  autoFocus
                 />
               </FormControl>
               <FormMessage />

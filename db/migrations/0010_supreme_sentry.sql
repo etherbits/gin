@@ -1,0 +1,1 @@
+ALTER TABLE users ADD `github_id` text NOT NULL;

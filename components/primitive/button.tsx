@@ -21,6 +21,7 @@ const buttonVariants = cva(
           "bg-transparent border-charcoal-400 border-[1px] text-charcoal-300 enabled:hover:bg-charcoal-200 enabled:hover:text-charcoal-950",
         ghost:
           "bg-transparent [&_svg]:stroke-charcoal-300 [&:hover_svg]:stroke-charcoal-50",
+        unstyled: "",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
