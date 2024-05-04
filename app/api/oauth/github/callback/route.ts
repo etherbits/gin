@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { users } from "@/db/schemas/user";
+import { oauth_account, users } from "@/db/schemas/user";
 import { github, lucia } from "@/lib/auth";
 import { generateId } from "lucia";
 import { OAuth2RequestError } from "arctic";
@@ -32,8 +32,8 @@ export async function GET(request: NextRequest) {
     });
     const githubUserResult: GitHubUserResult = await githubUserResponse.json();
 
-    const existingUser = await db.query.users.findFirst({
-      where: (user, { eq }) => eq(user.github_id, githubUserResult.id),
+    const existingUser = await db.query.oauth_account.findFirst({
+      where: (oauth_account, { eq }) => eq(oauth_account.provider_id, githubUserResult.id),
     });
 
     if (existingUser) {

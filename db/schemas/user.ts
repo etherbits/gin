@@ -14,7 +14,7 @@ export const users = sqliteTable("users", {
   hashed_password: text("hashed_password"),
 });
 
-export const oauth_account = sqliteTable(
+export const oauth_accounts = sqliteTable(
   "oauth_account",
   {
     provider_id: text("provider_id").notNull(),
