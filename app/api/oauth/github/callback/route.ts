@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { oauth_account, users } from "@/db/schemas/user";
+import { oauth_accounts, users } from "@/db/schemas/user";
 import { github, lucia } from "@/lib/auth";
-import { generateId } from "lucia";
 import { OAuth2RequestError } from "arctic";
+import { generateId } from "lucia";
 import { parseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { NextRequest } from "next/server";
 
@@ -32,12 +32,13 @@ export async function GET(request: NextRequest) {
     });
     const githubUserResult: GitHubUserResult = await githubUserResponse.json();
 
-    const existingUser = await db.query.oauth_account.findFirst({
-      where: (oauth_account, { eq }) => eq(oauth_account.provider_id, githubUserResult.id),
+    const existingAccount = await db.query.oauth_accounts.findFirst({
+      where: (oauthAccount, { eq }) =>
+        eq(oauthAccount.provider_id, String(githubUserResult.id)),
     });
 
-    if (existingUser) {
-      const session = await lucia.createSession(existingUser.id, {});
+    if (existingAccount) {
+      const session = await lucia.createSession(existingAccount.user_id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
       return new Response(null, {
         status: 302,
@@ -48,14 +49,28 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    console.log(githubUserResult)
+    const existingUser = await db.query.users.findFirst({
+      where: (existingUser, { eq }) =>
+        eq(existingUser.email, githubUserResult.email),
+    });
 
-    const userId = generateId(15);
-    await db.insert(users).values({
-      id: userId,
-      username: githubUserResult.login,
-      email: githubUserResult.email,
-      github_id: githubUserResult.id,
+    const userId = existingUser ? existingUser.id : generateId(15);
+
+    await db.transaction(async (tx) => {
+      if (!existingUser) {
+        await tx.insert(users).values({
+          id: userId,
+          profile_image: githubUserResult.avatar_url,
+          username: githubUserResult.login,
+          email: githubUserResult.email,
+        });
+      }
+
+      await tx.insert(oauth_accounts).values({
+        provider_id: "github",
+        provider_user_id: String(githubUserResult.id),
+        user_id: userId,
+      });
     });
 
     const session = await lucia.createSession(userId, {});
@@ -85,4 +100,5 @@ interface GitHubUserResult {
   id: number;
   login: string; // username
   email: string;
+  avatar_url: string
 }

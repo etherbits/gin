@@ -18,6 +18,7 @@ export const lucia = new Lucia(adapter, {
       username: attributes.username,
       email: attributes.email,
       email_verified: attributes.email_verified,
+      profile_image: attributes.profile_image
     };
   },
 });
@@ -35,4 +36,5 @@ export interface DatabaseUserAttributes {
   username: string;
   email: string;
   email_verified: boolean;
+  profile_image: string
 }

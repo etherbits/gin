@@ -120,6 +120,13 @@
       "when": 1714803708913,
       "tag": "0016_secret_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1714805580241,
+      "tag": "0017_light_husk",
+      "breakpoints": true
     }
   ]
 }
