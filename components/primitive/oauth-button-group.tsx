@@ -34,13 +34,13 @@ function OAuthImage({ alt, ...props }: ImageProps) {
 export function OAuthButtonGroup() {
   return (
     <section className="flex gap-6 justify-center">
-      <OAuthLink href="api/oauth/github/login" title="Sign in with GitHub">
+      <OAuthLink href="api/oauth/github" title="Sign in with GitHub">
         <OAuthImage src="/icons/github_icon.svg" alt="github icon" />
       </OAuthLink>
-      <OAuthLink href="api/oauth/discord/login" title="Sign in with Discord">
+      <OAuthLink href="api/oauth/discord" title="Sign in with Discord">
         <OAuthImage src="/icons/discord_icon.svg" alt="discord icon" />
       </OAuthLink>
-      <OAuthLink href="api/oauth/google/login" title="Sign in with Google">
+      <OAuthLink href="api/oauth/google" title="Sign in with Google">
         <OAuthImage src="/icons/gmail_icon.svg" alt="gmail icon" />
       </OAuthLink>
     </section>

@@ -1,5 +1,10 @@
 import { InferSelectModel } from "drizzle-orm";
-import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
+import {
+  sqliteTable,
+  primaryKey,
+  integer,
+  text,
+} from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
   id: text("id").notNull().primaryKey(),
@@ -7,8 +12,22 @@ export const users = sqliteTable("users", {
   email: text("email").notNull().unique(),
   email_verified: integer("email_verified").default(0).notNull(),
   hashed_password: text("hashed_password"),
-  github_id: integer("github_id").unique()
+  github_id: integer("github_id").unique(),
 });
+
+export const oauth_account = sqliteTable(
+  "oauth_account",
+  {
+    provider_id: text("provider_id").notNull(),
+    provider_user_id: text("provider_user_id").notNull(),
+    user_id: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.provider_id, table.provider_user_id] }),
+  }),
+);
 
 export const sessions = sqliteTable("sessions", {
   id: text("id").notNull().primaryKey(),
