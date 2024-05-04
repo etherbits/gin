@@ -10,27 +10,36 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const cookies = parseCookies(request.headers.get("Cookie") ?? "");
-	const stateCookie = cookies.get("google_oauth_state") ?? null;
-	const codeVerifier = cookies.get("code_verifier") ?? null;
+  const stateCookie = cookies.get("google_oauth_state") ?? null;
+  const codeVerifier = cookies.get("code_verifier") ?? null;
 
-	const url = new URL(request.url);
-	const state = url.searchParams.get("state");
-	const code = url.searchParams.get("code");
+  const url = new URL(request.url);
+  const state = url.searchParams.get("state");
+  const code = url.searchParams.get("code");
 
-	// verify state
-	if (!state || !stateCookie || !code || stateCookie !== state || !codeVerifier) {
-		return new Response(null, {
-			status: 400
-		});
-	}
+  // verify state
+  if (
+    !state ||
+    !stateCookie ||
+    !code ||
+    stateCookie !== state ||
+    !codeVerifier
+  ) {
+    return new Response(null, {
+      status: 400,
+    });
+  }
 
   try {
-	  const tokens = await google.validateAuthorizationCode(code, codeVerifier);
-    const googleUserResponse = await fetch("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
+    const tokens = await google.validateAuthorizationCode(code, codeVerifier);
+    const googleUserResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
+      {
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
       },
-    });
+    );
     const googleUserResult: GoogleUserResult = await googleUserResponse.json();
 
     if (!googleUserResult.email) {
@@ -76,7 +85,7 @@ export async function GET(request: NextRequest) {
           profile_image: googleUserResult.picture,
           username: googleUserResult.name,
           email: googleUserResult.email.toLowerCase(),
-          email_verified: 1
+          email_verified: 1,
         });
       }
 

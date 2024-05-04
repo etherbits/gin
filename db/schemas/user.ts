@@ -11,7 +11,7 @@ export const users = sqliteTable("users", {
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   email_verified: integer("email_verified").default(0).notNull(),
-  profile_image: text('profile_image'),
+  profile_image: text("profile_image"),
   hashed_password: text("hashed_password"),
 });
 

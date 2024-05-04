@@ -25,14 +25,18 @@ export async function GET(request: NextRequest) {
 
   try {
     const tokens = await discord.validateAuthorizationCode(code);
-    const discordUserResponse = await fetch("https://discord.com/api/users/@me", {
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
+    const discordUserResponse = await fetch(
+      "https://discord.com/api/users/@me",
+      {
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
       },
-    });
-    const discordUserResult: DiscordUserResult = await discordUserResponse.json();
+    );
+    const discordUserResult: DiscordUserResult =
+      await discordUserResponse.json();
 
-    console.log(discordUserResult)
+    console.log(discordUserResult);
 
     if (!discordUserResult.email) {
       return new Response("No primary email address", {
@@ -77,7 +81,7 @@ export async function GET(request: NextRequest) {
           profile_image: generateDiscordAvatarUrl(discordUserResult.avatar),
           username: discordUserResult.username,
           email: discordUserResult.email.toLowerCase(),
-          email_verified: 1
+          email_verified: 1,
         });
       }
 
@@ -111,8 +115,8 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function generateDiscordAvatarUrl(avatarHash: string){
-  return `https://cdn.discordapp.com/avatars/165716490400694272/${avatarHash}.webp` 
+function generateDiscordAvatarUrl(avatarHash: string) {
+  return `https://cdn.discordapp.com/avatars/165716490400694272/${avatarHash}.webp`;
 }
 
 interface DiscordUserResult {

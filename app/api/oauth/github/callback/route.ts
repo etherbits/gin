@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
           profile_image: githubUserResult.avatar_url,
           username: githubUserResult.login,
           email: primaryEmail.email.toLowerCase(),
-          email_verified: 1
+          email_verified: 1,
         });
       }
 
