@@ -1,58 +1,45 @@
 import { db } from "@/db";
 import { oauth_accounts, users } from "@/db/schemas/user";
-import { github, lucia } from "@/lib/auth";
+import { google, lucia } from "@/lib/auth";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
-import { parseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { NextRequest } from "next/server";
+import { parseCookies } from "oslo/cookie";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
-  const cookies = parseCookie(request.headers.get("Cookie") ?? "");
-  const stateCookie = cookies.get("github_oauth_state") ?? null;
+  const cookies = parseCookies(request.headers.get("Cookie") ?? "");
+	const stateCookie = cookies.get("google_oauth_state") ?? null;
+	const codeVerifier = cookies.get("code_verifier") ?? null;
 
-  const url = new URL(request.url);
-  const state = url.searchParams.get("state");
-  const code = url.searchParams.get("code");
+	const url = new URL(request.url);
+	const state = url.searchParams.get("state");
+	const code = url.searchParams.get("code");
 
-  // verify state
-  if (!state || !stateCookie || !code || stateCookie !== state) {
-    return new Response(null, {
-      status: 400,
-    });
-  }
+	// verify state
+	if (!state || !stateCookie || !code || stateCookie !== state || !codeVerifier) {
+		return new Response(null, {
+			status: 400
+		});
+	}
 
   try {
-    const tokens = await github.validateAuthorizationCode(code);
-    const githubUserResponse = await fetch("https://api.github.com/user", {
+	  const tokens = await google.validateAuthorizationCode(code, codeVerifier);
+    const googleUserResponse = await fetch("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
       },
     });
-    const githubUserResult: GitHubUserResult = await githubUserResponse.json();
+    const googleUserResult: GoogleUserResult = await googleUserResponse.json();
 
-    const emailsResponse = await fetch("https://api.github.com/user/emails", {
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
-      },
-    });
-
-    const emails: {
-      primary: boolean;
-      email: string;
-      verified: boolean;
-    }[] = await emailsResponse.json();
-
-    const primaryEmail = emails.find((email) => email.primary) ?? null;
-
-    if (!primaryEmail) {
+    if (!googleUserResult.email) {
       return new Response("No primary email address", {
         status: 400,
       });
     }
 
-    if (!primaryEmail.verified) {
+    if (!googleUserResult.verified_email) {
       return new Response("Unverified email", {
         status: 400,
       });
@@ -60,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     const existingAccount = await db.query.oauth_accounts.findFirst({
       where: (oauthAccount, { eq }) =>
-        eq(oauthAccount.provider_user_id, String(githubUserResult.id)),
+        eq(oauthAccount.provider_user_id, googleUserResult.id),
     });
 
     if (existingAccount) {
@@ -77,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     const existingUser = await db.query.users.findFirst({
       where: (existingUser, { eq }) =>
-        eq(existingUser.email, primaryEmail.email.toLowerCase()),
+        eq(existingUser.email, googleUserResult.email.toLowerCase()),
     });
 
     const userId = existingUser ? existingUser.id : generateId(15);
@@ -86,16 +73,16 @@ export async function GET(request: NextRequest) {
       if (!existingUser) {
         await tx.insert(users).values({
           id: userId,
-          profile_image: githubUserResult.avatar_url,
-          username: githubUserResult.login,
-          email: primaryEmail.email.toLowerCase(),
+          profile_image: googleUserResult.picture,
+          username: googleUserResult.name,
+          email: googleUserResult.email.toLowerCase(),
           email_verified: 1
         });
       }
 
       await tx.insert(oauth_accounts).values({
-        provider_id: "github",
-        provider_user_id: String(githubUserResult.id),
+        provider_id: "google",
+        provider_user_id: googleUserResult.id,
         user_id: userId,
       });
     });
@@ -123,8 +110,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-interface GitHubUserResult {
-  id: number;
-  login: string; // username
-  avatar_url: string;
+interface GoogleUserResult {
+  id: string;
+  name: string;
+  email: string;
+  verified_email: boolean;
+  picture: string;
 }

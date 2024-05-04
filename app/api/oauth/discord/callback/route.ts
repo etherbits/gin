@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
     });
     const discordUserResult: DiscordUserResult = await discordUserResponse.json();
 
+    console.log(discordUserResult)
 
     if (!discordUserResult.email) {
       return new Response("No primary email address", {
@@ -47,7 +48,7 @@ export async function GET(request: NextRequest) {
 
     const existingAccount = await db.query.oauth_accounts.findFirst({
       where: (oauthAccount, { eq }) =>
-        eq(oauthAccount.provider_user_id, String(discordUserResult.id)),
+        eq(oauthAccount.provider_user_id, discordUserResult.id),
     });
 
     if (existingAccount) {
@@ -82,7 +83,7 @@ export async function GET(request: NextRequest) {
 
       await tx.insert(oauth_accounts).values({
         provider_id: "discord",
-        provider_user_id: String(discordUserResult.id),
+        provider_user_id: discordUserResult.id,
         user_id: userId,
       });
     });
@@ -97,7 +98,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     if (e instanceof OAuth2RequestError) {
       // bad verification code, invalid credentials, etc
       return new Response(null, {
@@ -115,7 +116,7 @@ function generateDiscordAvatarUrl(avatarHash: string){
 }
 
 interface DiscordUserResult {
-  id: number;
+  id: string;
   username: string;
   email: string;
   verified: boolean;

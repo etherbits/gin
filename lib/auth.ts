@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schemas/user";
 import { parsedEnv } from "@/utils/env";
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
-import { Discord, GitHub } from "arctic";
+import { Discord, GitHub, Google } from "arctic";
 import { Lucia } from "lucia";
 
 const adapter = new DrizzleSQLiteAdapter(db, sessions, users);
@@ -27,10 +27,17 @@ export const github = new GitHub(
   parsedEnv.GITHUB_OAUTH_ID,
   parsedEnv.GITHUB_OAUTH_SECRET,
 );
+
 export const discord = new Discord(
   parsedEnv.DISCORD_OAUTH_ID,
   parsedEnv.DISCORD_OAUTH_SECRET,
   "http://localhost:3000/api/oauth/discord/callback",
+);
+
+export const google = new Google(
+  parsedEnv.GOOGLE_OAUTH_ID,
+  parsedEnv.GOOGLE_OAUTH_SECRET,
+  "http://localhost:3000/api/oauth/google/callback",
 );
 
 declare module "lucia" {
