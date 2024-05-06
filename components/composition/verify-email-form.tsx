@@ -20,7 +20,6 @@ import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
 import { otpCodeSchema } from "@/validation-schemas/auth";
 import { User } from "lucia";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
@@ -101,7 +100,12 @@ export function VerifyEmailForm({ user }: { user: User | null }) {
             <FormItem className="flex-grow">
               <FormLabel>Confirmation Code</FormLabel>
               <FormControl>
-                <InputOTPPattern autoFocus maxLength={8} withDigits {...field} />
+                <InputOTPPattern
+                  autoFocus
+                  maxLength={8}
+                  withDigits
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

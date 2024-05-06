@@ -6,4 +6,6 @@ export function saveToast(toastData: SavedToast) {
   cookies().set("toast", JSON.stringify(toastData));
 }
 
-export type SavedToast = ExternalToast & { message: string } & {variant: ToastVariants}
+export type SavedToast = ExternalToast & { message: string } & {
+  variant: ToastVariants;
+};

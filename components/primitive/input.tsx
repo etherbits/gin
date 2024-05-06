@@ -8,16 +8,7 @@ export type InputProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLDivElement, InputProps>(
-  (
-    {
-      LeftComponent,
-      RightComponent,
-      className,
-      type,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ LeftComponent, RightComponent, className, type, ...props }, ref) => {
     const { error, required } = useFormField();
     const isInvalid = !!error;
 

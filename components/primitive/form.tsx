@@ -229,7 +229,10 @@ const FieldRequirements = React.forwardRef<
           )}
           <p
             ref={ref}
-            className={cn("text-charcoal-200 w-full text-sm font-medium", className)}
+            className={cn(
+              "text-charcoal-200 w-full text-sm font-medium",
+              className,
+            )}
             {...props}
           >
             {req.msg}

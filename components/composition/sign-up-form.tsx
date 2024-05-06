@@ -21,7 +21,7 @@ import { useStateForm } from "@/utils/useStateForm";
 import { passwordRequirements, signUpSchema } from "@/validation-schemas/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {  useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export function SignUpForm() {
@@ -96,10 +96,7 @@ export function SignUpForm() {
         errors: fieldErrors,
       }}
     >
-      <form
-        action={formAction}
-        className="flex w-full flex-col gap-6"
-      >
+      <form action={formAction} className="flex w-full flex-col gap-6">
         <FormField
           control={form.control}
           name="username"

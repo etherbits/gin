@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     if (existingAccount) {
       const session = await lucia.createSession(existingAccount.user_id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      saveToast({ message: "Signed in with Discord!", variant: "success" })
+      saveToast({ message: "Signed in with Discord!", variant: "success" });
 
       return new Response(null, {
         status: 302,
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-    saveToast({ message: "Signed in with Discord!", variant: "success" })
+    saveToast({ message: "Signed in with Discord!", variant: "success" });
 
     return new Response(null, {
       status: 302,
