@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-screen",
+          "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
         )}
       >
         {children}
