@@ -18,7 +18,7 @@ export async function eventAction<T>(
   action: () => Promise<ActionResult<T>>,
   callbacks: ResultCallbacks<T>,
 ) {
-  const actionId = `sign-up-${v4()}`;
+  const actionId = `action-${v4()}`;
   callbacks.init?.(actionId);
 
   const result = await action();

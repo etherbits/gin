@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { oauth_accounts, users } from "@/db/schemas/user";
 import { google, lucia } from "@/lib/auth";
+import { saveToast } from "@/utils/server-toast";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { NextRequest } from "next/server";
@@ -62,6 +63,8 @@ export async function GET(request: NextRequest) {
     if (existingAccount) {
       const session = await lucia.createSession(existingAccount.user_id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
+      saveToast({ message: "Signed in with Google!", variant: "success" })
+
       return new Response(null, {
         status: 302,
         headers: {
@@ -98,6 +101,8 @@ export async function GET(request: NextRequest) {
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
+    saveToast({ message: "Signed in with Google!", variant: "success" })
+
     return new Response(null, {
       status: 302,
       headers: {
