@@ -26,7 +26,7 @@ const InputIcon = React.forwardRef<SVGSVGElement, IconProps>(
       <Icon
         icon={icon}
         className={cn(
-          "stroke-charcoal-400 w-5 h-5",
+          "stroke-charcoal-400 w-5 h-5 min-w-5",
           { "stroke-charcoal-200": value },
           { "stroke-destructive": error },
           className,

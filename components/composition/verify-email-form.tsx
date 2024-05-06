@@ -101,7 +101,7 @@ export function VerifyEmailForm({ user }: { user: User | null }) {
             <FormItem className="flex-grow">
               <FormLabel>Confirmation Code</FormLabel>
               <FormControl>
-                <InputOTPPattern maxLength={8} withDigits {...field} />
+                <InputOTPPattern autoFocus maxLength={8} withDigits {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,12 +138,6 @@ export function VerifyEmailForm({ user }: { user: User | null }) {
               </Button>
             )}
           </div>
-          <span className="ml-auto text-charcoal-200">
-            Don{"'"}t have an account?{" "}
-            <Link className="text-ship-cove-400" href="/sign-up">
-              Sign Up
-            </Link>
-          </span>
         </div>
       </form>
     </Form>

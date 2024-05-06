@@ -12,21 +12,21 @@ export const passwordRequirements = z
     if (!containsLowercase(data)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Password must contain a lowercase letter",
+        message: "Must contain a lowercase letter",
       });
     }
 
     if (!containsUppercase(data)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Password must contain an uppercase letter",
+        message: "Must contain an uppercase letter",
       });
     }
 
     if (!containsDigit(data)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Password must contain a digit",
+        message: "Must contain a digit",
       });
     }
   });

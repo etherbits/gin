@@ -98,6 +98,7 @@ export function ResetPasswordForm() {
                   type="email"
                   placeholder="johnsmith@example.com"
                   LeftComponent={<InputIcon icon="Mail" />}
+                  autoFocus
                   {...field}
                 />
               </FormControl>
