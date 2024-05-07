@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "../primitive/button";
 import { Icon } from "../primitive/icon";
 import {
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/primitive/dropdown-menu";
 import Link from "next/link";
+import { useState } from "react";
 
 export function BurgerButton() {
   const [isOpen, setIsOpen] = useState(false);
