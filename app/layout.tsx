@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Header } from "@/components/primitive/header";
 import { Toaster } from "@/components/primitive/toaster";
 import { cn } from "@/utils/tailwind";
 import type { Metadata } from "next";
@@ -28,11 +29,14 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
+          "flex flex-col items-center from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
         )}
       >
-        {children}
-        <Toaster />
+        <Header />
+        <div className="flex flex-col max-w-[1440px] pb-5 pt-3 px-6 md:px-12">
+          {children}
+          <Toaster />
+        </div>
       </body>
     </html>
   );

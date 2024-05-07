@@ -1,7 +1,6 @@
 "use client";
 
-import { InputIcon } from "../primitive/icon";
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
 import { Toast } from "../primitive/toaster";
@@ -104,7 +103,7 @@ export function SignInForm() {
               <FormControl>
                 <Input
                   LeftComponent={<InputIcon icon="User" />}
-                  placeholder="shadcn"
+                  placeholder="Ging"
                   {...field}
                 />
               </FormControl>

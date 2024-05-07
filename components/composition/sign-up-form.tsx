@@ -1,7 +1,6 @@
 "use client";
 
-import { InputIcon } from "../primitive/icon";
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
 import { Toast } from "../primitive/toaster";
@@ -78,10 +77,10 @@ export function SignUpForm() {
     },
     formProps: {
       defaultValues: {
-        username: "etherbits",
-        email: "nika.qvrivishvilipc@gmail.com",
-        password: "asd123ASD!",
-        confirmPassword: "asd123ASD!",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       },
     },
   });
@@ -107,7 +106,7 @@ export function SignUpForm() {
               <FormControl>
                 <Input
                   LeftComponent={<InputIcon icon="User" />}
-                  placeholder="shadcn"
+                  placeholder="Ging"
                   {...field}
                 />
               </FormControl>
@@ -126,7 +125,7 @@ export function SignUpForm() {
                 <Input
                   LeftComponent={<InputIcon icon="Mail" />}
                   type="email"
-                  placeholder="shadcn"
+                  placeholder="test@example.com"
                   {...field}
                 />
               </FormControl>

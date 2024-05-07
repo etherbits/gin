@@ -6,7 +6,7 @@ import { Splitter } from "@/components/primitive/splitter";
 export default async function Page() {
   return (
     <>
-      <FormCard title="Sign In" description="Authenticate using a provider">
+      <FormCard title="Sign Up" description="Authenticate using a provider">
         <OAuthButtonGroup />
         <Splitter>or</Splitter>
         <SignUpForm />

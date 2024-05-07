@@ -1,7 +1,6 @@
 "use client";
 
-import { InputIcon } from "../primitive/icon";
-import { Input } from "../primitive/input";
+import { Input, InputIcon } from "../primitive/input";
 import { SubmitButton } from "../primitive/submit-button";
 import { Toast } from "../primitive/toaster";
 import { resetPassword } from "@/actions/reset-password";

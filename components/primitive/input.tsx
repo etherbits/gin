@@ -1,4 +1,5 @@
 import { useFormField } from "./form";
+import { Icon, IconProps } from "./icon";
 import { cn } from "@/utils/tailwind";
 import * as React from "react";
 
@@ -45,4 +46,25 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export { Input };
+const InputIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  ({ icon, className, ...props }, ref) => {
+    const { error, value } = useFormField();
+
+    return (
+      <Icon
+        icon={icon}
+        className={cn(
+          "stroke-charcoal-400 w-5 h-5 min-w-5",
+          { "stroke-charcoal-200": value },
+          { "stroke-destructive": error },
+          className,
+        )}
+        {...props}
+        ref={ref}
+      />
+    );
+  },
+);
+InputIcon.displayName = "InputIcon";
+
+export { Input, InputIcon };
