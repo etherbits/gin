@@ -9,7 +9,7 @@ export async function Header() {
   return (
     <header className="w-full sticky top-0 z-10">
       <div className="flex justify-between w-full w-max-[1280px] mx-auto py-6 px-6 md:py-8 md:px-12">
-        <div className="flex gap-3 items-center">
+        <Link href="/" className="flex gap-3 items-center">
           <Image
             src="/icons/gin_logo.svg"
             alt="logo"
@@ -18,7 +18,7 @@ export async function Header() {
             height={32}
           />
           <span className="text-xl">Gin</span>
-        </div>
+        </Link>
 
         <nav className="flex gap-3 items-center">
           {!user && (
