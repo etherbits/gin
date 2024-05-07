@@ -1,3 +1,4 @@
+import { Header } from "@/components/primitive/header";
 import "./globals.css";
 import { Toaster } from "@/components/primitive/toaster";
 import { cn } from "@/utils/tailwind";
@@ -28,9 +29,10 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
+          "flex flex-col from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
         )}
       >
+        <Header/>
         {children}
         <Toaster />
       </body>
