@@ -1,4 +1,5 @@
-import { IconButton, InputIcon } from "./icon";
+import { IconButton } from "./icon";
+import { InputIcon } from "./input";
 import { Input, InputProps } from "./input";
 import * as React from "react";
 

@@ -1,3 +1,4 @@
+import { BurgerButton } from "../composition/burger-button";
 import { Button } from "./button";
 import { validateRequest } from "@/utils/auth";
 import Image from "next/image";
@@ -8,7 +9,7 @@ export async function Header() {
 
   return (
     <header className="w-full sticky top-0 z-10">
-      <div className="flex justify-between w-full w-max-[1280px] mx-auto py-6 px-6 md:py-8 md:px-12">
+      <div className="flex justify-between w-full max-w-[1440px] mx-auto py-6 px-6 md:py-8 md:px-12">
         <Link href="/" className="flex gap-3 items-center">
           <Image
             src="/icons/gin_logo.svg"
@@ -20,15 +21,23 @@ export async function Header() {
           <span className="text-xl">Gin</span>
         </Link>
 
-        <nav className="flex gap-3 items-center">
+        <nav className="gap-3 items-center hidden sm:flex">
           {!user && (
-            <Link href="/sign-in">
-              <Button variant={"secondary"} size="sm">
-                Sign In
-              </Button>
-            </Link>
+            <>
+              <Link href="/sign-in">
+                <Button variant={"secondary"} size="sm">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button size="sm">Register</Button>
+              </Link>
+            </>
           )}
         </nav>
+        <div className="sm:hidden">
+          <BurgerButton />
+        </div>
       </div>
       <div
         className={`absolute z-[-1] top-0 w-full h-full backdrop-blur-xl
