@@ -1,28 +1,35 @@
 "use client";
 
-import DNDList, { DNDItemData } from "../primitive/drag-drop-list";
-import { useState } from "react";
+import DNDList from "../primitive/drag-drop-list";
 
 export default function DeckList() {
-  const [decks, setDecks] = useState<DNDItemData[]>(
-    tempDecks
-      .sort((a, b) => a.index - b.index)
-      .map((deck) => ({
+  return (
+    <DNDList
+      initialItems={tempDecks.map((deck) => ({
         id: deck.id,
         index: deck.index,
+        isGroup: deck.isGroup,
         attributes: {
           Title: deck.title,
           New: deck.new,
           Learning: deck.learning,
           Review: deck.review,
         },
-      })),
+      }))}
+    />
   );
-
-  return <DNDList setItems={setDecks} items={decks} />;
 }
 
 const tempDecks = [
+  {
+    id: "group-0",
+    title: "First Group",
+    new: 0,
+    learning: 0,
+    review: 0,
+    index: 8,
+    isGroup: true,
+  },
   {
     id: "f3b8180b-6033-42f9-a340-0979e5410f80",
     title: "Crocuta crocuta",
