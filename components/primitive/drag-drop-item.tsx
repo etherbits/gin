@@ -5,14 +5,12 @@ import { CSS } from "@dnd-kit/utilities";
 import { BaseItem, DNDItem, DisplayAttributes } from "./drag-drop-list";
 
 interface Props<T extends BaseItem> {
-  parentId?: string;
   item: DNDItem<T>;
   attributes: DisplayAttributes<T>;
   children?: React.ReactNode;
 }
 
 export default function DNDItem<T extends BaseItem>({
-  parentId,
   item,
   attributes,
   children,

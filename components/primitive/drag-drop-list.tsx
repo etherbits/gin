@@ -6,12 +6,16 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-export interface BaseItem {
+export type BaseItem = {
   id: string;
   title: string;
   index: number;
   items?: BaseItem[];
-}
+} & {
+  new: number;
+  learning: number;
+  review: number;
+};
 
 export type DNDItem<T extends BaseItem> = T & Record<string, string | number>;
 
