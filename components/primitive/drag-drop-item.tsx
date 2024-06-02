@@ -1,12 +1,12 @@
 "use client";
 
-import { BaseItem, DNDItemData, DisplayAttributes } from "./drag-drop-list";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { BaseItem, DNDItem, DisplayAttributes } from "./drag-drop-list";
 
 interface Props<T extends BaseItem> {
   parentId?: string;
-  item: DNDItemData<T>;
+  item: DNDItem<T>;
   attributes: DisplayAttributes<T>;
   children?: React.ReactNode;
 }
@@ -17,8 +17,6 @@ export default function DNDItem<T extends BaseItem>({
   attributes,
   children,
 }: Props<T>) {
-  const sortableId = parentId ? `${parentId}>${item.id}` : item.id;
-
   const {
     attributes: attrs,
     listeners,
@@ -27,7 +25,7 @@ export default function DNDItem<T extends BaseItem>({
     transition,
     isOver,
     isDragging,
-  } = useSortable({ id: sortableId });
+  } = useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),

@@ -1,17 +1,10 @@
 "use client";
 
-import DNDItem from "../primitive/drag-drop-item";
 import DNDSortableList, {
   BaseItem,
   DisplayAttributes,
 } from "../primitive/drag-drop-list";
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  UniqueIdentifier,
-} from "@dnd-kit/core";
+import { DndContext, DragOverEvent, DragStartEvent } from "@dnd-kit/core";
 import { useId, useState } from "react";
 
 export default function DeckList<T extends BaseItem>(props: {
@@ -19,41 +12,39 @@ export default function DeckList<T extends BaseItem>(props: {
   attributes: DisplayAttributes<T>;
 }) {
   const id = useId();
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [items, setItems] = useState(props.initialItems);
+  const [wasOutside, setWasOutside] = useState(false);
 
   function handleDragStart(e: DragStartEvent) {
-    setActiveId(e.active.id);
     console.log(e);
+    //  todo
   }
 
   function handleDragEnd() {
-    setActiveId(null);
+    setWasOutside(false);
+    setItems([...items]);
   }
 
-  function findItem(id: string) {
-    const ids = id.split(">");
-    const item = items.find((item) => item.id === ids[0]);
-    console.log(id);
+  function handleDragOver(e: DragOverEvent) {
+    const overId = e.over?.id;
+    const isOutside = items.some((item) => item.id === overId);
 
-    if (!item) return null;
+    if (isOutside && !wasOutside && items[0].items!.length > 0) {
+      const item = items[0].items!.shift();
+      items.push(item!);
+    }
 
-    if (ids.length == 1) return item;
-
-    return item.items?.find((innerItem) => innerItem.id == ids[1]);
+    setWasOutside(isOutside);
   }
 
   return (
-    <DndContext id={id} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext
+      id={id}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
       <DNDSortableList items={items} attributes={props.attributes} />
-      <DragOverlay>
-        {activeId ? (
-          <DNDItem
-            item={findItem(activeId as string)}
-            attributes={props.attributes}
-          />
-        ) : null}
-      </DragOverlay>
     </DndContext>
   );
 }
