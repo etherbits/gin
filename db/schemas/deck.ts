@@ -14,6 +14,9 @@ export const deck = sqliteTable("deck", {
   createdAt: integer("created_at")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
+  cardOrder: text("card_order", { mode: "json" })
+    .notNull()
+    .default(sql`(json_array(0))`),
 });
 
 export const deckGroup = sqliteTable("deck_group", {
@@ -21,6 +24,10 @@ export const deckGroup = sqliteTable("deck_group", {
   userId: integer("user_id").notNull(),
   title: text("title").notNull().unique(),
   isVisible: integer("is_visible").notNull().default(1),
+  deckOrder: text("deck_order", { mode: "json" })
+    .notNull()
+    .default(sql`(json_array(0))`),
+  isOpen: integer("is_open").notNull().default(1),
 });
 
 export const card = sqliteTable("card", {

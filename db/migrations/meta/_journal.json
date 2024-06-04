@@ -127,6 +127,34 @@
       "when": 1714805580241,
       "tag": "0017_light_husk",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1717518029457,
+      "tag": "0018_cheerful_arclight",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1717518177129,
+      "tag": "0019_woozy_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1717518273489,
+      "tag": "0020_fixed_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "5",
+      "when": 1717518474403,
+      "tag": "0021_watery_gunslinger",
+      "breakpoints": true
     }
   ]
 }
