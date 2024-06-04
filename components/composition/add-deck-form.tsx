@@ -4,7 +4,7 @@ import { Input, InputIcon } from "../primitive/input";
 import { PasswordInput } from "../primitive/password-input";
 import { SubmitButton } from "../primitive/submit-button";
 import { Toast } from "../primitive/toaster";
-import { signIn } from "@/actions/sign-in";
+import { addDeck } from "@/actions/add-deck";
 import {
   Form,
   FormControl,
@@ -16,7 +16,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
-import { signInSchema } from "@/validation-schemas/auth";
+import { deckSchema } from "@/validation-schemas/deck";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useState } from "react";
@@ -29,14 +29,14 @@ export function SignInForm() {
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: signInSchema,
+    schema: deckSchema,
     action: async (...action) => {
-      return eventAction(() => signIn(...action), {
+      return eventAction(() => addDeck(...action), {
         init: (actionId) => {
           toast.custom(
             (id) => (
               <Toast
-                message="Signing in..."
+                message="Adding deck..."
                 variant="loading"
                 toastData={{ id: id }}
               />
@@ -48,7 +48,7 @@ export function SignInForm() {
           toast.custom(
             (id) => (
               <Toast
-                message="Could not sign in"
+                message="Couldn't add deck"
                 variant="error"
                 toastData={{
                   description: "Take a look at errors in the form",
@@ -63,7 +63,7 @@ export function SignInForm() {
           toast.custom(
             (id) => (
               <Toast
-                message="Signed in!"
+                message="Deck added!"
                 variant="success"
                 toastData={{ id: id }}
               />
@@ -76,8 +76,10 @@ export function SignInForm() {
     },
     formProps: {
       defaultValues: {
-        username: "",
-        password: "",
+        title: "",
+        description: "",
+        target: "Private",
+        groupId: "",
       },
     },
   });

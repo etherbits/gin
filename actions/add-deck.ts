@@ -9,6 +9,7 @@ import {
   validateFormData,
 } from "@/utils/validation";
 import { deckSchema } from "@/validation-schemas/deck";
+import { uuidv7 } from "uuidv7";
 
 export async function addDeck(
   _prevState: ActionResult<unknown>,
@@ -21,6 +22,7 @@ export async function addDeck(
       error: { formError: "Please sign in to create a deck" },
       status: "error",
     };
+
   const parseResult = await validateFormData(formData, deckSchema);
 
   if (!parseResult.success) {
@@ -29,13 +31,21 @@ export async function addDeck(
 
   const ok = parseResult.data;
 
-  db.insert(deck).values({
-    userId: user.id,
-    title: ok.title,
-    description: ok.description ?? "",
-    isPublic: +(ok.target === "Public"),
-    deckGroupId: ok.groupId ?? null
-  });
+  try {
+    db.insert(deck).values({
+      id: uuidv7(),
+      userId: user.id,
+      title: ok.title,
+      description: ok.description || null,
+      isPublic: +(ok.target === "Shared"),
+      deckGroupId: ok.groupId,
+    });
+  } catch (e) {
+    return {
+      status: "error",
+      error: { formError: "Something went wrong when creating your deck" },
+    };
+  }
 
   return { status: "success" };
 }

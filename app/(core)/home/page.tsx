@@ -14,11 +14,11 @@ export default function Page() {
             <Icon icon="Settings" className="w-5 h-5" />
           </IconButton>
         }
-				RightSlot={
-					<Link href="/add-deck">
-					<Button size="sm">Add Deck</Button>
-					</Link>
-				}
+        RightSlot={
+          <Link href="/add-deck">
+            <Button size="sm">Add Deck</Button>
+          </Link>
+        }
       />
     </div>
   );

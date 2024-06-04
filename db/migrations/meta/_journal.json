@@ -162,6 +162,13 @@
       "when": 1717532943301,
       "tag": "0022_bright_the_fallen",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1717534644434,
+      "tag": "0023_hesitant_wasp",
+      "breakpoints": true
     }
   ]
 }
