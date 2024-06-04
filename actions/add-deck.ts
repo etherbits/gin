@@ -1,80 +1,41 @@
 "use server";
 
 import { db } from "@/db";
-import { lucia } from "@/lib/auth";
+import { deck } from "@/db/schemas/deck";
+import { validateRequest } from "@/utils/auth";
 import {
   ActionResult,
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import { signInSchema } from "@/validation-schemas/auth";
-import { cookies } from "next/headers";
-import { Argon2id } from "oslo/password";
+import { deckSchema } from "@/validation-schemas/deck";
 
-export async function signIn(
+export async function addDeck(
   _prevState: ActionResult<unknown>,
   formData: FormData,
 ): Promise<ActionResult<unknown>> {
-  const parseResult = await validateFormData(formData, signInSchema);
+  const { user } = await validateRequest();
+
+  if (!user)
+    return {
+      error: { formError: "Please sign in to create a deck" },
+      status: "error",
+    };
+  const parseResult = await validateFormData(formData, deckSchema);
 
   if (!parseResult.success) {
     return { status: "error", error: generateServerErrors(parseResult.error) };
   }
 
-  const { username, password } = parseResult.data;
+  const ok = parseResult.data;
 
-  const existingUser = await db.query.users.findFirst({
-    where: (user, { eq }) => eq(user.username, username),
+  db.insert(deck).values({
+    userId: user.id,
+    title: ok.title,
+    description: ok.description ?? "",
+    isPublic: +(ok.target === "Public"),
+    deckGroupId: ok.groupId ?? null
   });
-
-  if (!existingUser) {
-    return {
-      status: "error",
-      error: {
-        fieldErrors: {
-          username: {
-            message: `No account with username: \"${username}\"`,
-          },
-        },
-      },
-    };
-  }
-
-  if (!existingUser.hashed_password) {
-    return {
-      status: "error",
-      error: {
-        formError: `You don't have a password associated with this account.
-           You can sign in with the appropriate provider and set a password`,
-      },
-    };
-  }
-
-  const validPassword = await new Argon2id().verify(
-    existingUser.hashed_password,
-    password,
-  );
-
-  if (!validPassword) {
-    return {
-      status: "error",
-      error: {
-        fieldErrors: {
-          password: {
-            message: "Incorrect password. Check your password and try again.",
-          },
-        },
-      },
-    };
-  }
-
-  const session = await lucia.createSession(existingUser.id, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
-  cookies().set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
 
   return { status: "success" };
 }
