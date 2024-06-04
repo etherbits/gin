@@ -16,6 +16,7 @@ export async function addDeck(
   formData: FormData,
 ): Promise<ActionResult<unknown>> {
   const { user } = await validateRequest();
+  console.log(formData)
 
   if (!user)
     return {
@@ -26,6 +27,7 @@ export async function addDeck(
   const parseResult = await validateFormData(formData, deckSchema);
 
   if (!parseResult.success) {
+    console.log(parseResult.error);
     return { status: "error", error: generateServerErrors(parseResult.error) };
   }
 

@@ -1,8 +1,15 @@
 "use client";
 
 import { Input, InputIcon } from "../primitive/input";
-import { PasswordInput } from "../primitive/password-input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../primitive/select";
 import { SubmitButton } from "../primitive/submit-button";
+import { Textarea } from "../primitive/textarea";
 import { Toast } from "../primitive/toaster";
 import { addDeck } from "@/actions/add-deck";
 import {
@@ -16,13 +23,13 @@ import {
 import { cn } from "@/utils/tailwind";
 import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
-import { deckSchema } from "@/validation-schemas/deck";
-import Link from "next/link";
+import { deckSchema, deckTargets } from "@/validation-schemas/deck";
 import { redirect } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 
-export function SignInForm() {
+export function AddDeckForm(props: {
+  deckGroups: { id: string; title: string }[];
+}) {
   const {
     form,
     form: { formState },
@@ -78,13 +85,11 @@ export function SignInForm() {
       defaultValues: {
         title: "",
         description: "",
-        target: "Private",
-        groupId: "",
+        target: undefined,
+        groupId: undefined,
       },
     },
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form
@@ -97,14 +102,14 @@ export function SignInForm() {
       <form action={formAction} className="flex w-full flex-col gap-6">
         <FormField
           control={form.control}
-          name="username"
+          name="title"
           required
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input
-                  LeftComponent={<InputIcon icon="User" />}
+                  LeftComponent={<InputIcon icon="Album" />}
                   placeholder="Ging"
                   {...field}
                 />
@@ -115,20 +120,70 @@ export function SignInForm() {
         />
         <FormField
           control={form.control}
-          name="password"
-          required
+          name="description"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
-                <PasswordInput
-                  showPassword={showPassword}
-                  setShowPassword={setShowPassword}
-                  LeftComponent={<InputIcon icon="Lock" />}
-                  placeholder="••••••••"
+                <Textarea
+                  placeholder="A deck about Nen techniques..."
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <input name="groupId" type="hidden" value={form.getValues().groupId}/>
+        <FormField
+          control={form.control}
+          name="groupId"
+          required
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Group</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger LeftSlot={<InputIcon icon="Boxes" />}>
+                    <SelectValue placeholder="Select a group" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {props.deckGroups.map((group) => (
+                    <SelectItem key={group.id} value={group.id}>
+                      {group.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <input name="target" type="hidden" value={form.getValues().target}/>
+        <FormField
+          control={form.control}
+          name="target"
+          required
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Target</FormLabel>
+
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger LeftSlot={<InputIcon icon="Target" />}>
+                    <SelectValue placeholder="Select the target of this deck" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {deckTargets.map((target) => (
+                    <SelectItem key={target} value={target}>
+                      {target}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -143,16 +198,7 @@ export function SignInForm() {
         </p>
 
         <div className="flex flex-col mt-2 gap-3">
-          <Link className="ml-auto text-ship-cove-400" href="/reset-password">
-            Forgot password?
-          </Link>
-          <SubmitButton isValid={formState.isValid}>Sign In</SubmitButton>
-          <span className="ml-auto text-charcoal-200">
-            Don{"'"}t have an account?{" "}
-            <Link className="text-ship-cove-400" href="/sign-up">
-              Sign Up
-            </Link>
-          </span>
+          <SubmitButton isValid={formState.isValid}>Create Deck</SubmitButton>
         </div>
       </form>
     </Form>
