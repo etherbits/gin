@@ -8,7 +8,7 @@ export const deck = sqliteTable(
   {
     id: text("id").primaryKey().notNull(),
     userId: text("user_id").notNull(),
-    deckGroupId: integer("deck_group_id"),
+    deckGroupId: text("deck_group_id"),
     title: text("title").notNull(),
     description: text("description"),
     isPublic: integer("is_public").notNull().default(0),
@@ -27,7 +27,7 @@ export const deckGroup = sqliteTable(
   "deck_group",
   {
     id: text("id").primaryKey().notNull(),
-    userId: integer("user_id").notNull(),
+    userId: text("user_id").notNull(),
     title: text("title").notNull(),
     isVisible: integer("is_visible").notNull().default(1),
     deckOrder: text("deck_order", { mode: "json" })
@@ -41,7 +41,7 @@ export const deckGroup = sqliteTable(
 export const card = sqliteTable("card", {
   id: text("id").primaryKey().notNull(),
   userId: text("user_id").notNull(),
-  deckId: integer("deck_id").notNull(),
+  deckId: text("deck_id").notNull(),
   front: text("front").notNull(),
   back: text("back").notNull(),
   state: text("state", { enum: cardStateEnum }).notNull().default("NEW"),
