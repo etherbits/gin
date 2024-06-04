@@ -155,6 +155,13 @@
       "when": 1717518474403,
       "tag": "0021_watery_gunslinger",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1717532943301,
+      "tag": "0022_bright_the_fallen",
+      "breakpoints": true
     }
   ]
 }
