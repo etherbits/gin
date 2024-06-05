@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "16185836-f88e-4fe2-816a-255736bb84c2",
-  "prevId": "f47f1cbe-950f-405f-883c-309749f13482",
   "tables": {
     "card": {
       "name": "card",
@@ -206,7 +204,9 @@
       "indexes": {
         "deck_group_title_unique": {
           "name": "deck_group_title_unique",
-          "columns": ["title"],
+          "columns": [
+            "title"
+          ],
           "isUnique": true
         }
       },
@@ -258,20 +258,28 @@
         "email_verification_codes_user_id_users_id_fk": {
           "name": "email_verification_codes_user_id_users_id_fk",
           "tableFrom": "email_verification_codes",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "email_verification_codes_email_users_email_fk": {
           "name": "email_verification_codes_email_users_email_fk",
           "tableFrom": "email_verification_codes",
+          "columnsFrom": [
+            "email"
+          ],
           "tableTo": "users",
-          "columnsFrom": ["email"],
-          "columnsTo": ["email"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "email"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -307,16 +315,23 @@
         "oauth_account_user_id_users_id_fk": {
           "name": "oauth_account_user_id_users_id_fk",
           "tableFrom": "oauth_account",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
         "oauth_account_provider_id_provider_user_id_pk": {
-          "columns": ["provider_id", "provider_user_id"],
+          "columns": [
+            "provider_id",
+            "provider_user_id"
+          ],
           "name": "oauth_account_provider_id_provider_user_id_pk"
         }
       },
@@ -352,11 +367,15 @@
         "password_reset_tokens_user_id_users_id_fk": {
           "name": "password_reset_tokens_user_id_users_id_fk",
           "tableFrom": "password_reset_tokens",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -392,11 +411,15 @@
         "sessions_user_id_users_id_fk": {
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -452,12 +475,16 @@
       "indexes": {
         "users_username_unique": {
           "name": "users_username_unique",
-          "columns": ["username"],
+          "columns": [
+            "username"
+          ],
           "isUnique": true
         },
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         }
       },
@@ -468,8 +495,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "16185836-f88e-4fe2-816a-255736bb84c2",
+  "prevId": "f47f1cbe-950f-405f-883c-309749f13482"
 }

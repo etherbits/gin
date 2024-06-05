@@ -1,9 +1,20 @@
 import { Button } from "@/components/primitive/button";
 import { Icon, IconButton } from "@/components/primitive/icon";
 import TopBar from "@/components/primitive/top-bar";
+import { db } from "@/db";
+import { validateRequest } from "@/utils/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page() {
+  const { user } = await validateRequest();
+
+  if (!user) return redirect("/sign-in");
+
+  const decks = await db.query.deck.findMany({
+    where: (deck, { eq }) => eq(deck.userId, user.id) && eq(deck.isVisible, 1),
+  });
+
   return (
     <div>
       <TopBar
@@ -20,6 +31,15 @@ export default function Page() {
           </Link>
         }
       />
+      <ul>
+        {decks.map((deck) => {
+          return (
+            <li key={deck.id}>
+              <Link href={`/deck/${deck.title}/card-list`}>{deck.title}</Link>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

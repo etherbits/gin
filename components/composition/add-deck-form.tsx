@@ -23,7 +23,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import { eventAction } from "@/utils/toast";
 import { useStateForm } from "@/utils/useStateForm";
-import { deckSchema, deckTargets } from "@/validation-schemas/deck";
+import { addDeckSchema, deckTargets } from "@/validation-schemas/deck";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
@@ -36,7 +36,7 @@ export function AddDeckForm(props: {
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
-    schema: deckSchema,
+    schema: addDeckSchema,
     action: async (...action) => {
       return eventAction(() => addDeck(...action), {
         init: (actionId) => {

@@ -8,15 +8,16 @@ import {
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import { deckSchema } from "@/validation-schemas/deck";
+import { addDeckSchema } from "@/validation-schemas/deck";
 import { uuidv7 } from "uuidv7";
+import slugify from 'slugify'
 
 export async function addDeck(
   _prevState: ActionResult<unknown>,
   formData: FormData,
 ): Promise<ActionResult<unknown>> {
   const { user } = await validateRequest();
-  console.log(formData)
+  console.log("formdata: ", formData)
 
   if (!user)
     return {
@@ -24,7 +25,7 @@ export async function addDeck(
       status: "error",
     };
 
-  const parseResult = await validateFormData(formData, deckSchema);
+  const parseResult = await validateFormData(formData, addDeckSchema);
 
   if (!parseResult.success) {
     console.log(parseResult.error);
@@ -34,9 +35,10 @@ export async function addDeck(
   const ok = parseResult.data;
 
   try {
-    db.insert(deck).values({
+    await db.insert(deck).values({
       id: uuidv7(),
       userId: user.id,
+      slug: slugify(ok.title),
       title: ok.title,
       description: ok.description || null,
       isPublic: +(ok.target === "Shared"),

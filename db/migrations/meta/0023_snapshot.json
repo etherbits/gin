@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "d743f464-bd3e-4c9e-9be8-8d831270f68b",
-  "prevId": "4afa14e4-f82d-45f0-9b9d-dd2421644ede",
   "tables": {
     "card": {
       "name": "card",
@@ -270,28 +268,28 @@
         "email_verification_codes_user_id_users_id_fk": {
           "name": "email_verification_codes_user_id_users_id_fk",
           "tableFrom": "email_verification_codes",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "email_verification_codes_email_users_email_fk": {
           "name": "email_verification_codes_email_users_email_fk",
           "tableFrom": "email_verification_codes",
-          "tableTo": "users",
           "columnsFrom": [
             "email"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "email"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -327,15 +325,15 @@
         "oauth_account_user_id_users_id_fk": {
           "name": "oauth_account_user_id_users_id_fk",
           "tableFrom": "oauth_account",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -379,15 +377,15 @@
         "password_reset_tokens_user_id_users_id_fk": {
           "name": "password_reset_tokens_user_id_users_id_fk",
           "tableFrom": "password_reset_tokens",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -423,15 +421,15 @@
         "sessions_user_id_users_id_fk": {
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -507,8 +505,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "d743f464-bd3e-4c9e-9be8-8d831270f68b",
+  "prevId": "4afa14e4-f82d-45f0-9b9d-dd2421644ede"
 }

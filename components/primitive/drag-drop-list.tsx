@@ -9,7 +9,6 @@ import {
 export type BaseItem = {
   id: string;
   title: string;
-  index: number;
   items?: BaseItem[];
 } & {
   new: number;

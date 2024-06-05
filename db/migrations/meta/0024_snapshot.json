@@ -1,13 +1,15 @@
 {
   "version": "6",
   "dialect": "sqlite",
+  "id": "79ec53fc-674d-4aa1-a8dc-687616978d18",
+  "prevId": "d743f464-bd3e-4c9e-9be8-8d831270f68b",
   "tables": {
     "card": {
       "name": "card",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -21,7 +23,14 @@
         },
         "deck_id": {
           "name": "deck_id",
-          "type": "integer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -81,7 +90,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -95,9 +104,16 @@
         },
         "deck_group_id": {
           "name": "deck_group_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "title": {
@@ -137,9 +153,26 @@
           "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
+        },
+        "card_order": {
+          "name": "card_order",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(json_array())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "deck_title_user_id_unique": {
+          "name": "deck_title_user_id_unique",
+          "columns": [
+            "title",
+            "user_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
@@ -149,14 +182,14 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -175,13 +208,30 @@
           "notNull": true,
           "autoincrement": false,
           "default": 1
+        },
+        "deck_order": {
+          "name": "deck_order",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(json_array())"
+        },
+        "is_open": {
+          "name": "is_open",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
         }
       },
       "indexes": {
-        "deck_group_title_unique": {
-          "name": "deck_group_title_unique",
+        "deck_group_title_user_id_unique": {
+          "name": "deck_group_title_user_id_unique",
           "columns": [
-            "title"
+            "title",
+            "user_id"
           ],
           "isUnique": true
         }
@@ -234,31 +284,83 @@
         "email_verification_codes_user_id_users_id_fk": {
           "name": "email_verification_codes_user_id_users_id_fk",
           "tableFrom": "email_verification_codes",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         },
         "email_verification_codes_email_users_email_fk": {
           "name": "email_verification_codes_email_users_email_fk",
           "tableFrom": "email_verification_codes",
+          "tableTo": "users",
           "columnsFrom": [
             "email"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "email"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "oauth_account": {
+      "name": "oauth_account",
+      "columns": {
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "provider_user_id": {
+          "name": "provider_user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "oauth_account_user_id_users_id_fk": {
+          "name": "oauth_account_user_id_users_id_fk",
+          "tableFrom": "oauth_account",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "oauth_account_provider_id_provider_user_id_pk": {
+          "columns": [
+            "provider_id",
+            "provider_user_id"
+          ],
+          "name": "oauth_account_provider_id_provider_user_id_pk"
+        }
+      },
       "uniqueConstraints": {}
     },
     "password_reset_tokens": {
@@ -291,15 +393,15 @@
         "password_reset_tokens_user_id_users_id_fk": {
           "name": "password_reset_tokens_user_id_users_id_fk",
           "tableFrom": "password_reset_tokens",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -335,15 +437,15 @@
         "sessions_user_id_users_id_fk": {
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
-          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -381,11 +483,18 @@
           "autoincrement": false,
           "default": 0
         },
+        "profile_image": {
+          "name": "profile_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "hashed_password": {
           "name": "hashed_password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         }
       },
@@ -412,9 +521,11 @@
   },
   "enums": {},
   "_meta": {
+    "schemas": {},
     "tables": {},
     "columns": {}
   },
-  "id": "eb039106-dba7-405c-92f7-13ca0e367a4b",
-  "prevId": "54d1570e-c04c-4f4c-a241-393f5380ed74"
+  "internal": {
+    "indexes": {}
+  }
 }
