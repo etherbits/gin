@@ -134,7 +134,7 @@ export function AddDeckForm(props: {
             </FormItem>
           )}
         />
-        <input name="groupId" type="hidden" value={form.getValues().groupId}/>
+        <input name="groupId" type="hidden" value={form.getValues().groupId} />
         <FormField
           control={form.control}
           name="groupId"
@@ -160,7 +160,7 @@ export function AddDeckForm(props: {
             </FormItem>
           )}
         />
-        <input name="target" type="hidden" value={form.getValues().target}/>
+        <input name="target" type="hidden" value={form.getValues().target} />
         <FormField
           control={form.control}
           name="target"

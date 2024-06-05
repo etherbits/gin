@@ -21,7 +21,10 @@ export const deck = sqliteTable(
       .notNull()
       .default(sql`(json_array())`),
   },
-  (t) => ({ unq: unique().on(t.title, t.userId) }),
+  (t) => ({
+    unq: unique().on(t.title, t.userId),
+    unq2: unique().on(t.slug, t.userId),
+  }),
 );
 
 export const deckGroup = sqliteTable(
@@ -36,14 +39,14 @@ export const deckGroup = sqliteTable(
       .default(sql`(json_array())`),
     isOpen: integer("is_open").notNull().default(1),
   },
-  (t) => ({ unq: unique().on(t.title, t.userId) }),
+  (t) => ({ unq: unique().on(t.title, t.userId),
+  }),
 );
 
 export const card = sqliteTable("card", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull(),
   deckId: text("deck_id").notNull(),
-  slug: text("slug").notNull(),
   front: text("front").notNull(),
   back: text("back").notNull(),
   state: text("state", { enum: cardStateEnum }).notNull().default("NEW"),

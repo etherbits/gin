@@ -45,6 +45,7 @@ export async function addDeck(
       deckGroupId: ok.groupId,
     });
   } catch (e) {
+    console.error(e);
     return {
       status: "error",
       error: { formError: "Something went wrong when creating your deck" },

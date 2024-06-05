@@ -35,7 +35,7 @@ export default async function Page() {
         {decks.map((deck) => {
           return (
             <li key={deck.id}>
-              <Link href={`/deck/${deck.title}/card-list`}>{deck.title}</Link>
+              <Link href={`/deck/${deck.slug}/card-list`}>{deck.title}</Link>
             </li>
           );
         })}

@@ -4,7 +4,8 @@ import { db } from "@/db";
 import { validateRequest } from "@/utils/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
+
+export const dynamic = "force-dynamic";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { user } = await validateRequest();
@@ -12,18 +13,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!user) return redirect("/sign-in");
 
   const deck = await db.query.deck.findFirst({
-    where: (deck, { eq }) => eq(deck.title, params.slug),
+    where: (deck, { eq }) =>
+      eq(deck.slug, params.slug) &&
+      eq(deck.userId, user.id) &&
+      eq(deck.isVisible, 1),
   });
 
   if (!deck) {
-    toast.error("Deck not found");
-    return redirect("/home");
+    return redirect("/404");
   }
 
   return (
     <div>
-      <TopBar title={`${deck} - Card List`} />
-      <Link href={`/deck/${deckTitle}/add-card`}>
+      <TopBar title={`${deck.title} - Card List`} />
+      <Link href={`/deck/${deck.slug}/add-card`}>
         <Button>Add Card</Button>
       </Link>
     </div>

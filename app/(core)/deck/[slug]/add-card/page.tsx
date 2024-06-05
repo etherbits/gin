@@ -4,19 +4,22 @@ import { db } from "@/db";
 import { validateRequest } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function Page({ params }: { params: { slug: string } }) {
   const { user } = await validateRequest();
 
   if (!user) return redirect("/sign-in");
 
-  const deckGroups = await db.query.deckGroup.findMany({
-    where: (group, { eq }) => eq(group.userId, user.id),
+  const deck = await db.query.deck.findFirst({
+    where: (deck, { eq }) =>
+      eq(deck.slug, params.slug) &&
+      eq(deck.userId, user.id) &&
+      eq(deck.isVisible, 1),
   });
 
   return (
     <div>
       <TopBar title="Add Deck" />
-      <AddDeckForm deckGroups={deckGroups} />
+      <AddCard deckGroups={deckGroups} />
     </div>
   );
 }
