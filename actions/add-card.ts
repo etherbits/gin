@@ -1,18 +1,17 @@
 "use server";
 
 import { db } from "@/db";
-import { deck } from "@/db/schemas/deck";
+import { card } from "@/db/schemas/deck";
 import { validateRequest } from "@/utils/auth";
 import {
   ActionResult,
   generateServerErrors,
   validateFormData,
 } from "@/utils/validation";
-import { addDeckSchema } from "@/validation-schemas/deck";
+import { addCardSchema } from "@/validation-schemas/deck";
 import { uuidv7 } from "uuidv7";
-import slugify from 'slugify'
 
-export async function addDeck(
+export async function addCard(
   _prevState: ActionResult<unknown>,
   formData: FormData,
 ): Promise<ActionResult<unknown>> {
@@ -20,11 +19,11 @@ export async function addDeck(
 
   if (!user)
     return {
-      error: { formError: "Please sign in to create a deck" },
+      error: { formError: "Please sign in to create a card" },
       status: "error",
     };
 
-  const parseResult = await validateFormData(formData, addDeckSchema);
+  const parseResult = await validateFormData(formData, addCardSchema);
 
   if (!parseResult.success) {
     console.log(parseResult.error);
@@ -34,20 +33,18 @@ export async function addDeck(
   const ok = parseResult.data;
 
   try {
-    await db.insert(deck).values({
+    await db.insert(card).values({
       id: uuidv7(),
+      deckId: ok.deckId,
       userId: user.id,
-      slug: slugify(ok.title),
-      title: ok.title,
-      description: ok.description || null,
-      isPublic: +(ok.target === "Shared"),
-      deckGroupId: ok.groupId,
+      front: ok.front,
+      back: ok.back,
     });
   } catch (e) {
     console.error(e);
     return {
       status: "error",
-      error: { formError: "Something went wrong when creating your deck" },
+      error: { formError: "Something went wrong when creating your card" },
     };
   }
 

@@ -13,22 +13,43 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!user) return redirect("/sign-in");
 
   const deck = await db.query.deck.findFirst({
-    where: (deck, { eq }) =>
-      eq(deck.slug, params.slug) &&
-      eq(deck.userId, user.id) &&
-      eq(deck.isVisible, 1),
+    where: (deck, { eq, and }) =>
+      and(
+        eq(deck.slug, params.slug),
+        eq(deck.userId, user.id),
+        eq(deck.isVisible, 1),
+      ),
   });
 
   if (!deck) {
     return redirect("/404");
   }
 
+  const cards = await db.query.card.findMany({
+    where: (card, { eq, and }) =>
+      and(eq(card.deckId, deck.id), eq(card.userId, user.id)),
+  });
+
   return (
     <div>
-      <TopBar title={`${deck.title} - Card List`} />
-      <Link href={`/deck/${deck.slug}/add-card`}>
-        <Button>Add Card</Button>
-      </Link>
+      <TopBar
+        title={`${deck.title} - Card List`}
+        RightSlot={
+          <Link href={`/deck/${deck.slug}/add-card`}>
+            <Button>Add Card</Button>
+          </Link>
+        }
+      />
+
+      <ul>
+        {cards.map((card) => {
+          return (
+            <li key={card.id}>
+              <Link href={`#`}>{card.front.slice(0, 8)}</Link>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

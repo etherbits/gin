@@ -10,6 +10,7 @@ export const addDeckSchema = z.object({
 });
 
 export const addCardSchema = z.object({
+  deckId: z.string().min(1),
   front: z.string().min(1).max(4000),
   back: z.string().min(0).max(4000), 
 });

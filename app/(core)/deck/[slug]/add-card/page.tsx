@@ -1,3 +1,4 @@
+import { AddCardForm } from "@/components/composition/add-card-form";
 import { AddDeckForm } from "@/components/composition/add-deck-form";
 import TopBar from "@/components/primitive/top-bar";
 import { db } from "@/db";
@@ -16,10 +17,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
       eq(deck.isVisible, 1),
   });
 
+  if (!deck) {
+    return redirect("/404");
+  }
+
   return (
     <div>
-      <TopBar title="Add Deck" />
-      <AddCard deckGroups={deckGroups} />
+      <TopBar title={`${deck.title} - Add card`} />
+      <AddCardForm deck={{ id: deck.id, slug: deck.slug }} />
     </div>
   );
 }
