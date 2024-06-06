@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         {cards.map((card) => {
           return (
             <li key={card.id}>
-              <Link href={`#`}>{card.front.slice(0, 8)}</Link>
+              <Link href={`/deck/${deck.slug}/edit-card/${card.id}`}>{card.front.slice(0, 16)}</Link>
             </li>
           );
         })}
