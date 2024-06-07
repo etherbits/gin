@@ -16,7 +16,7 @@ export default function TopBar(props: {
   const isHome = pathname === "/home";
 
   return (
-    <div className="flex w-[min(1440px,100vw)] flex-col gap-5">
+    <div className="flex w-[min(1440px,100vw)] flex-col gap-5 mb-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {!isHome && (

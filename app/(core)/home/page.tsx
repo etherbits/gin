@@ -1,5 +1,7 @@
 import { Button } from "@/components/primitive/button";
+import DataList from "@/components/primitive/data-list";
 import { Icon, IconButton } from "@/components/primitive/icon";
+import ListCol from "@/components/primitive/list-col";
 import TopBar from "@/components/primitive/top-bar";
 import { db } from "@/db";
 import { validateRequest } from "@/utils/auth";
@@ -31,15 +33,14 @@ export default async function Page() {
           </Link>
         }
       />
-      <ul>
-        {decks.map((deck) => {
-          return (
-            <li key={deck.id}>
-              <Link href={`/deck/${deck.slug}/card-list`}>{deck.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
+      <DataList
+        items={decks}
+        render={(deck) => (
+          <Link href={`/deck/${deck.slug}/card-list`}>
+            <ListCol item={deck} />
+          </Link>
+        )}
+      />
     </div>
   );
 }
