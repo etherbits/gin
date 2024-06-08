@@ -1,17 +1,7 @@
 "use client";
 
-import { Input, InputIcon } from "../primitive/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../primitive/select";
-import { SubmitButton } from "../primitive/submit-button";
-import { Textarea } from "../primitive/textarea";
-import { Toast } from "../primitive/toaster";
 import { addDeck } from "@/actions/add-deck";
+import { addGroup } from "@/actions/select-adders";
 import {
   Form,
   FormControl,
@@ -26,9 +16,22 @@ import { useStateForm } from "@/utils/useStateForm";
 import { addDeckSchema, deckTargets } from "@/validation-schemas/deck";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
+import { Input, InputIcon } from "../primitive/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectNew,
+  SelectTrigger,
+  SelectValue,
+} from "../primitive/select";
+import { SubmitButton } from "../primitive/submit-button";
+import { Textarea } from "../primitive/textarea";
+import { Toast } from "../primitive/toaster";
 
 export function AddDeckForm(props: {
   deckGroups: { id: string; title: string }[];
+  userId: string;
 }) {
   const {
     form,
@@ -90,6 +93,7 @@ export function AddDeckForm(props: {
       },
     },
   });
+
 
   return (
     <Form
@@ -154,6 +158,9 @@ export function AddDeckForm(props: {
                       {group.title}
                     </SelectItem>
                   ))}
+                  <SelectNew addValue={addGroup}>
+                    New Group
+                  </SelectNew>
                 </SelectContent>
               </Select>
               <FormMessage />

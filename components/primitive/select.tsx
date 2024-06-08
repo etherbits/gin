@@ -1,5 +1,6 @@
 "use client";
 
+import { ButtonProps } from "./button";
 import { Icon } from "./icon";
 import { cn } from "@/utils/tailwind";
 import * as SelectPrimitive from "@radix-ui/react-select";
@@ -146,6 +147,43 @@ const SelectItem = React.forwardRef<
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
+const SelectNew = React.forwardRef<
+  React.ElementRef<React.ForwardRefExoticComponent<HTMLButtonElement>>,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    addValue: (value: string) => void;
+  }
+>(({ className, children, addValue, ...props }, ref) => {
+  const [isAdding, setIsAdding] = React.useState(false);
+
+  return isAdding ? (
+    <input
+      type="text"
+      onKeyDown={(e) => {
+        if (e.key !== "Enter") return;
+        addValue(e.currentTarget.value);
+        setIsAdding(false);
+      }}
+      autoFocus
+    />
+  ) : (
+    <button
+      onClick={() => setIsAdding(true)}
+      ref={ref}
+      className={cn(
+        "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        className,
+      )}
+      {...props}
+    >
+      <span className="flex items-center justify-center">
+        <Icon icon="Plus" className="h-4 w-4" />
+        {children}
+      </span>
+    </button>
+  );
+});
+SelectNew.displayName = "SelectNew";
+
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
@@ -169,4 +207,5 @@ export {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
+  SelectNew,
 };
