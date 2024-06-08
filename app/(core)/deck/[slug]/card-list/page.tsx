@@ -1,4 +1,6 @@
 import { Button } from "@/components/primitive/button";
+import DataList from "@/components/primitive/data-list";
+import ListCol from "@/components/primitive/list-col";
 import TopBar from "@/components/primitive/top-bar";
 import { db } from "@/db";
 import { validateRequest } from "@/utils/auth";
@@ -40,16 +42,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </Link>
         }
       />
-
-      <ul>
-        {cards.map((card) => {
-          return (
-            <li key={card.id}>
-              <Link href={`/deck/${deck.slug}/edit-card/${card.id}`}>{card.front.slice(0, 16)}</Link>
-            </li>
-          );
-        })}
-      </ul>
+      <DataList
+        items={cards}
+        render={(card) => (
+          <Link href={`/deck/${deck.slug}/edit-card/${card.id}`}>
+            <ListCol item={{ title: card.front.slice(0, 16) }} />
+          </Link>
+        )}
+      />
     </div>
   );
 }

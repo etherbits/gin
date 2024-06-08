@@ -1,6 +1,5 @@
 interface Item {
   id: string;
-  title: string;
 }
 
 type Props<T extends Item> = {
