@@ -1,7 +1,19 @@
 "use client";
 
+import { Input, InputIcon } from "../primitive/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectNew,
+  SelectTrigger,
+  SelectValue,
+} from "../primitive/select";
+import { SubmitButton } from "../primitive/submit-button";
+import { Textarea } from "../primitive/textarea";
+import { Toast } from "../primitive/toaster";
 import { addDeck } from "@/actions/add-deck";
-import { addGroup } from "@/actions/select-adders";
+import { addDeckGroup } from "@/actions/select-adders";
 import {
   Form,
   FormControl,
@@ -16,18 +28,6 @@ import { useStateForm } from "@/utils/useStateForm";
 import { addDeckSchema, deckTargets } from "@/validation-schemas/deck";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
-import { Input, InputIcon } from "../primitive/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectNew,
-  SelectTrigger,
-  SelectValue,
-} from "../primitive/select";
-import { SubmitButton } from "../primitive/submit-button";
-import { Textarea } from "../primitive/textarea";
-import { Toast } from "../primitive/toaster";
 
 export function AddDeckForm(props: {
   deckGroups: { id: string; title: string }[];
@@ -35,7 +35,7 @@ export function AddDeckForm(props: {
 }) {
   const {
     form,
-    form: { formState },
+    form: { formState, setValue },
     formAction,
     errors: { fieldErrors, formError },
   } = useStateForm({
@@ -94,6 +94,7 @@ export function AddDeckForm(props: {
     },
   });
 
+  console.log(form.getValues().groupId)
 
   return (
     <Form
@@ -158,7 +159,12 @@ export function AddDeckForm(props: {
                       {group.title}
                     </SelectItem>
                   ))}
-                  <SelectNew addValue={addGroup}>
+                  <SelectNew
+                    addValue={async (val) => {
+                      const id = await addDeckGroup(val);
+                      setValue("groupId", id);
+                    }}
+                  >
                     New Group
                   </SelectNew>
                 </SelectContent>
