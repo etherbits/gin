@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     const setupRes = await setupAdditionalUserData(userId);
 
     if (setupRes.status === "error") {
-      return setupRes;
+      return new Response(null, { status: 500 });
     }
 
     const session = await lucia.createSession(userId, {});
