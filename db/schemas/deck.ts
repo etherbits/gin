@@ -39,8 +39,7 @@ export const deckGroup = sqliteTable(
       .default(sql`(json_array())`),
     isOpen: integer("is_open").notNull().default(1),
   },
-  (t) => ({ unq: unique().on(t.title, t.userId),
-  }),
+  (t) => ({ unq: unique().on(t.title, t.userId) }),
 );
 
 export const card = sqliteTable("card", {

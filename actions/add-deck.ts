@@ -9,8 +9,8 @@ import {
   validateFormData,
 } from "@/utils/validation";
 import { addDeckSchema } from "@/validation-schemas/deck";
+import slugify from "slugify";
 import { uuidv7 } from "uuidv7";
-import slugify from 'slugify'
 
 export async function addDeck(
   _prevState: ActionResult<unknown>,

@@ -1,5 +1,6 @@
 "use client";
 
+import { SelectItem, Selector } from "../primitive/selector";
 import { addDeck } from "@/actions/add-deck";
 import { addDeckGroup, getDeckGroups } from "@/actions/select-adders";
 import {
@@ -12,7 +13,6 @@ import {
 } from "@/components/primitive/form";
 import { useStateForm } from "@/utils/useStateForm";
 import { addDeckSchema } from "@/validation-schemas/deck";
-import { SelectItem, Selector } from "../primitive/selector";
 
 export function Playground() {
   const {
@@ -54,10 +54,10 @@ export function Playground() {
                   placeholder="Select a deck group"
                   field={field}
                   getItems={async () => {
-                    console.time("getItems")
-                    const x = await getDeckGroups()
-                    console.timeEnd("getItems")
-                    return x
+                    console.time("getItems");
+                    const x = await getDeckGroups();
+                    console.timeEnd("getItems");
+                    return x;
                   }}
                   addItem={(val) => addDeckGroup(val)}
                   render={(item, setDisplay) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import DNDItem from "./drag-drop-item";
+// import DNDItem from "./drag-drop-item";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -16,11 +16,11 @@ export type BaseItem = {
   review: number;
 };
 
-export type DNDItem<T extends BaseItem> = T & Record<string, string | number>;
+export type DNDItemT<T extends BaseItem> = T & Record<string, string | number>;
 
 export type DisplayAttributes<T extends BaseItem> = Record<
   string,
-  keyof DNDItem<T>
+  keyof DNDItemT<T>
 >;
 
 type Props<T extends BaseItem> = {
@@ -40,6 +40,7 @@ export default function DNDSortableList<T extends BaseItem>({
       items={props.items.map((item) => item.id)}
       strategy={verticalListSortingStrategy}
     >
+      {/* 
       <ul style={{ paddingLeft: `${level * 16}px` }}>
         {props.items.map((item) =>
           item.items ? (
@@ -58,6 +59,8 @@ export default function DNDSortableList<T extends BaseItem>({
           ),
         )}
       </ul>
+      */}
+      temp
     </SortableContext>
   );
 }

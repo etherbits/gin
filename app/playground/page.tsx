@@ -9,7 +9,6 @@ export default async function Page() {
   const { user } = await validateRequest();
   if (!user) return redirect("/sign-in");
 
-
   return (
     <div>
       <h1>Playground</h1>

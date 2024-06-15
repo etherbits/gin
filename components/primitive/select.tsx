@@ -1,10 +1,10 @@
 "use client";
 
+import { Icon } from "./icon";
 import { cn } from "@/utils/tailwind";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import * as React from "react";
-import { Icon } from "./icon";
 
 const Select = SelectPrimitive.Root;
 
@@ -196,5 +196,15 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {
-  Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectNew, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectNew,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
 };

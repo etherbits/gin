@@ -8,13 +8,16 @@ type Props<T> = React.HTMLAttributes<HTMLDivElement> & {
   field: InputHTMLAttributes<HTMLInputElement>;
   getItems: () => Promise<T[]>;
   addItem: (val: string) => Promise<T>;
-  render: (item: T, setDisplay: Dispatch<SetStateAction<string>>) => React.ReactElement;
+  render: (
+    item: T,
+    setDisplay: Dispatch<SetStateAction<string>>,
+  ) => React.ReactElement;
 };
 
 export function Selector<T>(props: Props<T>) {
   // const queryClient = useQueryClient();
   const query = useQuery(props.field.name!, props.getItems);
-  console.log(props.field.name)
+  console.log(props.field.name);
 
   // const mutation = useMutation(props.addItem, {
   //   onSuccess: () => {

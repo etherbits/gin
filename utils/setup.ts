@@ -1,9 +1,11 @@
+import { ActionResult } from "./validation";
 import { db } from "@/db";
 import { deckGroup } from "@/db/schemas/deck";
 import { uuidv7 } from "uuidv7";
-import { ActionResult } from "./validation";
 
-export async function setupAdditionalUserData(userId: string): Promise<ActionResult<unknown>> {
+export async function setupAdditionalUserData(
+  userId: string,
+): Promise<ActionResult<unknown>> {
   try {
     await db.insert(deckGroup).values({
       id: uuidv7(),

@@ -1,6 +1,6 @@
-import { ReactQueryClientProvider } from "@/components/primitive/providers";
 import "./globals.css";
 import { Header } from "@/components/primitive/header";
+import { ReactQueryClientProvider } from "@/components/primitive/providers";
 import { Toaster } from "@/components/primitive/toaster";
 import { cn } from "@/utils/tailwind";
 import type { Metadata } from "next";
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: "Gin",
   description: "A spaced-repetition learning web app",
 };
-
 
 export default function RootLayout({
   children,

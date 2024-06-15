@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <div>
       <TopBar title="Add Deck" />
-      <AddDeckForm deckGroups={deckGroups} userId={user.id}/>
+      <AddDeckForm deckGroups={deckGroups} userId={user.id} />
     </div>
   );
 }

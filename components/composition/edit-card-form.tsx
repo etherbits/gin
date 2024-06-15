@@ -24,7 +24,6 @@ export function EditCardForm(props: {
   deck: { id: string; slug: string };
   card: { id: string; deckId: string; front: string; back: string };
 }) {
-
   const {
     form,
     form: { formState },
@@ -72,7 +71,7 @@ export function EditCardForm(props: {
             ),
             { id: actionId },
           );
-          redirect(`/deck/${props.deck.slug}/card-list`)
+          redirect(`/deck/${props.deck.slug}/card-list`);
         },
       });
     },
@@ -81,7 +80,7 @@ export function EditCardForm(props: {
         id: props.card.id,
         front: props.card.front,
         back: props.card.back,
-        deckId: props.card.deckId, 
+        deckId: props.card.deckId,
       },
     },
   });

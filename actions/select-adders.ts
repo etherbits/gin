@@ -25,7 +25,7 @@ export async function addDeckGroup(title: string) {
 export async function getDeckGroups() {
   console.time("overall");
   console.time("validation");
-  console.log("ok gettin deck groups")
+  console.log("ok gettin deck groups");
   const { user } = await validateRequest();
   if (!user) {
     throw "No authenticated user";
@@ -36,7 +36,7 @@ export async function getDeckGroups() {
   const deckGroups = await db.query.deckGroup.findMany({
     where: (group, { eq }) => eq(group.userId, user.id),
   });
-  console.timeEnd("getDeckGroups")
+  console.timeEnd("getDeckGroups");
   console.timeEnd("overall");
 
   return deckGroups;

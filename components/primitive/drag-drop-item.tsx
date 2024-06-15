@@ -1,11 +1,11 @@
 "use client";
 
+import { BaseItem, DNDItemT, DisplayAttributes } from "./drag-drop-list";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { BaseItem, DNDItem, DisplayAttributes } from "./drag-drop-list";
 
 interface Props<T extends BaseItem> {
-  item: DNDItem<T>;
+  item: DNDItemT<T>;
   attributes: DisplayAttributes<T>;
   children?: React.ReactNode;
 }

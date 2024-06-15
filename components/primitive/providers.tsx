@@ -1,9 +1,13 @@
-'use client'
+"use client";
 
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { useState } from 'react'
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-export const ReactQueryClientProvider = ({ children }: { children: React.ReactNode }) => {
+export const ReactQueryClientProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -14,7 +18,9 @@ export const ReactQueryClientProvider = ({ children }: { children: React.ReactNo
             staleTime: 60 * 1000,
           },
         },
-      })
-  )
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-}
+      }),
+  );
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+};

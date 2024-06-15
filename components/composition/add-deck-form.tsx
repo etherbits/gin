@@ -94,7 +94,7 @@ export function AddDeckForm(props: {
     },
   });
 
-  console.log(form.getValues().groupId)
+  console.log(form.getValues().groupId);
 
   return (
     <Form
@@ -161,7 +161,7 @@ export function AddDeckForm(props: {
                   ))}
                   <SelectNew
                     addValue={async (val) => {
-                      const id = await addDeckGroup(val);
+                      const { id } = await addDeckGroup(val);
                       setValue("groupId", id);
                     }}
                   >
