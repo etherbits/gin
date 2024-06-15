@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { oauth_accounts, users } from "@/db/schemas/user";
 import { discord, lucia } from "@/lib/auth";
 import { saveToast } from "@/utils/server-toast";
+import { setupAdditionalUserData } from "@/utils/setup";
 import { OAuth2RequestError } from "arctic";
 import { generateId } from "lucia";
 import { parseCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -94,6 +95,12 @@ export async function GET(request: NextRequest) {
         user_id: userId,
       });
     });
+
+    const setupRes = await setupAdditionalUserData(userId);
+
+    if (setupRes.status === "error") {
+      return new Response(null, { status: 500 });
+    }
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

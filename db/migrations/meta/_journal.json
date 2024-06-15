@@ -127,6 +127,62 @@
       "when": 1714805580241,
       "tag": "0017_light_husk",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1717518029457,
+      "tag": "0018_cheerful_arclight",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1717518177129,
+      "tag": "0019_woozy_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1717518273489,
+      "tag": "0020_fixed_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "5",
+      "when": 1717518474403,
+      "tag": "0021_watery_gunslinger",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1717532943301,
+      "tag": "0022_bright_the_fallen",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1717534644434,
+      "tag": "0023_hesitant_wasp",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1717598333735,
+      "tag": "0024_chubby_wallop",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1717600660818,
+      "tag": "0025_third_phantom_reporter",
+      "breakpoints": true
     }
   ]
 }

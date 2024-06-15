@@ -1,5 +1,5 @@
 import { ActionResult } from "./validation";
-import { v4 } from "uuid";
+import { uuidv4 } from "uuidv7";
 
 interface ResultCallbacks<T> {
   init?: (actionId: string) => void;
@@ -18,7 +18,7 @@ export async function eventAction<T>(
   action: () => Promise<ActionResult<T>>,
   callbacks: ResultCallbacks<T>,
 ) {
-  const actionId = `action-${v4()}`;
+  const actionId = `action-${uuidv4()}`;
   callbacks.init?.(actionId);
 
   const result = await action();

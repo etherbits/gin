@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "985e4dfb-0dbf-4238-9f27-83d18946d569",
-  "prevId": "8b71b8b8-3fb2-426c-bac2-fc95aa6a9b06",
   "tables": {
     "card": {
       "name": "card",
@@ -220,11 +218,11 @@
         "user_session_user_id_user_id_fk": {
           "name": "user_session_user_id_user_id_fk",
           "tableFrom": "user_session",
-          "tableTo": "user",
           "columnsFrom": ["user_id"],
+          "tableTo": "user",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -289,8 +287,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "985e4dfb-0dbf-4238-9f27-83d18946d569",
+  "prevId": "8b71b8b8-3fb2-426c-bac2-fc95aa6a9b06"
 }

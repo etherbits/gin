@@ -26,6 +26,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(
           focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-3
           `,
           { "border-destructive": isInvalid },
+          { hidden: type === "hidden" },
           className,
         )}
         ref={ref}

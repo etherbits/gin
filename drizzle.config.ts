@@ -2,6 +2,7 @@ import { parsedEnv } from "@/utils/env";
 import type { Config } from "drizzle-kit";
 
 export default {
+  dialect: "sqlite",
   schema: "./db/schemas/*",
   out: "./db/migrations",
   driver: "turso",
