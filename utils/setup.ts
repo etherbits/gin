@@ -13,6 +13,7 @@ export async function setupAdditionalUserData(
       title: "Default",
     });
   } catch (e) {
+    console.error(e);
     return {
       status: "error",
       error: { formError: "Something went wrong with setting up your account" },
