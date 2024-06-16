@@ -67,6 +67,7 @@ export async function signUp(
       hashed_password: hashedPassword,
     });
   } catch (e: unknown) {
+    console.error(e);
     return {
       status: "error",
       error: {
