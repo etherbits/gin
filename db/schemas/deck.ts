@@ -1,3 +1,4 @@
+import { users } from "./user";
 import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 
@@ -7,8 +8,12 @@ export const deck = sqliteTable(
   "deck",
   {
     id: text("id").primaryKey(),
-    userId: text("user_id").notNull(),
-    deckGroupId: text("deck_group_id").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    deckGroupId: text("deck_group_id")
+      .notNull()
+      .references(() => deckGroup.id, { onDelete: "cascade" }),
     slug: text("slug").notNull(),
     title: text("title").notNull(),
     description: text("description"),
@@ -31,7 +36,9 @@ export const deckGroup = sqliteTable(
   "deck_group",
   {
     id: text("id").primaryKey(),
-    userId: text("user_id").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
     isVisible: integer("is_visible").notNull().default(1),
     deckOrder: text("deck_order", { mode: "json" })
@@ -44,8 +51,12 @@ export const deckGroup = sqliteTable(
 
 export const card = sqliteTable("card", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull(),
-  deckId: text("deck_id").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  deckId: text("deck_id")
+    .notNull()
+    .references(() => deck.id, { onDelete: "cascade" }),
   front: text("front").notNull(),
   back: text("back").notNull(),
   state: text("state", { enum: cardStateEnum }).notNull().default("NEW"),
