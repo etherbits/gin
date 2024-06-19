@@ -1,5 +1,5 @@
 import { users } from "./user";
-import { sql } from "drizzle-orm";
+import { InferSelectModel, sql } from "drizzle-orm";
 import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 
 const cardStateEnum = ["NEW", "LEARNING", "YOUNG", "MATURE", "FROZEN"] as const;
@@ -66,3 +66,5 @@ export const card = sqliteTable("card", {
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 });
+
+export type DeckGroup = InferSelectModel<typeof deckGroup>;
