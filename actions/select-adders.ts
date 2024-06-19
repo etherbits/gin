@@ -6,6 +6,7 @@ import { validateRequest } from "@/utils/auth";
 import { uuidv7 } from "uuidv7";
 
 export async function addDeckGroup(title: string) {
+  console.log("ok adding deck group");
   const { user } = await validateRequest();
   if (!user) {
     throw "No authenticated user";
@@ -18,26 +19,7 @@ export async function addDeckGroup(title: string) {
   };
 
   await db.insert(deckGroup).values(values);
+  console.log("ok added deck group");
 
   return values;
-}
-
-export async function getDeckGroups() {
-  console.time("overall");
-  console.time("validation");
-  console.log("ok gettin deck groups");
-  const { user } = await validateRequest();
-  if (!user) {
-    throw "No authenticated user";
-  }
-  console.timeEnd("validation");
-
-  console.time("getDeckGroups");
-  const deckGroups = await db.query.deckGroup.findMany({
-    where: (group, { eq }) => eq(group.userId, user.id),
-  });
-  console.timeEnd("getDeckGroups");
-  console.timeEnd("overall");
-
-  return deckGroups;
 }

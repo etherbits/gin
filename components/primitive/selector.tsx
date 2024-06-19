@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 type Props<T> = React.HTMLAttributes<HTMLDivElement> & {
   placeholder: string;
@@ -15,19 +15,29 @@ type Props<T> = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 export function Selector<T>(props: Props<T>) {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const query = useQuery(props.field.name!, props.getItems);
-  console.log(props.field.name);
 
-  // const mutation = useMutation(props.addItem, {
-  //   onSuccess: () => {
-  //     // Invalidate and refetch
-  //     queryClient.invalidateQueries("todos");
-  //   },
-  // });
+  const [isAdding, setIsAdding] = useState(false);
+  const [newItemValue, setNewItemValue] = useState("");
+
+  const mutation = useMutation(props.addItem, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(props.field.name!);
+    },
+  });
 
   const [isOpen, setIsOpen] = useState(true);
   const [display, setDisplay] = useState(props.placeholder);
+
+  function onAdd(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return;
+
+    mutation.mutate(newItemValue);
+    setNewItemValue("");
+    setIsAdding(false);
+  }
 
   return (
     <div className="relative">
@@ -44,7 +54,18 @@ export function Selector<T>(props: Props<T>) {
         style={{ display: isOpen ? "block" : "none" }}
       >
         {query.status === "success" ? (
-          query.data.map((item) => props.render(item, setDisplay))
+          <>
+            {query.data.map((item) => props.render(item, setDisplay))}
+            {isAdding ? (
+              <input
+                value={newItemValue}
+                onChange={(e) => setNewItemValue(e.target.value)}
+                onKeyDown={onAdd}
+              />
+            ) : (
+              <button onClick={() => setIsAdding(true)}>Add new</button>
+            )}
+          </>
         ) : query.status === "error" ? (
           <span className="text-red-400">
             Something went wrong with fetching the items

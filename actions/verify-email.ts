@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/db";
-import { deckGroup } from "@/db/schemas/deck";
 import { emailVerificationCodes, users } from "@/db/schemas/user";
 import { lucia } from "@/lib/auth";
 import { setupAdditionalUserData } from "@/utils/setup";

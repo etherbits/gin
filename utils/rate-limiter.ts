@@ -5,7 +5,7 @@ import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(20, "30s"),
+  limiter: Ratelimit.slidingWindow(100, "10s"),
   ephemeralCache: new Map(),
   analytics: true,
 });
