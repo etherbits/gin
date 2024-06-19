@@ -7,6 +7,7 @@ export async function setupAdditionalUserData(
   userId: string,
 ): Promise<ActionResult<unknown>> {
   try {
+    console.log('🔴setupAdditionalUserData: inserting deckGroup')
     await db.insert(deckGroup).values({
       id: uuidv7(),
       userId: userId,

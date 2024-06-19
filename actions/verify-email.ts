@@ -15,7 +15,6 @@ import { eq } from "drizzle-orm";
 import { User } from "lucia";
 import { cookies } from "next/headers";
 import { isWithinExpirationDate } from "oslo";
-import { uuidv7 } from "uuidv7";
 
 export async function verifyEmail(
   _prevState: ActionResult<unknown>,
@@ -54,12 +53,6 @@ export async function verifyEmail(
     .update(users)
     .set({ email_verified: 1 })
     .where(eq(users.id, user.id));
-
-  await db.insert(deckGroup).values({
-    id: uuidv7(),
-    userId: user.id,
-    title: "Default",
-  });
 
   const setupRes = await setupAdditionalUserData(user.id);
 
