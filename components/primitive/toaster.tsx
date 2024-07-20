@@ -65,23 +65,24 @@ function Toast({
   return (
     <section
       className={cn(
-        "flex items-center bg-charcoal-900 w-full px-5 rounded-lg py-4 h-[72px] shadow-md",
+        `flex h-[72px] w-full items-center rounded-lg bg-charcoal-900 px-5 py-4
+        shadow-md`,
         props.className,
       )}
       {...props}
     >
       <div className="flex flex-col">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           {icon || (
             <Icon
               icon={iconMap[variant].icon}
               className={cn("stroke-charcoal-100", iconMap[variant].className)}
             />
           )}
-          <h6 className="text-charcoal-100 font-semibold text">{message}</h6>
+          <h6 className="text font-semibold text-charcoal-100">{message}</h6>
         </div>
         {toastData?.description && (
-          <p className="text-charcoal-200 text-sm">{toastData.description}</p>
+          <p className="text-sm text-charcoal-200">{toastData.description}</p>
         )}
       </div>
       {toastData?.id && (

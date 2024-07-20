@@ -23,12 +23,13 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "flex flex-col items-center from-charcoal-950 to-charcoal-900 bg-gradient-to-t min-h-[100dvh]",
+          `flex min-h-[100dvh] flex-col items-center bg-gradient-to-t
+          from-charcoal-950 to-charcoal-900`,
         )}
       >
         <ReactQueryClientProvider>
           <Header />
-          <div className="flex flex-col max-w-[1440px] pb-5 pt-3 px-6 md:px-12">
+          <div className="flex max-w-[1440px] flex-col px-6 pb-5 pt-3 md:px-12">
             {children}
             <Toaster />
           </div>

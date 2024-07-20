@@ -11,7 +11,7 @@ export const BulletCard = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Card
     className={cn(
-      "flex gap-4 px-6 py-4 lg:gap-5 lg:px-6 lg:py-5 w-full items-center",
+      "flex w-full items-center gap-4 px-6 py-4 lg:gap-5 lg:px-6 lg:py-5",
       className,
     )}
     {...props}
@@ -19,9 +19,9 @@ export const BulletCard = React.forwardRef<
   >
     <Icon
       icon={props.icon}
-      className="w-6 h-6 min-w-6 lg:w-7 lg:h-7 lg:min-w-7 stroke-gossamer-400"
+      className="h-6 w-6 min-w-6 stroke-gossamer-400 lg:h-7 lg:w-7 lg:min-w-7"
     />
-    <span className="text-charcoal-100 text-sm lg:text-lg">
+    <span className="text-sm text-charcoal-100 lg:text-lg">
       {props.children}
     </span>
   </Card>

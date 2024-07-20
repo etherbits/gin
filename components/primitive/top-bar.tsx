@@ -16,12 +16,12 @@ export default function TopBar(props: {
   const isHome = pathname === "/home";
 
   return (
-    <div className="flex w-[min(1440px,100vw)] flex-col gap-5 mb-4">
+    <div className="mb-4 flex w-[min(1440px,100vw)] flex-col gap-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {!isHome && (
             <IconButton onClick={router.back}>
-              <Icon icon="ChevronLeft" className="w-6 h-6" />
+              <Icon icon="ChevronLeft" className="h-6 w-6" />
             </IconButton>
           )}
           <h1 className="whitespace-nowrap text-2xl text-charcoal-50">

@@ -12,7 +12,7 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 const Icon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ icon, className, ...props }, ref) => {
     const Icon = icons[icon];
-    return <Icon className={cn("w-5 h-5", className)} {...props} ref={ref} />;
+    return <Icon className={cn("h-5 w-5", className)} {...props} ref={ref} />;
   },
 );
 Icon.displayName = "Icon";
@@ -32,7 +32,7 @@ function IconButton({
       size="icon"
       {...props}
       className={cn(
-        "relative aspect-square h-fit w-fit group",
+        "group relative aspect-square h-fit w-fit",
         props.className,
       )}
     >
@@ -40,7 +40,8 @@ function IconButton({
       <div
         {...bgProps}
         className={cn(
-          "absolute w-full h-full p-1 box-content rounded-md group-hover:bg-charcoal-700 transition-colors ",
+          `absolute box-content h-full w-full rounded-md p-1 transition-colors
+          group-hover:bg-charcoal-700`,
           bgProps?.className,
         )}
       />

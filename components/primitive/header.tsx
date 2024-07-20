@@ -8,9 +8,12 @@ export async function Header() {
   const { user } = await validateRequest();
 
   return (
-    <header className="w-full sticky top-0 z-10">
-      <div className="flex justify-between w-full max-w-[1440px] mx-auto py-6 px-6 md:py-8 md:px-12">
-        <Link href="/" className="flex gap-3 items-center">
+    <header className="sticky top-0 z-10 w-full">
+      <div
+        className="mx-auto flex w-full max-w-[1440px] justify-between px-6 py-6
+          md:px-12 md:py-8"
+      >
+        <Link href="/" className="flex items-center gap-3">
           <Image
             src="/icons/gin_logo.svg"
             alt="logo"
@@ -21,7 +24,7 @@ export async function Header() {
           <span className="text-xl">Gin</span>
         </Link>
 
-        <nav className="gap-3 items-center hidden sm:flex">
+        <nav className="hidden items-center gap-3 sm:flex">
           {!user && (
             <>
               <Link href="/sign-in">
@@ -40,8 +43,8 @@ export async function Header() {
         </div>
       </div>
       <div
-        className={`absolute z-[-1] top-0 w-full h-full backdrop-blur-xl
-        [mask-image:linear-gradient(0deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,1)_20%)]`}
+        className={`absolute top-0 z-[-1] h-full w-full backdrop-blur-xl
+          [mask-image:linear-gradient(0deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,1)_20%)]`}
       />
     </header>
   );

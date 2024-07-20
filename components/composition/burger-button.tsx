@@ -16,10 +16,16 @@ export function BurgerButton() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <DropdownMenu onOpenChange={setIsOpen} open={isOpen}>
-      <DropdownMenuTrigger className="flex items-center rounded-md transition-colors justify-center hover:bg-charcoal-800 w-8 h-8">
-        <Icon icon="Menu" className="w-6 h-6" />
+      <DropdownMenuTrigger
+        className="flex h-8 w-8 items-center justify-center rounded-md
+          transition-colors hover:bg-charcoal-800"
+      >
+        <Icon icon="Menu" className="h-6 w-6" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex flex-col items-end gap-2 mx-3 my-2 px-4 py-3 rounded-md shadow-md bg-charcoal-800 border-none">
+      <DropdownMenuContent
+        className="mx-3 my-2 flex flex-col items-end gap-2 rounded-md
+          border-none bg-charcoal-800 px-4 py-3 shadow-md"
+      >
         <DropdownMenuLabel className="text-sm text-charcoal-300">
           Menu
         </DropdownMenuLabel>

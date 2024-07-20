@@ -86,7 +86,7 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-4 w-full", className)} {...props} />
+      <div ref={ref} className={cn("w-full space-y-4", className)} {...props} />
     </FormItemContext.Provider>
   );
 });
@@ -107,7 +107,7 @@ const FormLabel = React.forwardRef<
     >
       <>
         {children}
-        {required && <span className="text-red-400 text-sm ml-[2px]">*</span>}
+        {required && <span className="ml-[2px] text-sm text-red-400">*</span>}
       </>
     </Label>
   );
@@ -166,12 +166,12 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <div className="flex gap-2 text-destructive items-center">
+    <div className="flex items-center gap-2 text-destructive">
       <CircleX className="h-4 w-4 min-w-4 text-destructive" />
       <p
         ref={ref}
         id={formMessageId}
-        className={cn("text-charcoal-100 text-sm font-medium", className)}
+        className={cn("text-sm font-medium text-charcoal-100", className)}
         {...props}
       >
         {body}
@@ -212,17 +212,17 @@ const FieldRequirements = React.forwardRef<
   }
 
   return (
-    <ul className="flex flex-col gap-3 py-2 px-3">
+    <ul className="flex flex-col gap-3 px-3 py-2">
       {checkedReqs.map((req, i) => (
         <li
           key={`${fieldRequirementsId}-${i}`}
-          className="flex gap-2 text-destructive items-center rounded-md"
+          className="flex items-center gap-2 rounded-md text-destructive"
         >
           {req.valid ? (
             <CircleCheck className="h-4 w-4 min-w-4 stroke-green-400" />
           ) : (
             <CircleAlert
-              className={cn(`h-4 w-4 min-w-4 stroke-slate-400`, {
+              className={cn("h-4 w-4 min-w-4 stroke-slate-400", {
                 "stroke-destructive": error,
               })}
             />
@@ -230,7 +230,7 @@ const FieldRequirements = React.forwardRef<
           <p
             ref={ref}
             className={cn(
-              "text-charcoal-200 w-full text-sm font-medium",
+              "w-full text-sm font-medium text-charcoal-200",
               className,
             )}
             {...props}
