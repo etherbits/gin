@@ -84,7 +84,7 @@ export function ResetPasswordForm() {
         errors: fieldErrors,
       }}
     >
-      <form action={formAction} className="flex flex-col flex-grow gap-6">
+      <form action={formAction} className="flex flex-grow flex-col gap-6">
         <FormField
           control={form.control}
           name="email"
@@ -106,9 +106,9 @@ export function ResetPasswordForm() {
           )}
         />
 
-        <div className="flex flex-col mt-2 gap-3">
+        <div className="mt-2 flex flex-col gap-3">
           <p
-            className={cn("text-destructive text-sm font-medium", {
+            className={cn("text-sm font-medium text-destructive", {
               hidden: !formError,
             })}
           >

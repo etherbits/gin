@@ -24,7 +24,7 @@ export default async function Page() {
         description="Pick a deck and start studying"
         TitleSlot={
           <IconButton>
-            <Icon icon="Settings" className="w-5 h-5" />
+            <Icon icon="Settings" className="h-5 w-5" />
           </IconButton>
         }
         RightSlot={

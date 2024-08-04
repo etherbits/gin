@@ -5,20 +5,26 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex flex-col lg:flex-row lg:mt-20 items-center gap-6 lg:gap-12 xl:gap-24 mx-auto">
+    <main
+      className="mx-auto flex flex-col items-center gap-6 lg:mt-20 lg:flex-row
+        lg:gap-12 xl:gap-24"
+    >
       <Image
         src="/graphics/undraw_reading.svg"
         alt="reading"
         width={981}
         height={727.5}
-        className="w-[94%] max-w-[520px] lg:w-[50vw] lg:max-w-[981px] mb-10"
+        className="mb-10 w-[94%] max-w-[520px] lg:w-[50vw] lg:max-w-[981px]"
       />
       <div className="flex flex-col">
-        <h1 className="text-charcoal-100 font-meidum text-2xl lg:text-4xl mb-6 lg:mb-8">
+        <h1
+          className="font-meidum mb-6 text-2xl text-charcoal-100 lg:mb-8
+            lg:text-4xl"
+        >
           Welcome to{" "}
-          <span className="text-gossamer-300 font-semibold">Gin!</span>
+          <span className="font-semibold text-gossamer-300">Gin!</span>
         </h1>
-        <ul className="flex flex-col gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <ul className="mb-6 flex flex-col gap-4 lg:mb-8 lg:gap-6">
           <BulletCard icon="Rocket">
             Master any subject with spaced repetition tailored to your pace
           </BulletCard>

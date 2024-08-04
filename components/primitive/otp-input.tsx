@@ -45,16 +45,23 @@ const InputOTPSlot = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "relative flex h-10 w-10 items-center justify-center border-y border-r border-charcoal-400 transition-all first:rounded-l-md first:border-l last:rounded-r-md",
-        isActive && "z-10 ring-2 ring-ring ring-offset-background",
+        `relative flex h-10 w-10 items-center justify-center border-y border-r
+        border-charcoal-400 transition-all first:rounded-l-md first:border-l
+        last:rounded-r-md`,
+        isActive && "ring-ring ring-offset-background z-10 ring-2",
         className,
       )}
       {...props}
     >
       {char}
       {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" />
+        <div
+          className="pointer-events-none absolute inset-0 flex items-center
+            justify-center"
+        >
+          <div
+            className="animate-caret-blink bg-foreground h-4 w-px duration-1000"
+          />
         </div>
       )}
     </div>
@@ -95,14 +102,14 @@ const InputOTPPattern = React.forwardRef<
       {...inputOtpProps}
     >
       <InputOTPGroup
-        className={`grid w-full`}
+        className={"grid w-full"}
         style={{ gridTemplateColumns: `repeat(${maxLength}, 1fr)` }}
       >
         {[...Array(maxLength)].map((_, index) => (
           <InputOTPSlot
             key={index}
             index={index}
-            className="h-auto w-auto aspect-square"
+            className="aspect-square h-auto w-auto"
           />
         ))}
       </InputOTPGroup>

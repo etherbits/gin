@@ -133,14 +133,14 @@ export function SignInForm() {
         />
 
         <p
-          className={cn("text-destructive text-sm font-medium", {
+          className={cn("text-sm font-medium text-destructive", {
             hidden: !formError,
           })}
         >
           {formError}
         </p>
 
-        <div className="flex flex-col mt-2 gap-3">
+        <div className="mt-2 flex flex-col gap-3">
           <Link className="ml-auto text-ship-cove-400" href="/reset-password">
             Forgot password?
           </Link>

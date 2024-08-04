@@ -34,7 +34,7 @@ export default function DNDItem<T extends BaseItem>({
 
   return (
     <li
-      className="flex flex-col gap-4 "
+      className="flex flex-col gap-4"
       ref={setNodeRef}
       style={style}
       {...listeners}

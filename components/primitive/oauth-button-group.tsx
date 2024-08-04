@@ -11,7 +11,8 @@ function OAuthLink({
   HTMLAttributes<HTMLAnchorElement> & { children: React.ReactNode }) {
   return (
     <Link
-      className="flex h-14 w-14 rounded-md items-center justify-center bg-charcoal-900"
+      className="flex h-14 w-14 items-center justify-center rounded-md
+        bg-charcoal-900"
       title="Sign up with Github"
       {...props}
     >
@@ -33,7 +34,7 @@ function OAuthImage({ alt, ...props }: ImageProps) {
 
 export function OAuthButtonGroup() {
   return (
-    <section className="flex gap-6 justify-center">
+    <section className="flex justify-center gap-6">
       <OAuthLink href="api/oauth/github" title="Sign in with GitHub">
         <OAuthImage src="/icons/github_icon.svg" alt="github icon" />
       </OAuthLink>
